@@ -5,5 +5,4 @@
 ### Estudiantes: 
 
 Nahuel Nostrala Hatz    (LU: 197/17)
-
 Agustin Luis Marchionna (LU: 823/17)
