@@ -174,18 +174,19 @@ customerBook: aCustomerBookToTestCustomers shouldHave: aNumberOfCustomers custom
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing verification' stamp: 'AM 9/19/2020 12:37:15'!
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'AM 9/19/2020 15:56:17'!
 customerBook: aCustomerBookToTestCustomers shouldHaveActive: numberOfActiveCustomers suspended: numberOfSuspendedCustomers andTotal: totalNumberOfCustomers
 
-	|numberOfCustomersPerType typesOfCustomer |
+	|numberOfCustomersPerType |
 	
-	numberOfCustomersPerType := Array with: numberOfActiveCustomers with: numberOfSuspendedCustomers with: totalNumberOfCustomers.
-	typesOfCustomer := Array with: #numberOfActiveCustomers with: #numberOfSuspendedCustomers with: #numberOfCustomers.
+	numberOfCustomersPerType := Dictionary new
+		add: #numberOfActiveCustomers -> numberOfActiveCustomers;
+		add: #numberOfSuspendedCustomers -> numberOfSuspendedCustomers; 
+		add: #numberOfCustomers -> totalNumberOfCustomers; yourself.
 	
-	1 to: 3 do: [ :anIndex | | aTypeOfCustomer numberOfCustomersOfType |
-		numberOfCustomersOfType := (numberOfCustomersPerType at: anIndex).
-		aTypeOfCustomer := (typesOfCustomer at: anIndex).
-		self customerBook: aCustomerBookToTestCustomers shouldHave: numberOfCustomersOfType customersOfType: aTypeOfCustomer.
+	numberOfCustomersPerType keys do: [ :aTypeOfCustomer | | numberOfCustomersOfType |
+		numberOfCustomersOfType := numberOfCustomersPerType at: aTypeOfCustomer.
+		self customerBook: aCustomerBookToTestCustomers shouldHave: numberOfCustomersOfType customersOfType: aTypeOfCustomer
 		].
 
 
@@ -226,6 +227,21 @@ initialize
 	suspended:= OrderedCollection new.! !
 
 
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:24:21'!
+customerName: aCustomerNameToSearch isOfType: aTypeOfCustomer
+
+	^ aTypeOfCustomer includes: aCustomerNameToSearch! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:24:33'!
+customerNameAlreadyExists: aCustomerNameToAdd
+
+	^ self sendSignal: #signalCustomerAlreadyExists ifCondition: (self includesCustomerNamed: aCustomerNameToAdd)! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:03:45'!
+customerNameIsEmpty: aCustomerNameToAdd
+
+	^ self sendSignal: #signalCustomerNameCannotBeEmpty ifCondition: (aCustomerNameToAdd isEmpty)! !
+
 !CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 14:19:21'!
 includesCustomerNamed: aCustomerNameToSearch
 
@@ -236,6 +252,11 @@ isEmpty
 	
 	^active isEmpty and: [ suspended isEmpty ]! !
 
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:24:44'!
+listOfCustomerIsEmpty: aTypeOfCustomer
+
+	^ aTypeOfCustomer isEmpty! !
+
 !CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
 numberOfActiveCustomers
 	
@@ -245,6 +266,11 @@ numberOfActiveCustomers
 numberOfCustomers
 	
 	^self numberOfActiveCustomers + self numberOfSuspendedCustomers ! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:38:41'!
+numberOfCustomersOfType: aTypeOfCustomer
+	
+	^aTypeOfCustomer size.! !
 
 !CustomerBook methodsFor: 'customer information' stamp: 'NR 9/19/2018 17:36:09'!
 numberOfSuspendedCustomers
@@ -259,13 +285,13 @@ addCustomerNamed: aCustomerNameToAdd
 	self sendSignal: #signalCustomerAlreadyExists ifCondition: (self includesCustomerNamed: aCustomerNameToAdd). 
 	active add: aCustomerNameToAdd ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:17:20'!
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 15:57:40'!
 removeAndRetrieveCustomerFromList: aCustomerListToSearch ifNameEquals: aCustomerNameToRemove 
 
-    1 to: aCustomerNameToRemove size do: [ :index |
+    1 to: aCustomerListToSearch size do: [ :index |
 	aCustomerNameToRemove = (aCustomerListToSearch at: index)
             ifTrue: [
-                aCustomerNameToRemove removeAt: index.
+                aCustomerListToSearch removeAt: index.
                 ^ aCustomerNameToRemove
             	]
     	].
