@@ -124,13 +124,13 @@ test08CanNotSuspendAnAlreadySuspendedCustomer
 	self sendingMessage: #suspendCustomerNamed: to: customerBook withCustomerName: johnLennon shouldSignal: CantSuspend andVerify: onlyOneCustomer! !
 
 
-!CustomerBookTest methodsFor: 'testing setup' stamp: 'NNH 9/18/2020 20:30:31'!
-newCustomerBookWithCustomerNamed: aCustomerName
+!CustomerBookTest methodsFor: 'testing setup' stamp: 'AM 9/19/2020 14:21:49'!
+newCustomerBookWithCustomerNamed: aCustomerNameToAdd
 	
 	| customerBook |
 	
 	customerBook := CustomerBook new.
-	customerBook addCustomerNamed: aCustomerName.
+	customerBook addCustomerNamed: aCustomerNameToAdd.
 	^customerBook.
 	! !
 
@@ -226,10 +226,10 @@ initialize
 	suspended:= OrderedCollection new.! !
 
 
-!CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
-includesCustomerNamed: aName
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 14:19:21'!
+includesCustomerNamed: aCustomerNameToSearch
 
-	^(active includes: aName) or: [ suspended includes: aName ]! !
+	^(active includes: aCustomerNameToSearch) or: [ suspended includes: aCustomerNameToSearch ]! !
 
 !CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
 isEmpty
@@ -252,22 +252,21 @@ numberOfSuspendedCustomers
 	^suspended size! !
 
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/18/2020 23:18:25'!
-addCustomerNamed: aName
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:20:53'!
+addCustomerNamed: aCustomerNameToAdd
 
-	self sendSignal: #signalCustomerNameCannotBeEmpty ifCondition: (aName isEmpty).
-	self sendSignal: #signalCustomerAlreadyExists ifCondition: (self includesCustomerNamed: aName). 
-	
-	active add: aName ! !
+	self sendSignal: #signalCustomerNameCannotBeEmpty ifCondition: (aCustomerNameToAdd isEmpty).
+	self sendSignal: #signalCustomerAlreadyExists ifCondition: (self includesCustomerNamed: aCustomerNameToAdd). 
+	active add: aCustomerNameToAdd ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/19/2020 00:18:45'!
-removeAndRetrieveCustomerFromList: aCustomerList ifNameEquals: aCustomerName 
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:17:20'!
+removeAndRetrieveCustomerFromList: aCustomerListToSearch ifNameEquals: aCustomerNameToRemove 
 
-    1 to: aCustomerList size do: [ :index |
-	aCustomerName = (aCustomerList at: index)
+    1 to: aCustomerNameToRemove size do: [ :index |
+	aCustomerNameToRemove = (aCustomerListToSearch at: index)
             ifTrue: [
-                aCustomerList removeAt: index.
-                ^ aCustomerName
+                aCustomerNameToRemove removeAt: index.
+                ^ aCustomerNameToRemove
             	]
     	].
 
@@ -275,30 +274,30 @@ removeAndRetrieveCustomerFromList: aCustomerList ifNameEquals: aCustomerName
 
 	! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/19/2020 00:19:01'!
-removeCustomerNamed: aName 
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:17:57'!
+removeCustomerNamed: aCustomerNameToRemove 
  	
-	(self removeAndRetrieveCustomerFromList: active ifNameEquals: aName) ifNotNil: [^aName].
-	(self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aName) ifNotNil: [^aName].
+	(self removeAndRetrieveCustomerFromList: active ifNameEquals: aCustomerNameToRemove) ifNotNil: [^aCustomerNameToRemove].
+	(self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aCustomerNameToRemove) ifNotNil: [^aCustomerNameToRemove].
 	
 	^ NotFound signal.
 ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
-suspendCustomerNamed: aName 
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:18:30'!
+suspendCustomerNamed: aCustomerNameToSuspend 
 	
-	(active includes: aName) ifFalse: [^CantSuspend signal].
+	(active includes: aCustomerNameToSuspend) ifFalse: [^CantSuspend signal].
 	
-	active remove: aName.
+	active remove: aCustomerNameToSuspend.
 	
-	suspended add: aName
+	suspended add: aCustomerNameToSuspend
 ! !
 
 
-!CustomerBook methodsFor: 'signal control' stamp: 'AM 9/19/2020 13:06:50'!
-sendSignal: aSignal ifCondition: aBooleanConditionToSendSignal
+!CustomerBook methodsFor: 'signal control' stamp: 'AM 9/19/2020 14:21:22'!
+sendSignal: aSignalToSend ifCondition: aBooleanConditionToSendSignal
 
-	aBooleanConditionToSendSignal ifTrue: [ self perform: aSignal ].
+	aBooleanConditionToSendSignal ifTrue: [ self perform: aSignalToSend ].
 	
 ! !
 
