@@ -269,13 +269,11 @@ numberOfSuspendedCustomers
 	
 	^suspended size! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/18/2020 23:22:09'!
+!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/19/2020 00:19:01'!
 removeCustomerNamed: aName 
- 
-	| removedName | 
-	
-	(removedName := self removeAndRetrieveCustomerFromList: active ifNameEquals: aName) ifNotNil: [^removedName].
-	(removedName := self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aName) ifNotNil: [^removedName].
+ 	
+	(self removeAndRetrieveCustomerFromList: active ifNameEquals: aName) ifNotNil: [^aName].
+	(self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aName) ifNotNil: [^aName].
 	
 	^ NotFound signal.
 ! !
@@ -301,18 +299,19 @@ suspendCustomerNamed: aName
 ! !
 
 
-!CustomerBook methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 22:21:35'!
+!CustomerBook methodsFor: 'utils-private' stamp: 'NNH 9/19/2020 00:18:45'!
 removeAndRetrieveCustomerFromList: aCustomerList ifNameEquals: aCustomerName 
 
-	1 to: aCustomerList size do: [ :index |
-		aCustomerName = (aCustomerList at: index)
-			ifTrue: [
-				aCustomerList removeAt: index.
-				^ aCustomerName 
-			] 
-	].
+    1 to: aCustomerList size do: [ :index |
+	aCustomerName = (aCustomerList at: index)
+            ifTrue: [
+                aCustomerList removeAt: index.
+                ^ aCustomerName
+            	]
+    	].
 
-	^ nil.
+    ^ nil.
+
 	! !
 
 !CustomerBook methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 23:16:51'!
