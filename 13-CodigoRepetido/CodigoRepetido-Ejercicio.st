@@ -44,30 +44,30 @@ test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/18/2020 20:33:17'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'AM 9/19/2020 12:57:59'!
 test03CanNotAddACustomerWithEmptyName 
 
-	| customerBook conditionsToCheck |
+	| customerBook emptyNameShouldNotBeAdded |
 
 	customerBook := CustomerBook new.
 
-	conditionsToCheck := [:anError | 
+	emptyNameShouldNotBeAdded := [:anError | 
 		self assert: anError messageText = CustomerBook customerCanNotBeEmptyErrorMessage.
 		self assert: customerBook isEmpty.].
 	
-	self sendingMessage: #addCustomerNamed: to: customerBook withCustomerName: '' shouldSignal: Error andVerify: conditionsToCheck 
+	self sendingMessage: #addCustomerNamed: to: customerBook withCustomerName: '' shouldSignal: Error andVerify: emptyNameShouldNotBeAdded 
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/18/2020 23:30:12'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'AM 9/19/2020 12:47:57'!
 test04CanNotRemoveAnInvalidCustomer
 	
-	| customerBook johnLennon conditionsToCheck |
+	| customerBook johnLennon onlyOneCustomer |
 			
 	johnLennon := 'John Lennon'.
 	customerBook := self newCustomerBookWithCustomerNamed: johnLennon.
-	conditionsToCheck := self checkCostumerBook: customerBook onlyHasCustomerNamed: johnLennon.
+	onlyOneCustomer := self checkCostumerBook: customerBook onlyHasCustomerNamed: johnLennon.
 	
-	self sendingMessage: #removeCustomerNamed: to: customerBook withCustomerName: 'Paul McCartney' shouldSignal: NotFound andVerify: conditionsToCheck
+	self sendingMessage: #removeCustomerNamed: to: customerBook withCustomerName: 'Paul McCartney' shouldSignal: NotFound andVerify: onlyOneCustomer
 	
 ! !
 
@@ -101,39 +101,71 @@ test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/18/2020 23:31:46'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'AM 9/19/2020 12:47:38'!
 test07CanNotSuspendAnInvalidCustomer
 	
-	| customerBook johnLennon conditionsToCheck |
+	| customerBook johnLennon onlyOneCustomer |
 			
 	johnLennon := 'John Lennon'.
 	customerBook := self newCustomerBookWithCustomerNamed: johnLennon.
-	conditionsToCheck := self checkCostumerBook: customerBook onlyHasCustomerNamed: johnLennon.
+	onlyOneCustomer := self checkCostumerBook: customerBook onlyHasCustomerNamed: johnLennon.
 	
-	self sendingMessage: #suspendCustomerNamed: to: customerBook withCustomerName:  'George Harrison' shouldSignal: CantSuspend andVerify: conditionsToCheck! !
+	self sendingMessage: #suspendCustomerNamed: to: customerBook withCustomerName:  'George Harrison' shouldSignal: CantSuspend andVerify: onlyOneCustomer! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/18/2020 23:32:00'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'AM 9/19/2020 12:47:06'!
 test08CanNotSuspendAnAlreadySuspendedCustomer
 	
-	| customerBook johnLennon conditionsToCheck |
+	| customerBook johnLennon onlyOneCustomer |
 			
 	johnLennon := 'John Lennon'.
 	customerBook := self newCustomerBookWithSuspendedCustomer: johnLennon.
-	conditionsToCheck := self checkCostumerBook: customerBook onlyHasCustomerNamed: johnLennon.
+	onlyOneCustomer := self checkCostumerBook: customerBook onlyHasCustomerNamed: johnLennon.
 	
-	self sendingMessage: #suspendCustomerNamed: to: customerBook withCustomerName: johnLennon shouldSignal: CantSuspend andVerify: conditionsToCheck! !
+	self sendingMessage: #suspendCustomerNamed: to: customerBook withCustomerName: johnLennon shouldSignal: CantSuspend andVerify: onlyOneCustomer! !
 
 
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 21:24:28'!
-checkCostumerBook: aCostumerBookToTest onlyHasCustomerNamed: aCustomerName
+!CustomerBookTest methodsFor: 'testing setup' stamp: 'NNH 9/18/2020 20:30:31'!
+newCustomerBookWithCustomerNamed: aCustomerName
+	
+	| customerBook |
+	
+	customerBook := CustomerBook new.
+	customerBook addCustomerNamed: aCustomerName.
+	^customerBook.
+	! !
+
+!CustomerBookTest methodsFor: 'testing setup' stamp: 'AM 9/19/2020 12:37:56'!
+newCustomerBookWithSuspendedAndRemovedCustomer: aCustomerNameToSuspendAndRemove
+	
+	| customerBook |
+	
+	customerBook := self newCustomerBookWithCustomerNamed: aCustomerNameToSuspendAndRemove.
+	customerBook suspendCustomerNamed: aCustomerNameToSuspendAndRemove.
+	customerBook removeCustomerNamed: aCustomerNameToSuspendAndRemove.
+	^customerBook.
+	! !
+
+!CustomerBookTest methodsFor: 'testing setup' stamp: 'AM 9/19/2020 12:38:08'!
+newCustomerBookWithSuspendedCustomer: aCustomerNameToSuspend
+	
+	| customerBook |
+	
+	customerBook := self newCustomerBookWithCustomerNamed: aCustomerNameToSuspend.
+	customerBook suspendCustomerNamed: aCustomerNameToSuspend.
+	^customerBook.
+	! !
+
+
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'AM 9/19/2020 12:35:44'!
+checkCostumerBook: aCostumerBookToTest onlyHasCustomerNamed: aCustomerNameToSearch
 	
 	^ [ :anError | 
 		self assert: aCostumerBookToTest numberOfCustomers = 1.
-		self assert: (aCostumerBookToTest includesCustomerNamed: aCustomerName) ].
+		self assert: (aCostumerBookToTest includesCustomerNamed: aCustomerNameToSearch) ].
 		
 ! !
 
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 20:00:07'!
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'NNH 9/18/2020 20:00:07'!
 customerBook: aCustomerBookToTestCustomers shouldHave: aNumberOfCustomers customersOfType: aMessageToObtainNumberOfCustomers
 
 	self assert: aNumberOfCustomers equals: (aCustomerBookToTestCustomers perform: aMessageToObtainNumberOfCustomers).
@@ -142,7 +174,7 @@ customerBook: aCustomerBookToTestCustomers shouldHave: aNumberOfCustomers custom
 	
 ! !
 
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 20:18:29'!
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'AM 9/19/2020 12:37:15'!
 customerBook: aCustomerBookToTestCustomers shouldHaveActive: numberOfActiveCustomers suspended: numberOfSuspendedCustomers andTotal: totalNumberOfCustomers
 
 	|numberOfCustomersPerType typesOfCustomer |
@@ -160,38 +192,7 @@ customerBook: aCustomerBookToTestCustomers shouldHaveActive: numberOfActiveCusto
 	
 ! !
 
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 20:30:31'!
-newCustomerBookWithCustomerNamed: aCustomerName
-	
-	| customerBook |
-	
-	customerBook := CustomerBook new.
-	customerBook addCustomerNamed: aCustomerName.
-	^customerBook.
-	! !
-
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 22:01:35'!
-newCustomerBookWithSuspendedAndRemovedCustomer: aCustomerName
-	
-	| customerBook |
-	
-	customerBook := self newCustomerBookWithCustomerNamed: aCustomerName.
-	customerBook suspendCustomerNamed: aCustomerName.
-	customerBook removeCustomerNamed: aCustomerName.
-	^customerBook.
-	! !
-
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 20:30:20'!
-newCustomerBookWithSuspendedCustomer: aCustomerName
-	
-	| customerBook |
-	
-	customerBook := self newCustomerBookWithCustomerNamed: aCustomerName.
-	customerBook suspendCustomerNamed: aCustomerName.
-	^customerBook.
-	! !
-
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 19:36:58'!
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'NNH 9/18/2020 19:36:58'!
 sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: aCustomerAsCollaborator shouldSignal: aSignalError andVerify: conditionsToCheckOnSignal
 
 	[ aReceivingCustomerBook perform: aMessageToSend withArguments: (Array with: aCustomerAsCollaborator).
@@ -199,7 +200,7 @@ sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: aCus
 		on: aSignalError 
 		do: conditionsToCheckOnSignal ! !
 
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 19:13:49'!
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'NNH 9/18/2020 19:13:49'!
 sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: customerAsCollaborator takesLessThan: maxNumberOfMilliseconds
 	
 	| millisecondsAfterRunning millisecondsBeforeRunning |
@@ -210,16 +211,6 @@ sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: cust
 	
 	self assert: (millisecondsAfterRunning - millisecondsBeforeRunning) < (maxNumberOfMilliseconds * millisecond)! !
 
-!CustomerBookTest methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 21:51:38'!
-sendingMessage: aMessage toCostumerBook: aCostumerBook withOnlyCostumerName: aCostumerName forOtherCustomerName: otherCostumerName shouldSignal: aSignalError 
-	
-	| conditionToCheck |
-			
-	conditionToCheck := self checkCostumerBook: aCostumerBook onlyHasCustomerNamed: aCostumerName.
-		
-	self sendingMessage: aMessage to: aCostumerBook withCustomerName: otherCostumerName shouldSignal: aSignalError andVerify: conditionToCheck 
-! !
-
 
 !classDefinition: #CustomerBook category: #'CodigoRepetido-Ejercicio'!
 Object subclass: #CustomerBook
@@ -228,22 +219,37 @@ Object subclass: #CustomerBook
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBook methodsFor: 'testing' stamp: 'NR 4/3/2019 10:14:26'!
-includesCustomerNamed: aName
-
-	^(active includes: aName) or: [ suspended includes: aName ]! !
-
-!CustomerBook methodsFor: 'testing' stamp: 'NR 4/3/2019 10:14:26'!
-isEmpty
-	
-	^active isEmpty and: [ suspended isEmpty ]! !
-
-
 !CustomerBook methodsFor: 'initialization' stamp: 'NR 9/17/2020 07:23:04'!
 initialize
 
 	active := OrderedCollection new.
 	suspended:= OrderedCollection new.! !
+
+
+!CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
+includesCustomerNamed: aName
+
+	^(active includes: aName) or: [ suspended includes: aName ]! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
+isEmpty
+	
+	^active isEmpty and: [ suspended isEmpty ]! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
+numberOfActiveCustomers
+	
+	^active size! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'NNH 9/18/2020 22:11:18'!
+numberOfCustomers
+	
+	^self numberOfActiveCustomers + self numberOfSuspendedCustomers ! !
+
+!CustomerBook methodsFor: 'customer information' stamp: 'NR 9/19/2018 17:36:09'!
+numberOfSuspendedCustomers
+	
+	^suspended size! !
 
 
 !CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/18/2020 23:18:25'!
@@ -254,52 +260,7 @@ addCustomerNamed: aName
 	
 	active add: aName ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
-numberOfActiveCustomers
-	
-	^active size! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/18/2020 22:11:18'!
-numberOfCustomers
-	
-	^self numberOfActiveCustomers + self numberOfSuspendedCustomers ! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 9/19/2018 17:36:09'!
-numberOfSuspendedCustomers
-	
-	^suspended size! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/19/2020 00:19:01'!
-removeCustomerNamed: aName 
- 	
-	(self removeAndRetrieveCustomerFromList: active ifNameEquals: aName) ifNotNil: [^aName].
-	(self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aName) ifNotNil: [^aName].
-	
-	^ NotFound signal.
-! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'HernanWilkinson 7/6/2011 17:52'!
-signalCustomerAlreadyExists 
-
-	self error: self class customerAlreadyExistsErrorMessage! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'HernanWilkinson 7/6/2011 17:51'!
-signalCustomerNameCannotBeEmpty 
-
-	self error: self class customerCanNotBeEmptyErrorMessage ! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
-suspendCustomerNamed: aName 
-	
-	(active includes: aName) ifFalse: [^CantSuspend signal].
-	
-	active remove: aName.
-	
-	suspended add: aName
-! !
-
-
-!CustomerBook methodsFor: 'utils-private' stamp: 'NNH 9/19/2020 00:18:45'!
+!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/19/2020 00:18:45'!
 removeAndRetrieveCustomerFromList: aCustomerList ifNameEquals: aCustomerName 
 
     1 to: aCustomerList size do: [ :index |
@@ -314,12 +275,42 @@ removeAndRetrieveCustomerFromList: aCustomerList ifNameEquals: aCustomerName
 
 	! !
 
-!CustomerBook methodsFor: 'utils-private' stamp: 'NNH 9/18/2020 23:16:51'!
-sendSignal: aSignal ifCondition: aBooleanCondition
+!CustomerBook methodsFor: 'customer management' stamp: 'NNH 9/19/2020 00:19:01'!
+removeCustomerNamed: aName 
+ 	
+	(self removeAndRetrieveCustomerFromList: active ifNameEquals: aName) ifNotNil: [^aName].
+	(self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aName) ifNotNil: [^aName].
+	
+	^ NotFound signal.
+! !
 
-	aBooleanCondition ifTrue: [ self perform: aSignal ].
+!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+suspendCustomerNamed: aName 
+	
+	(active includes: aName) ifFalse: [^CantSuspend signal].
+	
+	active remove: aName.
+	
+	suspended add: aName
+! !
+
+
+!CustomerBook methodsFor: 'signal control' stamp: 'AM 9/19/2020 13:06:50'!
+sendSignal: aSignal ifCondition: aBooleanConditionToSendSignal
+
+	aBooleanConditionToSendSignal ifTrue: [ self perform: aSignal ].
 	
 ! !
+
+!CustomerBook methodsFor: 'signal control' stamp: 'HernanWilkinson 7/6/2011 17:52'!
+signalCustomerAlreadyExists 
+
+	self error: self class customerAlreadyExistsErrorMessage! !
+
+!CustomerBook methodsFor: 'signal control' stamp: 'HernanWilkinson 7/6/2011 17:51'!
+signalCustomerNameCannotBeEmpty 
+
+	self error: self class customerCanNotBeEmptyErrorMessage ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
