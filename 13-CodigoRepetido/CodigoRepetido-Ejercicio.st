@@ -227,18 +227,13 @@ initialize
 	suspended:= OrderedCollection new.! !
 
 
-!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:24:21'!
-customerName: aCustomerNameToSearch isOfType: aTypeOfCustomer
-
-	^ aTypeOfCustomer includes: aCustomerNameToSearch! !
-
-!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:24:33'!
-customerNameAlreadyExists: aCustomerNameToAdd
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/21/2020 11:50:47'!
+checkCustomerNameAlreadyExists: aCustomerNameToAdd
 
 	^ self sendSignal: #signalCustomerAlreadyExists ifCondition: (self includesCustomerNamed: aCustomerNameToAdd)! !
 
-!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:03:45'!
-customerNameIsEmpty: aCustomerNameToAdd
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/21/2020 11:51:03'!
+checkCustomerNameIsEmpty: aCustomerNameToAdd
 
 	^ self sendSignal: #signalCustomerNameCannotBeEmpty ifCondition: (aCustomerNameToAdd isEmpty)! !
 
@@ -252,11 +247,6 @@ isEmpty
 	
 	^active isEmpty and: [ suspended isEmpty ]! !
 
-!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:24:44'!
-listOfCustomerIsEmpty: aTypeOfCustomer
-
-	^ aTypeOfCustomer isEmpty! !
-
 !CustomerBook methodsFor: 'customer information' stamp: 'NR 4/3/2019 10:14:26'!
 numberOfActiveCustomers
 	
@@ -267,44 +257,35 @@ numberOfCustomers
 	
 	^self numberOfActiveCustomers + self numberOfSuspendedCustomers ! !
 
-!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/19/2020 15:38:41'!
-numberOfCustomersOfType: aTypeOfCustomer
-	
-	^aTypeOfCustomer size.! !
-
 !CustomerBook methodsFor: 'customer information' stamp: 'NR 9/19/2018 17:36:09'!
 numberOfSuspendedCustomers
 	
 	^suspended size! !
 
 
-!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:20:53'!
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/21/2020 11:57:25'!
 addCustomerNamed: aCustomerNameToAdd
 
-	self sendSignal: #signalCustomerNameCannotBeEmpty ifCondition: (aCustomerNameToAdd isEmpty).
-	self sendSignal: #signalCustomerAlreadyExists ifCondition: (self includesCustomerNamed: aCustomerNameToAdd). 
+	self checkCustomerNameIsEmpty: aCustomerNameToAdd.
+	self checkCustomerNameAlreadyExists: aCustomerNameToAdd. 
+	
 	active add: aCustomerNameToAdd ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 15:57:40'!
-removeAndRetrieveCustomerFromList: aCustomerListToSearch ifNameEquals: aCustomerNameToRemove 
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/21/2020 12:01:56'!
+removeAndRetrieveFromList: aCustomerListToSearch customerNamed: aCustomerNameToRemove 
+	
+    (aCustomerListToSearch includes: aCustomerNameToRemove) ifFalse: [ ^nil ].
+    aCustomerListToSearch  remove: aCustomerNameToRemove.  
 
-    1 to: aCustomerListToSearch size do: [ :index |
-	aCustomerNameToRemove = (aCustomerListToSearch at: index)
-            ifTrue: [
-                aCustomerListToSearch removeAt: index.
-                ^ aCustomerNameToRemove
-            	]
-    	].
-
-    ^ nil.
+    ^ aCustomerNameToRemove.
 
 	! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/19/2020 14:17:57'!
+!CustomerBook methodsFor: 'customer management' stamp: 'AM 9/21/2020 12:01:56'!
 removeCustomerNamed: aCustomerNameToRemove 
  	
-	(self removeAndRetrieveCustomerFromList: active ifNameEquals: aCustomerNameToRemove) ifNotNil: [^aCustomerNameToRemove].
-	(self removeAndRetrieveCustomerFromList: suspended ifNameEquals: aCustomerNameToRemove) ifNotNil: [^aCustomerNameToRemove].
+	(self removeAndRetrieveFromList: active customerNamed: aCustomerNameToRemove) ifNotNil: [^aCustomerNameToRemove].
+	(self removeAndRetrieveFromList: suspended customerNamed: aCustomerNameToRemove) ifNotNil: [^aCustomerNameToRemove].
 	
 	^ NotFound signal.
 ! !
