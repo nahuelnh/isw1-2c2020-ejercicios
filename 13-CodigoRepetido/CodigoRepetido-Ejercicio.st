@@ -227,6 +227,12 @@ initialize
 	suspended:= OrderedCollection new.! !
 
 
+!CustomerBook methodsFor: 'customer information' stamp: 'AM 9/21/2020 12:40:23'!
+bo: aBo aMessage: msg withArgs: args
+
+	^(active perform: msg withArguments: args) perform: aBo withArguments: (Array with: [suspended perform: msg withArguments: args])
+	! !
+
 !CustomerBook methodsFor: 'customer information' stamp: 'AM 9/21/2020 11:50:47'!
 checkCustomerNameAlreadyExists: aCustomerNameToAdd
 
