@@ -21,18 +21,18 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/18/2020 19:15:34'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/20/2020 10:55:47'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
 	| customerBook |
 	
 	customerBook := CustomerBook new.
 	
-	self sendingMessage: #addCustomerNamed: to: customerBook withCustomerName: 'John Lennon' takesLessThan: 50
+	self sendingMessage: #addCustomerNamed: to: customerBook withCustomerName: 'John Lennon' shouldTakeLessThan: 50
 	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/18/2020 21:16:00'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'NNH 9/20/2020 10:55:47'!
 test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 
 	| customerBook paulMcCartney |
@@ -40,7 +40,7 @@ test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	paulMcCartney := 'Paul McCartney'.
 	customerBook := self newCustomerBookWithCustomerNamed: paulMcCartney.
 	  
-	self sendingMessage: #removeCustomerNamed: to: customerBook withCustomerName: paulMcCartney takesLessThan: 100 
+	self sendingMessage: #removeCustomerNamed: to: customerBook withCustomerName: paulMcCartney shouldTakeLessThan: 100 
 	
 ! !
 
@@ -201,8 +201,8 @@ sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: aCus
 		on: aSignalError 
 		do: conditionsToCheckOnSignal ! !
 
-!CustomerBookTest methodsFor: 'testing verification' stamp: 'NNH 9/18/2020 19:13:49'!
-sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: customerAsCollaborator takesLessThan: maxNumberOfMilliseconds
+!CustomerBookTest methodsFor: 'testing verification' stamp: 'NNH 9/20/2020 10:56:34'!
+sendingMessage: aMessageToSend to: aReceivingCustomerBook withCustomerName: customerAsCollaborator shouldTakeLessThan: maxNumberOfMilliseconds
 	
 	| millisecondsAfterRunning millisecondsBeforeRunning |
 	
@@ -307,10 +307,10 @@ suspendCustomerNamed: aCustomerNameToSuspend
 ! !
 
 
-!CustomerBook methodsFor: 'signal control' stamp: 'AM 9/19/2020 14:21:22'!
-sendSignal: aSignalToSend ifCondition: aBooleanConditionToSendSignal
+!CustomerBook methodsFor: 'signal control' stamp: 'NNH 9/20/2020 10:50:33'!
+sendSignal: aSignalToSend ifCondition: aConditionToSendSignal
 
-	aBooleanConditionToSendSignal ifTrue: [ self perform: aSignalToSend ].
+	aConditionToSendSignal ifTrue: [ self perform: aSignalToSend ].
 	
 ! !
 
