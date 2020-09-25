@@ -319,7 +319,12 @@ invalidNumberType
 
 	self error: self class invalidNumberTypeErrorDescription! !
 
-!Numero methodsFor: 'arithmetic operations' stamp: 'NR 9/23/2018 23:37:13'!
+!Numero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:20:05'!
+inverse
+	
+	self subclassResponsibility ! !
+
+!Numero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:19:59'!
 negated
 	
 	^self * (Entero with: -1)! !
@@ -364,42 +369,28 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:27:04'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:05:20'!
 * aMultiplier 
-	(aMultiplier isKindOf: Entero) ifTrue: [
-	^self class with: value * aMultiplier integerValue.
-	].
-	^ self * aMultiplier  numerator / aMultiplier denominator.! !
+	
+	^aMultiplier multiplicandoConEntero: self.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:23:06'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:57:03'!
 + anAdder 
-	(anAdder isKindOf: Entero) ifTrue: [
-			^ self class with: value + anAdder integerValue.
-		] 
-	ifFalse: [
-			^ (self * (anAdder denominator) + anAdder numerator) / (anAdder denominator).
-		].
+
+	^ anAdder sumandoConEntero: self.
+
 ! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:32:39'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:01:51'!
 - aSubtrahend 
  
-	(aSubtrahend isKindOf: Entero) ifTrue: [
-			^ self class with: value - aSubtrahend integerValue.
-		] 
-	ifFalse: [
-			^ (self * aSubtrahend denominator - aSubtrahend numerator) / (aSubtrahend denominator).
-		].
+	^ self + aSubtrahend negated.
 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:29:27'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:20:42'!
 / aDivisor 
 	
-	(aDivisor isKindOf: Entero) ifTrue: [
-		^Fraccion with: self over: aDivisor.
-	].
-	^ self * aDivisor  denominator / aDivisor numerator.
-	! !
+	^ self * aDivisor inverse.	! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:55'!
 // aDivisor 
@@ -425,6 +416,31 @@ greatestCommonDivisorWith: anEntero
 	
 	^self class with: (value gcd: anEntero integerValue)! !
 
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:02:52'!
+multiplicandoConEntero: aMultiplier 
+
+	^self class with: value * aMultiplier integerValue.
+! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:38:18'!
+multiplicandoConFraccion: aMultiplier 
+
+	^ Fraccion with: (self * aMultiplier  numerator) over: aMultiplier denominator.! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:03:42'!
+sumandoConEntero: anAdder
+
+	^ self class with: value + anAdder integerValue.
+
+! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:03:37'!
+sumandoConFraccion: anAdder
+
+	^ self * anAdder denominator + anAdder numerator / anAdder denominator.
+
+! !
+
 
 !Entero methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 21:01'!
 = anObject
@@ -449,6 +465,11 @@ integerValue
 	"Usamos integerValue en vez de value para que no haya problemas con el mensaje value implementado en Object - Hernan"
 	
 	^value! !
+
+!Entero methodsFor: 'value' stamp: 'NNH 9/25/2020 20:22:15'!
+inverse
+	
+	^ Fraccion with: (Entero with: 1) over: self.! !
 
 
 !Entero methodsFor: 'printing' stamp: 'HAW 9/24/2018 08:53:19'!
@@ -498,50 +519,56 @@ Numero subclass: #Fraccion
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:27:44'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:06:49'!
 * aMultiplier 
-	(aMultiplier isKindOf: Entero) ifTrue: [
-		^ aMultiplier * self.
-	].
-	^(numerator * aMultiplier numerator) / (denominator * aMultiplier denominator)
+	
+	^ aMultiplier multiplicandoConFraccion: self.
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:25:03'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:00:03'!
 + anAdder 
 	
-	| newNumerator newDenominator |
+	^anAdder sumandoConFraccion: self.! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:01:38'!
+- aSubtrahend 
+		
+	^ self + aSubtrahend negated.
+! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:21:03'!
+/ aDivisor 
 	
-	(anAdder isKindOf: Entero) ifTrue: [^anAdder + self.].
+	^ self * aDivisor inverse.! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:06:05'!
+multiplicandoConEntero: aMultiplier 
+		
+	^ aMultiplier multiplicandoConFraccion: self.
+	! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:38:34'!
+multiplicandoConFraccion: aMultiplier 
+		
+	^ Fraccion with: (numerator * aMultiplier numerator) over: (denominator * aMultiplier denominator).
+	! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:00:49'!
+sumandoConEntero: anAdder 
+		
+	^anAdder sumandoConFraccion: self.
+	! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 20:00:03'!
+sumandoConFraccion: anAdder 
+	
+	| newDenominator newNumerator |
 	
 	newNumerator := (numerator * anAdder denominator) + (denominator * anAdder numerator).
 	newDenominator := denominator * anAdder denominator.
 	
-	^newNumerator / newDenominator ! !
-
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:37:31'!
-- aSubtrahend 
-	
-	| newNumerator newDenominator |
-	
-	(aSubtrahend isKindOf: Entero) ifTrue: [
-		
-		^ aSubtrahend negated + self.
-		].
-	
-	newNumerator := (numerator * aSubtrahend denominator) - (denominator * aSubtrahend numerator).
-	newDenominator := denominator * aSubtrahend denominator.
-	
 	^newNumerator / newDenominator 
-! !
-
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'NNH 9/25/2020 19:31:14'!
-/ aDivisor 
-	
-	(aDivisor isKindOf: Entero) ifTrue: [
-		^numerator  / (denominator * aDivisor).
-		].	
-	
-	^(numerator * aDivisor denominator) / (denominator * aDivisor numerator).! !
+	! !
 
 
 !Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:42'!
@@ -600,6 +627,12 @@ printOn: aStream
 		print: numerator;
 		nextPut: $/;
 		print: denominator ! !
+
+
+!Fraccion methodsFor: 'value' stamp: 'NNH 9/25/2020 20:30:36'!
+inverse
+
+	^ self class with: (self denominator) over: (self numerator).! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
