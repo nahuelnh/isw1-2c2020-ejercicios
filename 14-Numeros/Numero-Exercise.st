@@ -629,10 +629,10 @@ printOn: aStream
 		print: denominator ! !
 
 
-!Fraccion methodsFor: 'value' stamp: 'NNH 9/25/2020 20:30:36'!
+!Fraccion methodsFor: 'value' stamp: 'AM 9/26/2020 13:21:27'!
 inverse
 
-	^ self class with: (self denominator) over: (self numerator).! !
+	^ self class with: denominator over: numerator.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
