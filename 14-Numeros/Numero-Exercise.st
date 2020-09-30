@@ -453,8 +453,8 @@ hash
 	^value hash! !
 
 
-!Entero methodsFor: 'initialization' stamp: 'HernanWilkinson 5/7/2016 20:09'!
-initalizeWith: aValue 
+!Entero methodsFor: 'initialization' stamp: 'AM 9/30/2020 18:40:00'!
+initializeWith: aValue 
 	
 	value := aValue! !
 
@@ -515,7 +515,7 @@ enteroClassOf: aValue
 negativeFibonacciErrorDescription
 	^ ' Fibonacci no está definido aquí para Enteros Negativos'! !
 
-!Entero class methodsFor: 'instance creation' stamp: 'AM 9/29/2020 22:17:02'!
+!Entero class methodsFor: 'instance creation' stamp: 'AM 9/30/2020 18:40:01'!
 with: aValue 
 	
 	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan
@@ -524,7 +524,7 @@ with: aValue
 	"
 	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
 	
-	^self new initalizeWith: aValue! !
+	^self new initializeWith: aValue! !
 
 
 !classDefinition: #EnteroMayorUno category: 'Numero-Exercise'!
