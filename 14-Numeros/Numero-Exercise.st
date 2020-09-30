@@ -1,4 +1,4 @@
-!classDefinition: #NumeroTest category: #'Numero-Exercise'!
+!classDefinition: #NumeroTest category: 'Numero-Exercise'!
 TestCase subclass: #NumeroTest
 	instanceVariableNames: 'zero one two four oneFifth oneHalf five twoFifth twoTwentyfifth fiveHalfs three eight negativeOne negativeTwo'
 	classVariableNames: ''
@@ -287,7 +287,7 @@ setUp
 	! !
 
 
-!classDefinition: #Numero category: #'Numero-Exercise'!
+!classDefinition: #Numero category: 'Numero-Exercise'!
 Object subclass: #Numero
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -347,7 +347,7 @@ isZero
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Numero class' category: #'Numero-Exercise'!
+!classDefinition: 'Numero class' category: 'Numero-Exercise'!
 Numero class
 	instanceVariableNames: ''!
 
@@ -362,7 +362,7 @@ invalidNumberTypeErrorDescription
 	^ 'Tipo de número inválido!!'! !
 
 
-!classDefinition: #Entero category: #'Numero-Exercise'!
+!classDefinition: #Entero category: 'Numero-Exercise'!
 Numero subclass: #Entero
 	instanceVariableNames: 'value'
 	classVariableNames: ''
@@ -495,24 +495,71 @@ isZero
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Entero class' category: #'Numero-Exercise'!
+!classDefinition: 'Entero class' category: 'Numero-Exercise'!
 Entero class
 	instanceVariableNames: ''!
+
+!Entero class methodsFor: 'instance creation' stamp: 'AM 9/29/2020 22:18:22'!
+enteroClassOf: aValue
+	
+	aValue < 0
+		ifTrue: [^EnteroNegativo].
+	aValue > 1
+		ifTrue: [^EnteroMayorUno].
+	aValue = 0
+		ifTrue: [^EnteroZero].
+	aValue = 1
+		ifTrue: [^EnteroUno].! !
 
 !Entero class methodsFor: 'instance creation' stamp: 'NR 4/8/2019 02:57:57'!
 negativeFibonacciErrorDescription
 	^ ' Fibonacci no está definido aquí para Enteros Negativos'! !
 
-!Entero class methodsFor: 'instance creation' stamp: 'HernanWilkinson 5/7/2016 22:53'!
+!Entero class methodsFor: 'instance creation' stamp: 'AM 9/29/2020 22:17:02'!
 with: aValue 
 	
-	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan"
+	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan
+	
+	(self enteroClassOf: aValue) new initializeWith: aValue
+	"
 	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
 	
 	^self new initalizeWith: aValue! !
 
 
-!classDefinition: #Fraccion category: #'Numero-Exercise'!
+!classDefinition: #EnteroMayorUno category: 'Numero-Exercise'!
+Entero subclass: #EnteroMayorUno
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
+!classDefinition: #EnteroNegativo category: 'Numero-Exercise'!
+Entero subclass: #EnteroNegativo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
+!classDefinition: #EnteroUno category: 'Numero-Exercise'!
+Entero subclass: #EnteroUno
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
+!classDefinition: #EnteroZero category: 'Numero-Exercise'!
+Entero subclass: #EnteroZero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+
+!classDefinition: #Fraccion category: 'Numero-Exercise'!
 Numero subclass: #Fraccion
 	instanceVariableNames: 'numerator denominator'
 	classVariableNames: ''
@@ -636,7 +683,7 @@ inverse
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Fraccion class' category: #'Numero-Exercise'!
+!classDefinition: 'Fraccion class' category: 'Numero-Exercise'!
 Fraccion class
 	instanceVariableNames: ''!
 
