@@ -1,4 +1,4 @@
-!classDefinition: #OOStackTest category: 'Stack-Exercise'!
+!classDefinition: #OOStackTest category: #'Stack-Exercise'!
 TestCase subclass: #OOStackTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -137,92 +137,153 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 ! !
 
 
-!classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
+!classDefinition: #SentenceFinderByPrefixTest category: #'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'rabbit winter wonder capitalWint stackWinter stackWinterWonder emptyStack emptyFinder finderWinter finderWinterWonder setWinter w setWinterWonder wint helloWorld emptyString'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'AM 10/5/2020 21:51:07'!
-test01EmptyFinderShouldReturnEmptyCollection
+!SentenceFinderByPrefixTest methodsFor: 'setUp' stamp: 'NNH 10/6/2020 22:06:56'!
+setUp
 	
-	| emptySentenceFinder wint |
-	
-	emptySentenceFinder := SentenceFinderByPrefix with: OOStack new.
-	
+	rabbit := 'rabbit'.
+	w := 'w'.
 	wint := 'wint'.
+	winter := 'winter'.
+	wonder := 'wonder'.
+	capitalWint := 'Wint'.
+	helloWorld := 'Hello World'.
+	emptyString := ''.
+		
+	emptyStack := OOStack new.
+	stackWinter := OOStack new push: winter.
+	stackWinterWonder := OOStack new push: winter; push: wonder.
 	
-	self assert: (emptySentenceFinder find: wint) isEmpty.
+	emptyFinder := SentenceFinderByPrefix with: emptyStack.
+	finderWinter := SentenceFinderByPrefix with: stackWinter.
+	finderWinterWonder := SentenceFinderByPrefix with: stackWinterWonder.
+	
+	setWinter := Set with: winter.
+	setWinterWonder := Set with: winter with: wonder.
+	
+	
+
 	
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'AM 10/5/2020 21:53:47'!
-test02OneStringFinderJustFindsPrefixesOfThatElement
 
-	| oneSentenceFinder wa wi wint oneElementStack wintArray |
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 22:11:32'!
+test01EmptyFinderShouldReturnEmptyCollection
 	
-	wint := 'wint'.
-	wi := 'wi'.
-	wa := 'wa'.
-	
-	oneElementStack := OOStack new push: wint.
-	oneSentenceFinder := SentenceFinderByPrefix with: oneElementStack.
-	
-	wintArray := Set with: wint.
-	
-	self assert: (oneSentenceFinder find: wi   ) = wintArray.
-	self assert: (oneSentenceFinder find: wint) = wintArray.
-	self assert: (oneSentenceFinder find: wa  ) isEmpty.! !
+	self assert: (emptyFinder find: winter) isEmpty.
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'AM 10/5/2020 22:01:09'!
-test03TwoStringElementSharingPrefixReturnBothOnCommonPrefix
+	
+	! !
 
-	| twoElementStack twoSentenceFinder wi wine wineWintSet wint |
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:47:10'!
+test02OneStringFinderShouldReturnEmptyCollection
 	
-	wint := 'wint'.
-	wine := 'wine'.
-	wi := 'wi'.
-	
-	twoElementStack := OOStack new push: wint; push: wine.
-	twoSentenceFinder := SentenceFinderByPrefix with: twoElementStack.
-	
-	wineWintSet := Set with: wint with: wine.
-	
-	self assert: (twoSentenceFinder find: wi) = wineWintSet.! !
+	self assert: (finderWinter find: wonder) isEmpty.
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'AM 10/5/2020 22:11:49'!
-test04EmptyStringShouldRaiseError
+	
+	! !
 
-	| emptySentenceFinder emptyStack emptyString |
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:48:59'!
+test03OneStringFinderShouldReturnOneElementCollection
 	
-	emptyStack := OOStack new.
-	emptySentenceFinder := SentenceFinderByPrefix with: emptyStack.
-	emptyString := ''.
+	self assert: (finderWinter find: winter) = setWinter .
+	self assert: (finderWinter find: wint) = setWinter.
+! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 22:02:53'!
+test04TwoStringFinderShouldReturnEmptyCollection
+		
+	self assert: (finderWinterWonder find: rabbit) isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:50:15'!
+test05TwoStringFinderShouldReturnOneElementCollection
 	
-	self should: [ emptySentenceFinder find: emptyString]
+	self assert: (finderWinterWonder find: winter) = setWinter .
+	self assert: (finderWinterWonder find: wint) = setWinter.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:53:41'!
+test06TwoStringFinderShouldReturnTwoElementCollection
+	
+	self assert: (finderWinterWonder find: w) = setWinterWonder.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 22:06:56'!
+test07EmptyStringShouldRaiseError
+	
+	self should: [ emptyFinder find: emptyString]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = SentenceFinderByPrefix errorDescriptionPrefixIsEmptyString ].
 		! !
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'AM 10/5/2020 22:13:11'!
-test05StringWithWhitespacesShouldRaiseError
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 22:06:56'!
+test08StringWithWhitespacesShouldRaiseError
 
-	| emptySentenceFinder emptyStack holaMundo |
-	
-	emptyStack := OOStack new.
-	emptySentenceFinder := SentenceFinderByPrefix with: emptyStack.
-	holaMundo := 'hola mundo'.
-	
-	self should: [ emptySentenceFinder find: holaMundo]
+	self should: [emptyFinder find: helloWorld ]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = SentenceFinderByPrefix errorDescriptionPrefixContainsWhiteSpaces ].
 		! !
 
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:54:13'!
+test09FinderIsCaseSensitive
+
+	self assert: (finderWinterWonder find: capitalWint) isEmpty.
+		! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:55:44'!
+test10StackIsPreservedFindingOnEmptyFinder
+	
+	| emptySentenceFinder emptyStackToPreserve |
+		
+	emptyStackToPreserve := OOStack new.
+	emptySentenceFinder := SentenceFinderByPrefix with: emptyStackToPreserve.
+	emptySentenceFinder find: winter.
+	
+	self assert: emptyStackToPreserve isEmpty.
+
+	
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:56:18'!
+test11StackIsPreservedFindingOnOneStringFinder
+	
+	| oneSentenceFinder oneElementStackToPreserve |
+		
+	oneElementStackToPreserve := OOStack new push: winter.
+	oneSentenceFinder := SentenceFinderByPrefix with: oneElementStackToPreserve.
+	oneSentenceFinder find: wonder.
+	
+	self assert: oneElementStackToPreserve size = 1.
+	self assert: oneElementStackToPreserve top = winter.
+
+	
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'NNH 10/6/2020 21:57:09'!
+test12StackIsPreservedFindingOnTwoStringFinder
+	
+	| twoSentenceFinder twoElementStackToPreserve |
+	
+	twoElementStackToPreserve := OOStack new push: winter; push: wonder.
+	twoSentenceFinder := SentenceFinderByPrefix with: twoElementStackToPreserve.
+	
+	twoSentenceFinder find: wonder.
+	
+	self assert: twoElementStackToPreserve size = 2.
+	self assert: twoElementStackToPreserve pop = wonder.
+	self assert: twoElementStackToPreserve pop = winter.
+
+	
+	! !
+
 
-!classDefinition: #OOStack category: 'Stack-Exercise'!
+!classDefinition: #OOStack category: #'Stack-Exercise'!
 Object subclass: #OOStack
 	instanceVariableNames: 'size top'
 	classVariableNames: ''
@@ -268,7 +329,7 @@ top
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OOStack class' category: 'Stack-Exercise'!
+!classDefinition: 'OOStack class' category: #'Stack-Exercise'!
 OOStack class
 	instanceVariableNames: ''!
 
@@ -278,7 +339,7 @@ stackEmptyErrorDescription
 	^ 'Stack is empty!!'! !
 
 
-!classDefinition: #OOStackElement category: 'Stack-Exercise'!
+!classDefinition: #OOStackElement category: #'Stack-Exercise'!
 Object subclass: #OOStackElement
 	instanceVariableNames: 'stack'
 	classVariableNames: ''
@@ -294,7 +355,7 @@ value
 	self subclassResponsibility.! !
 
 
-!classDefinition: #OONotValidStackElement category: 'Stack-Exercise'!
+!classDefinition: #OONotValidStackElement category: #'Stack-Exercise'!
 OOStackElement subclass: #OONotValidStackElement
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -316,21 +377,28 @@ initializeBelongsTo: aStack
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OONotValidStackElement class' category: 'Stack-Exercise'!
+!classDefinition: 'OONotValidStackElement class' category: #'Stack-Exercise'!
 OONotValidStackElement class
 	instanceVariableNames: ''!
 
-!OONotValidStackElement class methodsFor: 'as yet unclassified' stamp: 'AM 10/5/2020 17:24:26'!
+!OONotValidStackElement class methodsFor: 'initializing' stamp: 'AM 10/5/2020 17:24:26'!
 belongsTo: aStack
 	^ self new initializeBelongsTo: aStack! !
 
 
-!classDefinition: #OOValidStackElement category: 'Stack-Exercise'!
+!classDefinition: #OOValidStackElement category: #'Stack-Exercise'!
 OOStackElement subclass: #OOValidStackElement
 	instanceVariableNames: 'value next'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+!OOValidStackElement methodsFor: 'initializing' stamp: 'AM 10/5/2020 17:26:14'!
+initializeBelongsTo: aStack with: aValue next: nextElement
+	stack := aStack.
+	value := aValue.
+	next := nextElement.! !
+
 
 !OOValidStackElement methodsFor: 'accessing' stamp: 'NNH 10/2/2020 19:38:31'!
 next
@@ -340,42 +408,47 @@ next
 value
 	^value.! !
 
-
-!OOValidStackElement methodsFor: 'initializing' stamp: 'AM 10/5/2020 17:26:14'!
-initializeBelongsTo: aStack with: aValue next: nextElement
-	stack := aStack.
-	value := aValue.
-	next := nextElement.! !
-
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OOValidStackElement class' category: 'Stack-Exercise'!
+!classDefinition: 'OOValidStackElement class' category: #'Stack-Exercise'!
 OOValidStackElement class
 	instanceVariableNames: ''!
 
-!OOValidStackElement class methodsFor: 'as yet unclassified' stamp: 'AM 10/5/2020 17:25:30'!
+!OOValidStackElement class methodsFor: 'initializing' stamp: 'AM 10/5/2020 17:25:30'!
 belongsTo: aStack with: aValue next: nextElement
 	^self new initializeBelongsTo: aStack with: aValue next: nextElement.! !
 
 
-!classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
+!classDefinition: #SentenceFinderByPrefix category: #'Stack-Exercise'!
 Object subclass: #SentenceFinderByPrefix
 	instanceVariableNames: 'stack'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'testing - private' stamp: 'AM 10/5/2020 22:13:45'!
+!SentenceFinderByPrefix methodsFor: 'testing - private' stamp: 'NNH 10/6/2020 20:48:20'!
 isValidPrefix: aPrefix
 
-	aPrefix = '' ifTrue: [self error: self class errorDescriptionPrefixIsEmptyString].
+	self prefixIsNotEmpty: aPrefix.
+	self prefixDoesNotContainWhitespace: aPrefix.
+! !
+
+!SentenceFinderByPrefix methodsFor: 'testing - private' stamp: 'NNH 10/6/2020 20:45:37'!
+prefixDoesNotContainWhitespace: aPrefix
+
 	(aPrefix includesSubString: ' ') ifTrue: [self error: self class errorDescriptionPrefixContainsWhiteSpaces ]! !
 
+!SentenceFinderByPrefix methodsFor: 'testing - private' stamp: 'NNH 10/6/2020 20:45:12'!
+prefixIsNotEmpty: aPrefix
 
-!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'AM 10/5/2020 22:00:02'!
+	aPrefix = '' ifTrue: [self error: self class errorDescriptionPrefixIsEmptyString].
+! !
+
+
+!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'NNH 10/6/2020 20:47:34'!
 find: aPrefix 
 	
-	self isValidPrefix: aPrefix.		
+	self isValidPrefix: aPrefix.
 	^self sentences select: [:aSentence | aSentence beginsWith: aPrefix].
 ! !
 
@@ -397,7 +470,7 @@ restoreStackWith: elementsOfStackAsCollection
 
 	elementsOfStackAsCollection do: [:anElement | stack push: anElement].! !
 
-!SentenceFinderByPrefix methodsFor: 'operations - private' stamp: 'AM 10/5/2020 21:50:08'!
+!SentenceFinderByPrefix methodsFor: 'operations - private' stamp: 'NNH 10/6/2020 21:01:53'!
 sentences
 	
 	| sentences |
@@ -415,7 +488,7 @@ initializeWith: aStack
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'SentenceFinderByPrefix class' category: 'Stack-Exercise'!
+!classDefinition: 'SentenceFinderByPrefix class' category: #'Stack-Exercise'!
 SentenceFinderByPrefix class
 	instanceVariableNames: ''!
 
