@@ -1,4 +1,4 @@
-!classDefinition: #OOStackTest category: #'Stack-Exercise'!
+!classDefinition: #OOStackTest category: 'Stack-Exercise'!
 TestCase subclass: #OOStackTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -137,7 +137,7 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 ! !
 
 
-!classDefinition: #SentenceFinderByPrefixTest category: #'Stack-Exercise'!
+!classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
 	instanceVariableNames: 'rabbit winter wonder capitalWint stackWinter stackWinterWonder emptyStack emptyFinder finderWinter finderWinterWonder setWinter w setWinterWonder wint helloWorld emptyString'
 	classVariableNames: ''
@@ -283,7 +283,7 @@ test12StackIsPreservedFindingOnTwoStringFinder
 	! !
 
 
-!classDefinition: #OOStack category: #'Stack-Exercise'!
+!classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
 	instanceVariableNames: 'size top'
 	classVariableNames: ''
@@ -329,7 +329,7 @@ top
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OOStack class' category: #'Stack-Exercise'!
+!classDefinition: 'OOStack class' category: 'Stack-Exercise'!
 OOStack class
 	instanceVariableNames: ''!
 
@@ -339,7 +339,7 @@ stackEmptyErrorDescription
 	^ 'Stack is empty!!'! !
 
 
-!classDefinition: #OOStackElement category: #'Stack-Exercise'!
+!classDefinition: #OOStackElement category: 'Stack-Exercise'!
 Object subclass: #OOStackElement
 	instanceVariableNames: 'stack'
 	classVariableNames: ''
@@ -355,20 +355,20 @@ value
 	self subclassResponsibility.! !
 
 
-!classDefinition: #OONotValidStackElement category: #'Stack-Exercise'!
+!classDefinition: #OONotValidStackElement category: 'Stack-Exercise'!
 OOStackElement subclass: #OONotValidStackElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OONotValidStackElement methodsFor: 'accessing' stamp: 'AM 10/5/2020 17:30:42'!
+!OONotValidStackElement methodsFor: 'accessing' stamp: 'AM 10/7/2020 10:33:26'!
 next
-	stack error: OOStack stackEmptyErrorDescription.! !
+	stack error: stack class stackEmptyErrorDescription.! !
 
-!OONotValidStackElement methodsFor: 'accessing' stamp: 'AM 10/5/2020 17:28:44'!
+!OONotValidStackElement methodsFor: 'accessing' stamp: 'AM 10/7/2020 10:33:33'!
 value
-	stack error: OOStack stackEmptyErrorDescription.! !
+	stack error: stack class stackEmptyErrorDescription.! !
 
 
 !OONotValidStackElement methodsFor: 'initializing' stamp: 'AM 10/5/2020 17:29:42'!
@@ -377,7 +377,7 @@ initializeBelongsTo: aStack
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OONotValidStackElement class' category: #'Stack-Exercise'!
+!classDefinition: 'OONotValidStackElement class' category: 'Stack-Exercise'!
 OONotValidStackElement class
 	instanceVariableNames: ''!
 
@@ -386,7 +386,7 @@ belongsTo: aStack
 	^ self new initializeBelongsTo: aStack! !
 
 
-!classDefinition: #OOValidStackElement category: #'Stack-Exercise'!
+!classDefinition: #OOValidStackElement category: 'Stack-Exercise'!
 OOStackElement subclass: #OOValidStackElement
 	instanceVariableNames: 'value next'
 	classVariableNames: ''
@@ -410,7 +410,7 @@ value
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OOValidStackElement class' category: #'Stack-Exercise'!
+!classDefinition: 'OOValidStackElement class' category: 'Stack-Exercise'!
 OOValidStackElement class
 	instanceVariableNames: ''!
 
@@ -419,7 +419,7 @@ belongsTo: aStack with: aValue next: nextElement
 	^self new initializeBelongsTo: aStack with: aValue next: nextElement.! !
 
 
-!classDefinition: #SentenceFinderByPrefix category: #'Stack-Exercise'!
+!classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
 Object subclass: #SentenceFinderByPrefix
 	instanceVariableNames: 'stack'
 	classVariableNames: ''
@@ -488,7 +488,7 @@ initializeWith: aStack
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'SentenceFinderByPrefix class' category: #'Stack-Exercise'!
+!classDefinition: 'SentenceFinderByPrefix class' category: 'Stack-Exercise'!
 SentenceFinderByPrefix class
 	instanceVariableNames: ''!
 
