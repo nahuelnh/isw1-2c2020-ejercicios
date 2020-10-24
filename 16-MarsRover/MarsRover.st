@@ -5,171 +5,6 @@ TestCase subclass: #MarsRoverTest
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:22:17'!
-should: aMarsRover executing: aListOfCommands beAt: aPosition
-
-	aMarsRover execute: aListOfCommands .
-	self assert: aPosition equals: aMarsRover position.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:22:41'!
-should: aMarsRover executing: aListOfCommands beHeading: aCardinalDirection
-
-	aMarsRover execute: aListOfCommands .
-	self assert: aCardinalDirection equals: aMarsRover direction.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:12:06'!
-test01EmptyListOfCommandsShouldNotMoveMarsRover
-
-	self should: marsRoverNorth executing: '' beAt: 0@0.
-	self should: marsRoverNorth executing: '' 	beHeading: north. ! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:12:32'!
-test02MovingForwardNorthShouldIncreaseOneYCoordinate
-
-	self should: marsRoverNorth executing: 'f' beAt: 0@1.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:12:48'!
-test03MovingBackwardsNorthShouldDecreaseOneYCoordinate
-
-	self should: marsRoverNorth executing: 'b' beAt: 0@-1.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:13:18'!
-test04TurningLeftFromNorthShouldHeadWest
-
-	self should: marsRoverNorth executing: 'l' beHeading: west.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:13:47'!
-test05TurningLeftFromWestShouldHeadSouth
-
-	self should: marsRoverWest executing: 'l' beHeading: south.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:14:06'!
-test06TurningLeftFromSouthShouldHeadEast
-
-	self should: marsRoverSouth executing: 'l' beHeading: east.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:14:17'!
-test07TurningLeftFromEastShouldHeadNorth
-
-	self should: marsRoverEast executing: 'l' beHeading: north.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:14:41'!
-test08TurningRightFromNorthShouldHeadEast
-
-	self should: marsRoverNorth executing: 'r' beHeading: east.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:15:27'!
-test09TurningRightFromEastShouldHeadSouth
-
-	self should: marsRoverEast executing: 'r' beHeading: south.
-
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:15:38'!
-test10TurningRightFromSouthShouldHeadWest
-
-	self should: marsRoverSouth executing: 'r' beHeading: west.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:15:47'!
-test11TurningRightFromWestShouldHeadNorth
-
-	self should: marsRoverWest executing: 'r' beHeading: north.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:16:32'!
-test12MovingForwardWestShouldDecreaseOneXCoordinate
-
-	self should: marsRoverWest executing: 'f' beAt: -1@0.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:16:41'!
-test13MovingForwardSouthShouldDecreaseOneYCoordinate
-
-	self should: marsRoverSouth executing: 'f' beAt: 0@-1.
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:16:52'!
-test14MovingForwardEastShouldIncreaseOneXCoordinate
-
-	self should: marsRoverEast executing: 'f' beAt: 1@0.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:17:26'!
-test15MovingBackwardsWestShouldIncreaseOneXCoordinate
-
-	self should: marsRoverWest executing: 'b' beAt: 1@0.
-
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:17:35'!
-test16MovingBackwardsSouthShouldIncreaseOneYCoordinate
-
-	self should: marsRoverSouth executing: 'b' beAt: 0@1.
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:17:50'!
-test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate
-
-	self should: marsRoverEast executing: 'b' beAt: -1@0.
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:57:57'!
-test18ExecutingMoreThanOneCommandShouldExecuteThem
-
-	self should: marsRoverNorth executing: 'ff' beAt: 0@2. 
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 12:59:34'!
-test19MarsRoverShouldNotMoveAfterInvalidCommand
-
-	self should: marsRoverNorth executing: 'lxl' beHeading: west.
-! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 13:02:49'!
-test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand
-
-	marsRoverNorth execute: 'x'.
-	marsRoverNorth execute: 'l'.
-	self assert: north equals: marsRoverNorth direction.! !
-
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 13:05:58'!
-test21AfterInvalidCommandAllDirectionsDoNothing
-
-	self should: marsRoverNorth executing: 'xflbr' beAt: 0@0. 
-! !
-
-
 !MarsRoverTest methodsFor: 'setUp/tearDown' stamp: 'NNH 10/24/2020 12:07:44'!
 setUp
 
@@ -183,6 +18,190 @@ setUp
 	marsRoverWest := MarsRover at: 0@0 heading: west. 
 	marsRoverSouth := MarsRover at: 0@0 heading: south . 
 	marsRoverEast := MarsRover at: 0@0 heading: east. ! !
+
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:22:41'!
+should: aMarsRover executing: aListOfCommands beHeading: aCardinalDirection
+
+	aMarsRover execute: aListOfCommands .
+	self assert: aCardinalDirection equals: aMarsRover direction.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:13:18'!
+test04TurningLeftFromNorthShouldHeadWest
+
+	self should: marsRoverNorth executing: 'l' beHeading: west.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:13:47'!
+test05TurningLeftFromWestShouldHeadSouth
+
+	self should: marsRoverWest executing: 'l' beHeading: south.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:14:06'!
+test06TurningLeftFromSouthShouldHeadEast
+
+	self should: marsRoverSouth executing: 'l' beHeading: east.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:14:17'!
+test07TurningLeftFromEastShouldHeadNorth
+
+	self should: marsRoverEast executing: 'l' beHeading: north.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:14:41'!
+test08TurningRightFromNorthShouldHeadEast
+
+	self should: marsRoverNorth executing: 'r' beHeading: east.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:15:27'!
+test09TurningRightFromEastShouldHeadSouth
+
+	self should: marsRoverEast executing: 'r' beHeading: south.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:15:38'!
+test10TurningRightFromSouthShouldHeadWest
+
+	self should: marsRoverSouth executing: 'r' beHeading: west.
+
+! !
+
+!MarsRoverTest methodsFor: 'testing direction' stamp: 'NNH 10/24/2020 12:15:47'!
+test11TurningRightFromWestShouldHeadNorth
+
+	self should: marsRoverWest executing: 'r' beHeading: north.
+
+! !
+
+
+!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/24/2020 12:59:34'!
+test19MarsRoverShouldNotMoveAfterInvalidCommand
+
+	self should: marsRoverNorth executing: 'lxl' beHeading: west.
+! !
+
+!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/24/2020 13:02:49'!
+test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand
+
+	marsRoverNorth execute: 'x'.
+	marsRoverNorth execute: 'l'.
+	self assert: north equals: marsRoverNorth direction.! !
+
+!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/24/2020 13:05:58'!
+test21AfterInvalidCommandAllDirectionsDoNothing
+
+	self should: marsRoverNorth executing: 'xflbr' beAt: 0@0. 
+! !
+
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:22:17'!
+should: aMarsRover executing: aListOfCommands beAt: aPosition
+
+	aMarsRover execute: aListOfCommands .
+	self assert: aPosition equals: aMarsRover position.
+
+
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:12:32'!
+test02MovingForwardNorthShouldIncreaseOneYCoordinate
+
+	self should: marsRoverNorth executing: 'f' beAt: 0@1.
+
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:12:48'!
+test03MovingBackwardsNorthShouldDecreaseOneYCoordinate
+
+	self should: marsRoverNorth executing: 'b' beAt: 0@-1.
+
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:16:32'!
+test12MovingForwardWestShouldDecreaseOneXCoordinate
+
+	self should: marsRoverWest executing: 'f' beAt: -1@0.
+
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:16:41'!
+test13MovingForwardSouthShouldDecreaseOneYCoordinate
+
+	self should: marsRoverSouth executing: 'f' beAt: 0@-1.
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:16:52'!
+test14MovingForwardEastShouldIncreaseOneXCoordinate
+
+	self should: marsRoverEast executing: 'f' beAt: 1@0.
+
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:17:26'!
+test15MovingBackwardsWestShouldIncreaseOneXCoordinate
+
+	self should: marsRoverWest executing: 'b' beAt: 1@0.
+
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:17:35'!
+test16MovingBackwardsSouthShouldIncreaseOneYCoordinate
+
+	self should: marsRoverSouth executing: 'b' beAt: 0@1.
+! !
+
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:17:50'!
+test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate
+
+	self should: marsRoverEast executing: 'b' beAt: -1@0.
+! !
+
+
+!MarsRoverTest methodsFor: 'testing multiple commands' stamp: 'NNH 10/24/2020 12:57:57'!
+test18ExecutingMoreThanOneCommandShouldExecuteThem
+
+	self should: marsRoverNorth executing: 'ff' beAt: 0@2. 
+! !
+
+!MarsRoverTest methodsFor: 'testing multiple commands' stamp: 'NNH 10/24/2020 19:39:12'!
+test23MarsRoverShouldMoveInMoreThanOneDirection
+
+	self should: marsRoverNorth executing: 'ffrffrff' beAt: 2@0. 
+! !
+
+
+!MarsRoverTest methodsFor: 'testing no commands' stamp: 'NNH 10/24/2020 12:12:06'!
+test01EmptyListOfCommandsShouldNotMoveMarsRover
+
+	self should: marsRoverNorth executing: '' beAt: 0@0.
+	self should: marsRoverNorth executing: '' 	beHeading: north. ! !
+
+
+!MarsRoverTest methodsFor: 'testing signals' stamp: 'NNH 10/24/2020 19:26:54'!
+test22MarsRoverShouldNotHeadToNonCardinalDirection
+
+	self should: [MarsRover at: 0@0 heading: 'Hello'] 
+	raise: Error
+	withMessageText: MarsRover canNotBeHeadingToNonCardinalDirectionErrorDescription.
+! !
 
 
 !classDefinition: #MarsRover category: 'MarsRover'!
@@ -199,10 +218,18 @@ initializeAt: aLocation heading: aCardinalDirection
 	outOfOrder := false.! !
 
 
-!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 13:29:52'!
+!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:02:29'!
 execute: aListOfCommands 
 
-	aListOfCommands do: [ :aCommandAsCharacter | | command | command := MarsRoverCommand with: aCommandAsCharacter for: self. command execute.].! !
+	aListOfCommands do: [ :aCommandAsCharacter | self executeSingleCommand: aCommandAsCharacter.].! !
+
+!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:03:08'!
+executeSingleCommand: aCommandAsCharacter
+
+	| command | 
+	
+	command := MarsRoverCommand with: aCommandAsCharacter for: self. 
+	command execute! !
 
 !MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 13:28:28'!
 markOutOfOrder
@@ -239,10 +266,21 @@ position
 MarsRover class
 	instanceVariableNames: ''!
 
-!MarsRover class methodsFor: 'instance creation' stamp: 'NNH 10/23/2020 19:46:22'!
+!MarsRover class methodsFor: 'instance creation' stamp: 'NNH 10/24/2020 19:23:46'!
 at: aLocation heading: aCardinalDirection
-
+	self assertACardinalDirectionIsValid: aCardinalDirection.
 	^self new initializeAt: aLocation heading: aCardinalDirection.! !
+
+
+!MarsRover class methodsFor: 'error descriptions' stamp: 'NNH 10/24/2020 19:19:35'!
+canNotBeHeadingToNonCardinalDirectionErrorDescription
+	^'Mars Rover should be heading to a cardinal direction'.! !
+
+
+!MarsRover class methodsFor: 'assertions' stamp: 'NNH 10/24/2020 19:26:08'!
+assertACardinalDirectionIsValid: aCardinalDirection 
+	
+	({'North'. 'West'. 'East'. 'South'} includes: aCardinalDirection) ifFalse: [self error: self canNotBeHeadingToNonCardinalDirectionErrorDescription.].! !
 
 
 !classDefinition: #MarsRoverCommand category: 'MarsRover'!
@@ -344,21 +382,13 @@ execute
 
 !classDefinition: #MarsRoverStatus category: 'MarsRover'!
 Object subclass: #MarsRoverStatus
-	instanceVariableNames: 'location'
+	instanceVariableNames: 'location direction'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverStatus methodsFor: 'initializing' stamp: 'NNH 10/24/2020 11:26:31'!
-initializeAt: aLocation 
-	location := aLocation.! !
 
-
-!MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 11:54:39'!
-direction
-	self subclassResponsibility.! !
-
-!MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 11:28:37'!
+!MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 19:37:12'!
 location
 	^location! !
 
@@ -385,6 +415,11 @@ turnLeft
 turnRight
 	self subclassResponsibility.! !
 
+
+!MarsRoverStatus methodsFor: 'accessing' stamp: 'NNH 10/24/2020 19:08:16'!
+direction
+	^direction.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'MarsRoverStatus class' category: 'MarsRover'!
@@ -410,11 +445,6 @@ MarsRoverStatus subclass: #MarsRoverStatusHeadingEast
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverStatusHeadingEast methodsFor: 'accessing' stamp: 'NNH 10/24/2020 10:52:56'!
-direction
-	^'East'.! !
-
-
 !MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 11:42:18'!
 moveBackwards
 	location := -1@0 + location.! !
@@ -423,13 +453,19 @@ moveBackwards
 moveForward
 	location := 1@0 + location.! !
 
-!MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:43:51'!
+!MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:14:27'!
 turnLeft
-	^MarsRoverStatusHeadingNorth new.! !
+	^MarsRoverStatusHeadingNorth at: location.! !
 
-!MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:58:21'!
+!MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:14:37'!
 turnRight
-	^MarsRoverStatusHeadingSouth new.! !
+	^MarsRoverStatusHeadingSouth at: location.! !
+
+
+!MarsRoverStatusHeadingEast methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:35'!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'East'.! !
 
 
 !classDefinition: #MarsRoverStatusHeadingNorth category: 'MarsRover'!
@@ -447,18 +483,19 @@ moveBackwards
 moveForward
 	location := 0@1 + location.! !
 
-!MarsRoverStatusHeadingNorth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:44:02'!
+!MarsRoverStatusHeadingNorth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:17'!
 turnLeft
-	^MarsRoverStatusHeadingWest new.! !
+	^MarsRoverStatusHeadingWest at: location.! !
 
-!MarsRoverStatusHeadingNorth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:57:14'!
+!MarsRoverStatusHeadingNorth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:21'!
 turnRight
-	^MarsRoverStatusHeadingEast new.! !
+	^MarsRoverStatusHeadingEast at: location.! !
 
 
-!MarsRoverStatusHeadingNorth methodsFor: 'accessing' stamp: 'NNH 10/24/2020 10:53:05'!
-direction
-	^'North'.! !
+!MarsRoverStatusHeadingNorth methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:10:45'!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'North'.! !
 
 
 !classDefinition: #MarsRoverStatusHeadingSouth category: 'MarsRover'!
@@ -476,18 +513,19 @@ moveBackwards
 moveForward
 	^location := 0@-1 + location! !
 
-!MarsRoverStatusHeadingSouth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:44:10'!
+!MarsRoverStatusHeadingSouth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:29'!
 turnLeft
-	^MarsRoverStatusHeadingEast new.! !
+	^MarsRoverStatusHeadingEast at: location.! !
 
-!MarsRoverStatusHeadingSouth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:59:10'!
+!MarsRoverStatusHeadingSouth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:35'!
 turnRight
-	^MarsRoverStatusHeadingWest new.! !
+	^MarsRoverStatusHeadingWest at: location.! !
 
 
-!MarsRoverStatusHeadingSouth methodsFor: 'accessing' stamp: 'NNH 10/24/2020 10:53:14'!
-direction
-	^'South'.! !
+!MarsRoverStatusHeadingSouth methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:10:32'!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'South'.! !
 
 
 !classDefinition: #MarsRoverStatusHeadingWest category: 'MarsRover'!
@@ -505,28 +543,29 @@ moveBackwards
 moveForward
 	location := -1@0 + location.! !
 
-!MarsRoverStatusHeadingWest methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 10:44:19'!
+!MarsRoverStatusHeadingWest methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:47'!
 turnLeft
-	^MarsRoverStatusHeadingSouth new.! !
+	^MarsRoverStatusHeadingSouth at: location.! !
 
-!MarsRoverStatusHeadingWest methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 11:00:16'!
+!MarsRoverStatusHeadingWest methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:40'!
 turnRight
-	^MarsRoverStatusHeadingNorth new.! !
+	^MarsRoverStatusHeadingNorth at: location.! !
 
 
-!MarsRoverStatusHeadingWest methodsFor: 'accessing' stamp: 'NNH 10/24/2020 10:53:23'!
-direction
-	^'West'.! !
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:36:36'!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'West'.! !
 
 
 !classDefinition: #MarsRoverStatusOutOfOrder category: 'MarsRover'!
 MarsRoverStatus subclass: #MarsRoverStatusOutOfOrder
-	instanceVariableNames: 'direction'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 12:47:07'!
+!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:35:43'!
 initializeAt: aPosition heading: aCardinalDirection
 	location := aPosition.
 	direction := aCardinalDirection.! !
@@ -547,11 +586,6 @@ turnLeft
 !MarsRoverStatusOutOfOrder methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 12:56:18'!
 turnRight
 	^self.! !
-
-
-!MarsRoverStatusOutOfOrder methodsFor: 'accessing' stamp: 'NNH 10/24/2020 12:39:29'!
-direction
-	^direction.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 

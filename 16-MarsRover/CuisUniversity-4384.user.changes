@@ -31878,3 +31878,914 @@ PASSED!
 ----SNAPSHOT----(24 October 2020 13:31:57) CuisUniversity-4384.image priorSource: 17174493!
 
 ----QUIT----(24 October 2020 13:32:03) CuisUniversity-4384.image priorSource: 17317630!
+
+----STARTUP---- (24 October 2020 18:58:21) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:02:29'!
+executeSingleCommand: aCommandAsCharacter
+
+	| command | command := MarsRoverCommand with: aCommandAsCharacter for: self. command execute! !
+!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:02:29' prior: 50872741!
+execute: aListOfCommands 
+
+	aListOfCommands do: [ :aCommandAsCharacter | self executeSingleCommand: aCommandAsCharacter.].! !
+!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:02:45' prior: 50872836!
+executeSingleCommand: aCommandAsCharacter
+
+	| command | 
+	
+	command := MarsRoverCommand with: aCommandAsCharacter for: self. 
+	command execute! !
+!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:03:08' prior: 50872851!
+executeSingleCommand: aCommandAsCharacter
+
+	| command | 
+	
+	command := MarsRoverCommand with: aCommandAsCharacter for: self. 
+	command execute! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:06:52'!
+PASSED!
+!MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 19:07:32' prior: 50870013!
+direction
+	self subclassResponsibility.! !
+
+!classDefinition: #MarsRoverStatusOutOfOrder category: 'MarsRover' stamp: 'NNH 10/24/2020 19:08:04'!
+MarsRoverStatus subclass: #MarsRoverStatusOutOfOrder
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classDefinition: #MarsRoverStatus category: 'MarsRover' stamp: 'NNH 10/24/2020 19:08:05'!
+Object subclass: #MarsRoverStatus
+	instanceVariableNames: 'location direction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+!MarsRoverStatus methodsFor: 'accessing' stamp: 'NNH 10/24/2020 19:08:16' prior: 50872944!
+direction
+	^direction.! !
+
+!methodRemoval: MarsRoverStatusOutOfOrder #direction stamp: 'NNH 10/24/2020 19:08:16'!
+direction
+	^direction.!
+
+!methodRemoval: MarsRoverStatusHeadingWest #direction stamp: 'NNH 10/24/2020 19:08:30'!
+direction
+	^'West'.!
+
+!methodRemoval: MarsRoverStatusHeadingSouth #direction stamp: 'NNH 10/24/2020 19:08:37'!
+direction
+	^'South'.!
+
+!methodRemoval: MarsRoverStatusHeadingNorth #direction stamp: 'NNH 10/24/2020 19:08:42'!
+direction
+	^'North'.!
+
+!methodRemoval: MarsRoverStatusHeadingEast #direction stamp: 'NNH 10/24/2020 19:08:46'!
+direction
+	^'East'.!
+!MarsRoverStatusHeadingNorth methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:18' overrides: 50869184!
+initializeAt: aLocation 
+	location := aLocation.! !
+!MarsRoverStatusHeadingEast methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:18' overrides: 50869184!
+initializeAt: aLocation 
+	location := aLocation.! !
+!MarsRoverStatusHeadingSouth methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:18' overrides: 50869184!
+initializeAt: aLocation 
+	location := aLocation.! !
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:18' overrides: 50869184!
+initializeAt: aLocation 
+	location := aLocation.! !
+!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:18' overrides: 50869184!
+initializeAt: aLocation 
+	location := aLocation.! !
+
+!methodRemoval: MarsRoverStatus #initializeAt: stamp: 'NNH 10/24/2020 19:09:18'!
+initializeAt: aLocation 
+	location := aLocation.!
+!MarsRoverStatusHeadingEast methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:09:35' prior: 50872992!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'East'.! !
+
+!methodRemoval: MarsRoverStatusOutOfOrder #initializeAt: stamp: 'NNH 10/24/2020 19:09:48'!
+initializeAt: aLocation 
+	location := aLocation.!
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:10:19' prior: 50873004!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'West'.! !
+!MarsRoverStatusHeadingSouth methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:10:32' prior: 50872998!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'South'.! !
+!MarsRoverStatusHeadingNorth methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:10:45' prior: 50872986!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'North'.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:10:58'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:10:58'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:11:24'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:11:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:11:35'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:11:35'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:12:42'!
+FAILURE!
+!MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:14:27' prior: 50868429 overrides: 50868417!
+turnLeft
+	^MarsRoverStatusHeadingNorth at: location.! !
+!MarsRoverStatusHeadingEast methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:14:37' prior: 50868660 overrides: 50869719!
+turnRight
+	^MarsRoverStatusHeadingSouth at: location.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:14:45'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:14:45'!
+PASSED!
+!MarsRoverStatusHeadingNorth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:17' prior: 50868435 overrides: 50868417!
+turnLeft
+	^MarsRoverStatusHeadingWest at: location.! !
+!MarsRoverStatusHeadingNorth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:21' prior: 50868633 overrides: 50869719!
+turnRight
+	^MarsRoverStatusHeadingEast at: location.! !
+!MarsRoverStatusHeadingSouth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:29' prior: 50868441 overrides: 50868417!
+turnLeft
+	^MarsRoverStatusHeadingEast at: location.! !
+!MarsRoverStatusHeadingSouth methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:35' prior: 50868687 overrides: 50869719!
+turnRight
+	^MarsRoverStatusHeadingWest at: location.! !
+!MarsRoverStatusHeadingWest methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:40' prior: 50868722 overrides: 50869719!
+turnRight
+	^MarsRoverStatusHeadingNorth at: location.! !
+!MarsRoverStatusHeadingWest methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:15:47' prior: 50868447 overrides: 50868417!
+turnLeft
+	^MarsRoverStatusHeadingSouth at: location.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:15:53'!
+PASSED!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 19:18:05'!
+test22
+
+	self should: [MarsRover at: 0@0 heading: 'Hello'] 
+	raise: Error
+	withMessageText: MarsRover canNotBeHeadingToNonCardinalDirectionErrorDescription.
+! !
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:18:23'!
+ERROR!
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:18:23'!
+ERROR!
+!MarsRover class methodsFor: 'error descriptions' stamp: 'NNH 10/24/2020 19:19:05'!
+canNotBeHeadingToNonCardinalDirectionErrorDescription
+	self shouldBeImplemented.! !
+!MarsRover class methodsFor: 'error descriptions' stamp: 'NNH 10/24/2020 19:19:35' prior: 50873359!
+canNotBeHeadingToNonCardinalDirectionErrorDescription
+	^'Mars Rover should be heading to a cardinal direction'.! !
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:19:50'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:19:50'!
+FAILURE!
+
+[MarsRover at: 0@0 heading: 'Hello']!
+
+[MarsRover at: 0@0 heading: 'Hello']!
+
+[MarsRover at: 0@0 heading: 'Hello']!
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:22:01'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:22:01'!
+FAILURE!
+!MarsRover class methodsFor: 'instance creation' stamp: 'NNH 10/24/2020 19:23:46' prior: 50867812!
+at: aLocation heading: aCardinalDirection
+	self assertACardinalDirectionIsValid: aCardinalDirection.
+	^self new initializeAt: aLocation heading: aCardinalDirection.! !
+!MarsRover class methodsFor: 'assertions' stamp: 'NNH 10/24/2020 19:24:15'!
+assertACardinalDirectionIsValid: aString 
+	self shouldBeImplemented.! !
+!MarsRover class methodsFor: 'assertions' stamp: 'NNH 10/24/2020 19:26:08' prior: 50873393!
+assertACardinalDirectionIsValid: aCardinalDirection 
+	
+	({'North'. 'West'. 'East'. 'South'} includes: aCardinalDirection) ifFalse: [self error: self canNotBeHeadingToNonCardinalDirectionErrorDescription.].! !
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:26:12'!
+PASSED!
+
+!testRun: #MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:26:15'!
+PASSED!
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'NNH 10/24/2020 19:26:54'!
+test22MarsRoverShouldNotHeadToNonCardinalDirection
+
+	self should: [MarsRover at: 0@0 heading: 'Hello'] 
+	raise: Error
+	withMessageText: MarsRover canNotBeHeadingToNonCardinalDirectionErrorDescription.
+! !
+
+!methodRemoval: MarsRoverTest #test22 stamp: 'NNH 10/24/2020 19:26:54'!
+test22
+
+	self should: [MarsRover at: 0@0 heading: 'Hello'] 
+	raise: Error
+	withMessageText: MarsRover canNotBeHeadingToNonCardinalDirectionErrorDescription.
+!
+!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:34:59' prior: 50871374!
+initializeAt: aPosition heading: aCardinalDirection
+	location := 1@0 + aPosition.
+	direction := aCardinalDirection.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:35:05'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test22MarsRoverShouldNotHeadToNonCardinalDirection stamp: 'NNH 10/24/2020 19:35:05'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:35:05'!
+FAILURE!
+!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:35:16' prior: 50873430!
+initializeAt: aPosition heading: aCardinalDirection
+	location := aPosition.
+	direction := aCardinalDirection.! !
+!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:35:26' prior: 50873523!
+initializeAt: aPosition heading: aCardinalDirection
+	location := aPosition.
+	direction := 'invalid point'.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:35:30'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:35:30'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+
+!testRun: #MarsRoverTest #test22MarsRoverShouldNotHeadToNonCardinalDirection stamp: 'NNH 10/24/2020 19:35:30'!
+PASSED!
+!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:35:43' prior: 50873530!
+initializeAt: aPosition heading: aCardinalDirection
+	location := aPosition.
+	direction := aCardinalDirection.! !
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:35:54' prior: 50873030!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'west'.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:36:02'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:36:02'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:36:02'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+
+!testRun: #MarsRoverTest #test22MarsRoverShouldNotHeadToNonCardinalDirection stamp: 'NNH 10/24/2020 19:36:02'!
+PASSED!
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:36:10' prior: 50873626!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'West'.! !
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:36:23' prior: 50873714!
+initializeAt: aLocation 
+	location := 1@0 + aLocation.
+	direction := 'West'.! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+
+!testRun: #MarsRoverTest #test22MarsRoverShouldNotHeadToNonCardinalDirection stamp: 'NNH 10/24/2020 19:36:27'!
+PASSED!
+!MarsRoverStatusHeadingWest methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:36:36' prior: 50873720!
+initializeAt: aLocation 
+	location := aLocation.
+	direction := 'West'.! !
+!MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 19:36:59' prior: 50869204!
+location
+	^1@0 + location! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:37:03'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test22MarsRoverShouldNotHeadToNonCardinalDirection stamp: 'NNH 10/24/2020 19:37:03'!
+PASSED!
+!MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 19:37:12' prior: 50873814!
+location
+	^location! !
+!MarsRoverTest methodsFor: 'testing multiple commands' stamp: 'NNH 10/24/2020 19:39:12'!
+test23MarsRoverShouldMoveInMoreThanOneDirection
+
+	self should: marsRoverNorth executing: 'ffrffrff' beAt: 2@0. 
+! !
+
+!testRun: #MarsRoverTest #test01EmptyListOfCommandsShouldNotMoveMarsRover stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02MovingForwardNorthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03MovingBackwardsNorthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04TurningLeftFromNorthShouldHeadWest stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05TurningLeftFromWestShouldHeadSouth stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06TurningLeftFromSouthShouldHeadEast stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07TurningLeftFromEastShouldHeadNorth stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08TurningRightFromNorthShouldHeadEast stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09TurningRightFromEastShouldHeadSouth stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10TurningRightFromSouthShouldHeadWest stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11TurningRightFromWestShouldHeadNorth stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12MovingForwardWestShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13MovingForwardSouthShouldDecreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14MovingForwardEastShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15MovingBackwardsWestShouldIncreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16MovingBackwardsSouthShouldIncreaseOneYCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test17MovingBackwarsdsEastShouldDecreaseOneXCoordinate stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test18ExecutingMoreThanOneCommandShouldExecuteThem stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test19MarsRoverShouldNotMoveAfterInvalidCommand stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test21AfterInvalidCommandAllDirectionsDoNothing stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test22MarsRoverShouldNotHeadToNonCardinalDirection stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test23MarsRoverShouldMoveInMoreThanOneDirection stamp: 'NNH 10/24/2020 19:39:20'!
+PASSED!
+
+----SNAPSHOT----(24 October 2020 19:40:23) CuisUniversity-4384.image priorSource: 17317723!
