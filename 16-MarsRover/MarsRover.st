@@ -112,11 +112,11 @@ test21AfterInvalidCommandAllDirectionsDoNothing
 ! !
 
 
-!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 12:22:17'!
+!MarsRoverTest methodsFor: 'testing movement' stamp: 'NNH 10/24/2020 19:52:11'!
 should: aMarsRover executing: aListOfCommands beAt: aPosition
 
 	aMarsRover execute: aListOfCommands .
-	self assert: aPosition equals: aMarsRover position.
+	self assert: aPosition equals: aMarsRover location.
 
 
 ! !
@@ -206,30 +206,30 @@ test22MarsRoverShouldNotHeadToNonCardinalDirection
 
 !classDefinition: #MarsRover category: 'MarsRover'!
 Object subclass: #MarsRover
-	instanceVariableNames: 'location cardinalDirection status outOfOrder'
+	instanceVariableNames: 'location cardinalDirection status'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRover methodsFor: 'initializing' stamp: 'NNH 10/24/2020 12:35:37'!
+!MarsRover methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:43:49'!
 initializeAt: aLocation heading: aCardinalDirection 
 
-	status := MarsRoverStatus at: aLocation heading: aCardinalDirection.
-	outOfOrder := false.! !
+	status := MarsRoverStatus at: aLocation heading: aCardinalDirection.! !
 
 
-!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:02:29'!
+!MarsRover methodsFor: 'executing' stamp: 'NNH 10/24/2020 19:02:29'!
 execute: aListOfCommands 
 
 	aListOfCommands do: [ :aCommandAsCharacter | self executeSingleCommand: aCommandAsCharacter.].! !
 
-!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 19:03:08'!
+!MarsRover methodsFor: 'executing' stamp: 'NNH 10/24/2020 19:03:08'!
 executeSingleCommand: aCommandAsCharacter
 
 	| command | 
 	
 	command := MarsRoverCommand with: aCommandAsCharacter for: self. 
 	command execute! !
+
 
 !MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 13:28:28'!
 markOutOfOrder
@@ -256,8 +256,8 @@ turnRight
 direction
 	^status direction.! !
 
-!MarsRover methodsFor: 'testing' stamp: 'NNH 10/24/2020 11:28:03'!
-position
+!MarsRover methodsFor: 'testing' stamp: 'NNH 10/24/2020 19:51:46'!
+location
 	^ status location.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -387,15 +387,23 @@ Object subclass: #MarsRoverStatus
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
+!MarsRoverStatus methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:45:50'!
+initializeAt: aLocation
+	self subclassResponsibility.! !
+
+!MarsRoverStatus methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:46:12'!
+initializeAt: aLocation heading: aCardinalDirection
+	self subclassResponsibility.! !
+
 
 !MarsRoverStatus methodsFor: 'testing' stamp: 'NNH 10/24/2020 19:37:12'!
 location
 	^location! !
 
 
-!MarsRoverStatus methodsFor: 'status operations' stamp: 'NNH 10/24/2020 12:54:08'!
+!MarsRoverStatus methodsFor: 'status operations' stamp: 'NNH 10/24/2020 19:45:03'!
 markOutOfOrder
-	^ MarsRoverStatusOutOfOrder at: location heading: self direction.! !
+	^ MarsRoverStatusOutOfOrder at: location heading: direction.! !
 
 
 !MarsRoverStatus methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 11:38:58'!
