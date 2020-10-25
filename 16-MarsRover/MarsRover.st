@@ -92,23 +92,29 @@ test11TurningRightFromWestShouldHeadNorth
 ! !
 
 
-!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/24/2020 12:59:34'!
+!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/25/2020 20:09:53'!
 test19MarsRoverShouldNotMoveAfterInvalidCommand
 
-	self should: marsRoverNorth executing: 'lxl' beHeading: west.
+	self should: [marsRoverNorth execute: 'lxl']
+	raise: Error 
+	withMessageText: MarsRover canNotHandleInvalidCommandErrorDescription.
+	
 ! !
 
-!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/24/2020 13:02:49'!
+!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/25/2020 20:21:28'!
 test20MarsRoverShouldNotMoveExecutingAnotherListOfCommandsAfterInvalidCommand
 
-	marsRoverNorth execute: 'x'.
+	self should: [marsRoverNorth execute: 'x'] raise: Error.
+	
 	marsRoverNorth execute: 'l'.
-	self assert: north equals: marsRoverNorth direction.! !
+	self assert: west equals: marsRoverNorth direction.! !
 
-!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/24/2020 13:05:58'!
-test21AfterInvalidCommandAllDirectionsDoNothing
+!MarsRoverTest methodsFor: 'testing invalid commands' stamp: 'NNH 10/25/2020 20:21:41'!
+test21AfterInvalidCommandMarsRoverDoesNotMove
 
-	self should: marsRoverNorth executing: 'xflbr' beAt: 0@0. 
+	self should: [marsRoverNorth execute: 'xflbr'] raise: Error.
+	
+	self assert: marsRoverNorth location equals: 0@0.
 ! !
 
 
@@ -195,7 +201,7 @@ test01EmptyListOfCommandsShouldNotMoveMarsRover
 	self should: marsRoverNorth executing: '' 	beHeading: north. ! !
 
 
-!MarsRoverTest methodsFor: 'testing signals' stamp: 'NNH 10/24/2020 19:26:54'!
+!MarsRoverTest methodsFor: 'testing signals' stamp: 'NNH 10/25/2020 20:21:57'!
 test22MarsRoverShouldNotHeadToNonCardinalDirection
 
 	self should: [MarsRover at: 0@0 heading: 'Hello'] 
@@ -231,10 +237,6 @@ executeSingleCommand: aCommandAsCharacter
 	command execute! !
 
 
-!MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 13:28:28'!
-markOutOfOrder
-	status := status markOutOfOrder.! !
-
 !MarsRover methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 13:27:38'!
 moveBackwards
 	status moveBackwards.! !
@@ -260,6 +262,12 @@ direction
 location
 	^ status location.! !
 
+
+!MarsRover methodsFor: 'error signaling' stamp: 'NNH 10/25/2020 20:13:16'!
+signalCanNotHandleInvalidCommand
+	
+	self error: self class canNotHandleInvalidCommandErrorDescription.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'MarsRover class' category: 'MarsRover'!
@@ -275,6 +283,10 @@ at: aLocation heading: aCardinalDirection
 !MarsRover class methodsFor: 'error descriptions' stamp: 'NNH 10/24/2020 19:19:35'!
 canNotBeHeadingToNonCardinalDirectionErrorDescription
 	^'Mars Rover should be heading to a cardinal direction'.! !
+
+!MarsRover class methodsFor: 'error descriptions' stamp: 'NNH 10/25/2020 20:10:46'!
+canNotHandleInvalidCommandErrorDescription
+	^'Can not handle invalid command error description'.! !
 
 
 !MarsRover class methodsFor: 'assertions' stamp: 'NNH 10/24/2020 19:26:08'!
@@ -351,9 +363,9 @@ MarsRoverCommand subclass: #MarsRoverCommandInvalidCommand
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverCommandInvalidCommand methodsFor: 'executing' stamp: 'NNH 10/24/2020 13:24:21'!
+!MarsRoverCommandInvalidCommand methodsFor: 'executing' stamp: 'NNH 10/25/2020 20:11:55'!
 execute
-	marsRover markOutOfOrder.! !
+	marsRover signalCanNotHandleInvalidCommand.! !
 
 
 !classDefinition: #MarsRoverCommandLeft category: 'MarsRover'!
@@ -400,10 +412,6 @@ initializeAt: aLocation heading: aCardinalDirection
 location
 	^location! !
 
-
-!MarsRoverStatus methodsFor: 'status operations' stamp: 'NNH 10/24/2020 19:45:03'!
-markOutOfOrder
-	^ MarsRoverStatusOutOfOrder at: location heading: direction.! !
 
 
 !MarsRoverStatus methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 11:38:58'!
@@ -564,44 +572,3 @@ turnRight
 initializeAt: aLocation 
 	location := aLocation.
 	direction := 'West'.! !
-
-
-!classDefinition: #MarsRoverStatusOutOfOrder category: 'MarsRover'!
-MarsRoverStatus subclass: #MarsRoverStatusOutOfOrder
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'MarsRover'!
-
-!MarsRoverStatusOutOfOrder methodsFor: 'initializing' stamp: 'NNH 10/24/2020 19:35:43'!
-initializeAt: aPosition heading: aCardinalDirection
-	location := aPosition.
-	direction := aCardinalDirection.! !
-
-
-!MarsRoverStatusOutOfOrder methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 12:56:46'!
-moveBackwards
-	^self.! !
-
-!MarsRoverStatusOutOfOrder methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 12:57:03'!
-moveForward
-	^self.! !
-
-!MarsRoverStatusOutOfOrder methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 12:49:37'!
-turnLeft
-	^self.! !
-
-!MarsRoverStatusOutOfOrder methodsFor: 'moving operations' stamp: 'NNH 10/24/2020 12:56:18'!
-turnRight
-	^self.! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'MarsRoverStatusOutOfOrder class' category: 'MarsRover'!
-MarsRoverStatusOutOfOrder class
-	instanceVariableNames: ''!
-
-!MarsRoverStatusOutOfOrder class methodsFor: 'instance creation' stamp: 'NNH 10/24/2020 12:50:32'!
-at: aPosition heading: aCardinalDirection
-
-	^self new initializeAt: aPosition heading: aCardinalDirection.! !
