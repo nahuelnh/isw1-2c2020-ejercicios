@@ -319,8 +319,8 @@ Object subclass: #TerniLapilli
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
 
-!TerniLapilli methodsFor: 'assertions' stamp: 'AM 11/1/2020 15:07:14'!
-assertThatCanBeOccupiedAt: aCell by: aPlayerWantingToPlay
+!TerniLapilli methodsFor: 'assertions' stamp: 'NNH 11/1/2020 20:24:26'!
+assertThatCellCanBeOccupied: aCell by: aPlayerWantingToPlay
 	self assertThatIsWithinBoardLimits: aCell.
 	self assertThatItsTheTurnOf: aPlayerWantingToPlay.
 	self assertThatIsNotAlreadyOccupied: aCell.! !
@@ -360,10 +360,10 @@ moveAnXFrom: anOccupiedCell to: aFreeCell
 
 	state moveFrom: anOccupiedCell to: aFreeCell by: #X.! !
 
-!TerniLapilli methodsFor: 'board plays' stamp: 'AM 11/1/2020 16:32:41'!
+!TerniLapilli methodsFor: 'board plays' stamp: 'NNH 11/1/2020 20:24:26'!
 moveFrom: anOccupiedCell to: aFreeCell by: aPlayerWantingToPlay
 
-	self assertThatCanBeOccupiedAt: aFreeCell by: aPlayerWantingToPlay.
+	self assertThatCellCanBeOccupied: aFreeCell by: aPlayerWantingToPlay.
 	self assertThatMovementIsValidFrom: anOccupiedCell to: aFreeCell .
 	
 	(cells at: aPlayerWantingToPlay ) remove: anOccupiedCell 
@@ -373,10 +373,10 @@ moveFrom: anOccupiedCell to: aFreeCell by: aPlayerWantingToPlay
 	self updateState.
 ! !
 
-!TerniLapilli methodsFor: 'board plays' stamp: 'AM 11/1/2020 16:24:20'!
+!TerniLapilli methodsFor: 'board plays' stamp: 'NNH 11/1/2020 20:24:26'!
 placeAt: aCell by: aPlayerWantingToPlay
 
-	self assertThatCanBeOccupiedAt: aCell by: aPlayerWantingToPlay.
+	self assertThatCellCanBeOccupied: aCell by: aPlayerWantingToPlay.
 	
 	(cells at: aPlayerWantingToPlay) add: aCell.
 	self updateState.! !
@@ -433,14 +433,16 @@ signalCellIsOutOfBounds
 	^ self error: self class cellIsOutOfBoundsErrorDescription! !
 
 
-!TerniLapilli methodsFor: 'initializing' stamp: 'AM 11/1/2020 15:20:49'!
+!TerniLapilli methodsFor: 'initializing' stamp: 'NNH 11/1/2020 20:55:25'!
 initialize
+	
 	cells := Dictionary new.
-	cells at: #X put: OrderedCollection new.
-	cells at: #O put: OrderedCollection new.
+	cells add: #X -> OrderedCollection new; add: #O -> OrderedCollection new.
+	
 	nextPlayer := #X.
 	waitingPlayer := #O.
-	state := TerniLapilliStatePlacing for: self with: cells playing: nextPlayer.! !
+	
+	state := TerniLapilliState for: self.! !
 
 
 !TerniLapilli methodsFor: 'state update' stamp: 'AM 11/1/2020 15:18:49'!
@@ -452,10 +454,10 @@ changeTurns
 	nextPlayer := waitingPlayer.
 	waitingPlayer  := temporaryPlayer.! !
 
-!TerniLapilli methodsFor: 'state update' stamp: 'AM 11/1/2020 16:24:53'!
+!TerniLapilli methodsFor: 'state update' stamp: 'NNH 11/1/2020 20:36:43'!
 updateState
 
-	state := TerniLapilliState for: self with: cells playing: nextPlayer.
+	state := TerniLapilliState for: self.
 	self changeTurns ! !
 
 
@@ -498,11 +500,10 @@ isWithinBoardLimits: aCell
 		[(aCell y) between: 1 and: 3]! !
 
 
-!TerniLapilli methodsFor: 'testing players -- private' stamp: 'AM 11/1/2020 16:25:01'!
-aPlayerHasThreeAlignedChips
+!TerniLapilli methodsFor: 'testing players -- private' stamp: 'NNH 11/1/2020 20:53:06'!
+hasAPlayerAlreadyWon
 
-	^((self hasPlayedThreeChips: #X) and: [self hasThreeAlignedChips: #X]) or: [
-		(self hasPlayedThreeChips: #O) and: [self hasThreeAlignedChips: #O]]! !
+	^ self hasXAlreadyWon or: [self hasOAlreadyWon].! !
 
 !TerniLapilli methodsFor: 'testing players -- private' stamp: 'AM 11/1/2020 15:59:53'!
 hasAlreadyWon: aPlayer
@@ -561,7 +562,7 @@ cellIsOutOfBoundsErrorDescription
 
 !classDefinition: #TerniLapilliState category: 'Terni Lapilli'!
 Object subclass: #TerniLapilliState
-	instanceVariableNames: 'terniLapilli board nextPlayer'
+	instanceVariableNames: 'terniLapilli'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Terni Lapilli'!
@@ -575,11 +576,11 @@ placeAt: aCell by: aPlayerWantingToPlay
 	self subclassResponsibility ! !
 
 
-!TerniLapilliState methodsFor: 'initializing' stamp: 'AM 10/30/2020 21:19:25'!
-initializeFor: aTerniLapilli with: aBoard playing: aPlayer
+!TerniLapilliState methodsFor: 'initializing' stamp: 'NNH 11/1/2020 20:35:57'!
+initializeFor: aTerniLapilli
+
 	terniLapilli := aTerniLapilli.
-	board := aBoard.
-	nextPlayer := aPlayer.! !
+! !
 
 
 !TerniLapilliState methodsFor: 'testing' stamp: 'AM 11/1/2020 16:29:55'!
@@ -592,11 +593,20 @@ isOver
 TerniLapilliState class
 	instanceVariableNames: ''!
 
-!TerniLapilliState class methodsFor: 'instance creation' stamp: 'AM 11/1/2020 15:33:56'!
-for: aTerniLapilli with: aBoard playing: aPlayer 
-	(aTerniLapilli aPlayerHasThreeAlignedChips) ifTrue: [ ^TerniLapilliStateGameOver new initializeFor: aTerniLapilli with: aBoard playing: aPlayer ].
-	(aBoard at: #O) size = 3 ifTrue: [^ TerniLapilliStateMoving new initializeFor: aTerniLapilli with: aBoard playing: aPlayer ].
-	^TerniLapilliStatePlacing new initializeFor: aTerniLapilli with: aBoard playing: aPlayer ! !
+!TerniLapilliState class methodsFor: 'instance creation' stamp: 'NNH 11/1/2020 20:45:25'!
+canHandle: aTerniLapilli
+	
+	self subclassResponsibility.! !
+
+!TerniLapilliState class methodsFor: 'instance creation' stamp: 'NNH 11/1/2020 20:48:34'!
+for: aTerniLapilli
+
+	| subclass |
+	
+	subclass := self allSubclasses detect: [:aSubclass | aSubclass canHandle: aTerniLapilli ].
+	
+	^subclass new initializeFor: aTerniLapilli.
+	! !
 
 
 !classDefinition: #TerniLapilliStateGameOver category: 'Terni Lapilli'!
@@ -619,6 +629,17 @@ placeAt: aCell by: aPlayerWantingToPlayer
 !TerniLapilliStateGameOver methodsFor: 'testing' stamp: 'AM 10/30/2020 21:12:55'!
 isOver
 	^true! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliStateGameOver class' category: 'Terni Lapilli'!
+TerniLapilliStateGameOver class
+	instanceVariableNames: ''!
+
+!TerniLapilliStateGameOver class methodsFor: 'instance creation' stamp: 'NNH 11/1/2020 20:53:06'!
+canHandle: aTerniLapilli
+	
+	^ aTerniLapilli hasAPlayerAlreadyWon.! !
 
 
 !classDefinition: #TerniLapilliStateMoving category: 'Terni Lapilli'!
@@ -643,6 +664,21 @@ placeAt: aCell by: aPlayerWantingToPlay
 isOver
 	^false! !
 
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliStateMoving class' category: 'Terni Lapilli'!
+TerniLapilliStateMoving class
+	instanceVariableNames: ''!
+
+!TerniLapilliStateMoving class methodsFor: 'instance creation' stamp: 'NNH 11/1/2020 20:53:06'!
+canHandle: aTerniLapilli
+
+	^ (aTerniLapilli hasPlayedThreeChips: #O) and: [
+		aTerniLapilli hasAPlayerAlreadyWon not
+		]
+	
+	! !
+
 
 !classDefinition: #TerniLapilliStatePlacing category: 'Terni Lapilli'!
 TerniLapilliState subclass: #TerniLapilliStatePlacing
@@ -664,3 +700,15 @@ placeAt: aCell by: aPlayerWantingToPlay
 !TerniLapilliStatePlacing methodsFor: 'testing' stamp: 'AM 10/30/2020 21:13:12'!
 isOver
 	^false! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliStatePlacing class' category: 'Terni Lapilli'!
+TerniLapilliStatePlacing class
+	instanceVariableNames: ''!
+
+!TerniLapilliStatePlacing class methodsFor: 'instance creation' stamp: 'NNH 11/1/2020 20:53:06'!
+canHandle: aTerniLapilli
+	
+	^ aTerniLapilli hasAPlayerAlreadyWon not and: [
+		(aTerniLapilli hasPlayedThreeChips: #O) not]! !
