@@ -141,19 +141,17 @@ test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts
 	
 	! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/2/2020 21:13:55'!
-test10
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:51:09'!
+test10PortfolioShouldNotAddItself
 	
 	| portfolio |
 	
 	portfolio := Portfolio new.
 
-	self should: [portfolio add: portfolio]
-	raise: Error
-	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+	self should: [portfolio add: portfolio] raise: Error.! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/2/2020 21:23:57'!
-test11
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:51:53'!
+test11PortfolioShouldNotAddParentPortfolio
 	
 	| aPortfolio anotherPortfolio |
 	
@@ -161,9 +159,74 @@ test11
 	anotherPortfolio := Portfolio new.
 	anotherPortfolio add: aPortfolio.
 
-	self should: [aPortfolio add: anotherPortfolio]
+	self should: [aPortfolio add: anotherPortfolio] raise: Error.! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:52:53'!
+test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p3 add: p2]
 	raise: Error
-	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:58:20'!
+test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p3.
+	p2 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 00:00:30'!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+	p3 add: p4.
+
+	self should: [p2 add: p4]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 22:48:17'!
+test15
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p3.
+	p1 add: p4.
+	p2 add: p3.
+
+	self shouldnt: [p2 add: p4] raise: Error.
+! !
 
 
 !classDefinition: #ReceptiveAccountTest category: 'Portfolio-Ejercicio'!
@@ -363,50 +426,114 @@ for: aValue
 
 !classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
 Object subclass: #Portfolio
-	instanceVariableNames: 'accounts'
+	instanceVariableNames: 'accounts parents'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'xxx' stamp: 'NNH 11/2/2020 20:17:42'!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:59:36'!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:47:23'!
+hasAccountsInCommonWith: anAccountOrPortfolio
+
+	^ (self accountsInPortfolio intersection: anAccountOrPortfolio accountsInPortfolio) isEmpty not! !
+
+
+!Portfolio methodsFor: 'balance' stamp: 'NNH 11/2/2020 20:17:42'!
 balance
 	^ accounts sum: [:anAccount | anAccount balance] ifEmpty: [0].! !
 
-!Portfolio methodsFor: 'xxx' stamp: 'NNH 11/2/2020 20:45:46'!
+
+!Portfolio methodsFor: 'initializing' stamp: 'NNH 11/4/2020 20:22:24'!
+initialize
+	
+	accounts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+
+
+!Portfolio methodsFor: 'inserting - private' stamp: 'NNH 11/4/2020 20:22:47'!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+
+
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/4/2020 21:12:35'!
+add: anAccountOrPortfolio 
+	
+	self assertThatIsIndependentOf: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+
+!Portfolio methodsFor: 'testing' stamp: 'NNH 11/2/2020 20:45:46'!
 hasRegistered: aTransaction
 	^ accounts anySatisfy: [:anAccount | anAccount hasRegistered: aTransaction].! !
 
-!Portfolio methodsFor: 'xxx' stamp: 'NNH 11/2/2020 20:11:33'!
-initialize
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:39:40'!
+accountsInPortfolio
 	
-	accounts := OrderedCollection new.! !
-
-
-!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/2/2020 21:27:03'!
-add: anAccountOrPortfolio 
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.
 	
-	accounts add: anAccountOrPortfolio.
-	((anAccountOrPortfolio isKindOf: Portfolio) 
-	and: [anAccountOrPortfolio containsPortfolio: anAccountOrPortfolio])
-	ifTrue: [self error: self class cannotIncludeItselfErrorDescription].! !
+	
+	
+! !
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:08'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	accounts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:22:27'!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		accounts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	
+! !
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:20:44'!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAPortfolioWith: anAccount ]) or: [
+		self includes: anAccount
+		].
+	
+	
+! !
 
 
-!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/2/2020 20:55:18'!
+!Portfolio methodsFor: 'transactions' stamp: 'NNH 11/4/2020 19:09:03'!
 transactions
 	
-	^ accounts inject: OrderedCollection new into: [:aCollectionOfTransactions :anAccount | aCollectionOfTransactions union: anAccount transactions].! !
-
-
-!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/2/2020 21:40:58'!
-containsPortfolio: aPortfolio 
+	| aCollectionOfTransactions |
 	
-	(accounts anySatisfy: [:anAccountOrPortfolio | anAccountOrPortfolio == aPortfolio]) ifTrue: [^true].
-	accounts do: [:anAccountOrPortfolio | 
-		((anAccountOrPortfolio isKindOf: Portfolio) 
-		and: [anAccountOrPortfolio containsPortfolio: aPortfolio]) 
-		ifTrue: [^true]
-		].
-	^false.! !
+	aCollectionOfTransactions := OrderedCollection new.
+	self addTransactionsTo: aCollectionOfTransactions.
+	
+	^aCollectionOfTransactions.! !
+
+
+!Portfolio methodsFor: 'transactions - private' stamp: 'NNH 11/4/2020 20:13:45'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -420,6 +547,14 @@ new
 	^ self basicNew initialize.! !
 
 
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:54:30'!
+canNotBelongToACommonPortfolioErrorDescription
+	^ 'There is a portfolio containing both portfolios'! !
+
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:58:51'!
+canNotHaveAnAccountInCommonErrorDescription
+	^ 'Portfolios should not share an account'! !
+
 !Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/2/2020 21:15:01'!
 cannotIncludeItselfErrorDescription
 	^ 'A portfolio cannot include itself'.! !
@@ -427,15 +562,73 @@ cannotIncludeItselfErrorDescription
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!
 Object subclass: #ReceptiveAccount
-	instanceVariableNames: 'transactions'
+	instanceVariableNames: 'transactions parents'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!ReceptiveAccount methodsFor: 'initialization' stamp: 'NR 10/17/2019 15:06:56'!
+!ReceptiveAccount methodsFor: 'balance' stamp: 'NNH 11/2/2020 20:34:42'!
+balance
+
+	^ transactions inject: 0 into: [:balance :aTransaction | aTransaction addToBalance: balance].
+
+! !
+
+
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'NNH 11/4/2020 20:24:19'!
 initialize
 
-	transactions := OrderedCollection new.! !
+	transactions := OrderedCollection new.
+	parents := OrderedCollection new.! !
+
+
+!ReceptiveAccount methodsFor: 'inserting - private' stamp: 'NNH 11/4/2020 20:23:55'!
+addParent: aPortfolio 
+	parents add: aPortfolio.! !
+
+
+!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
+hasRegistered: aTransaction
+
+	^ transactions includes: aTransaction 
+! !
+
+
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:43:35'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:32'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.! !
+
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:23:47'!
+includes: anAccountToSearch
+	
+	^ anAccountToSearch == self.! !
+
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 21:18:11'!
+isRelatedTo: anAccount excluding: anAccountToExclude
+	
+	| neighbors |
+		
+	neighbors := parents copy.
+	neighbors remove: anAccountToExclude ifAbsent: [].
+	
+	^ anAccount == self or: [
+		neighbors anySatisfy: [:aNeighbor | aNeighbor isRelatedTo: anAccount excluding: self ] 
+		].! !
+
+
+!ReceptiveAccount methodsFor: 'transactions - private' stamp: 'NNH 11/4/2020 19:18:40'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	self transactions do: [:aTransaction | aCollectionOfTransactions add: aTransaction].! !
 
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
@@ -448,18 +641,3 @@ register: aTransaction
 transactions 
 
 	^ transactions copy! !
-
-
-!ReceptiveAccount methodsFor: 'balance' stamp: 'NNH 11/2/2020 20:34:42'!
-balance
-
-	^ transactions inject: 0 into: [:balance :aTransaction | aTransaction addToBalance: balance].
-
-! !
-
-
-!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
-hasRegistered: aTransaction
-
-	^ transactions includes: aTransaction 
-! !

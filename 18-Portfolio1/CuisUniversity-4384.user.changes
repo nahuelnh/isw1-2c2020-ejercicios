@@ -28901,3 +28901,3352 @@ test12
 ----SNAPSHOT----(2 November 2020 21:47:22) CuisUniversity-4384.image priorSource: 17155564!
 
 ----QUIT----(2 November 2020 21:47:25) CuisUniversity-4384.image priorSource: 17306554!
+
+----STARTUP---- (4 November 2020 18:40:15) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 18:58:26'!
+test12
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+
+	self should: [p2 add: p3]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 18:58:37'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 18:58:37'!
+FAILURE!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 18:59:54' prior: 50872490!
+test12
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p2 add: p3]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 19:05:17'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	^ accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 19:07:22'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	^ aCollectionOfTransactions union: self transactions.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 19:08:04' prior: 50871956!
+transactions
+	
+	self addTransactionsTo: OrderedCollection new.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 19:08:33' prior: 50872528!
+transactions
+	
+	| anOrderedCollection |
+	anOrderedCollection := OrderedCollection new.
+	self addTransactionsTo: anOrderedCollection.
+	^anOrderedCollection.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 19:08:37' prior: 50872533!
+transactions
+	
+	| anOrderedCollection |
+	
+	anOrderedCollection := OrderedCollection new.
+	self addTransactionsTo: anOrderedCollection.
+	^anOrderedCollection.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 19:08:56' prior: 50872541!
+transactions
+	
+	| aCollectionOfTransactions |
+	
+	aCollectionOfTransactions := OrderedCollection new.
+	self addTransactionsTo: aCollectionOfTransactions.
+	^aCollectionOfTransactions.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 19:09:03' prior: 50872549!
+transactions
+	
+	| aCollectionOfTransactions |
+	
+	aCollectionOfTransactions := OrderedCollection new.
+	self addTransactionsTo: aCollectionOfTransactions.
+	
+	^aCollectionOfTransactions.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:09:16'!
+FAILURE!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:09:16'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:09:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:09:16'!
+FAILURE!
+
+^aCollectionOfTransactions!
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 19:17:57' prior: 50872522!
+addTransactionsTo: aCollectionOfTransactions
+	
+	self transactions do: [:aTransaction | aCollectionOfTransactions add: aTransaction ].! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 19:18:40' prior: 50872611!
+addTransactionsTo: aCollectionOfTransactions
+	
+	self transactions do: [:aTransaction | aCollectionOfTransactions add: aTransaction].! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:18:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:18:59'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:18:59'!
+FAILURE!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'NNH 11/4/2020 19:20:03'!
+PASSED!
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 19:21:25' prior: 50872331!
+add: anAccountOrPortfolio 
+	
+	((anAccountOrPortfolio isKindOf: Portfolio) 
+	and: [anAccountOrPortfolio containsPortfolio: anAccountOrPortfolio])
+	ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 19:33:34' prior: 50872698!
+add: anAccountOrPortfolio 
+	
+	((anAccountOrPortfolio isKindOf: Portfolio) 
+	and: [anAccountOrPortfolio containsPortfolio: anAccountOrPortfolio])
+	ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(anAccountOrPortfolio parent = self parent) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.
+
+	
+	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 19:33:49' prior: 50872709!
+add: anAccountOrPortfolio 
+	
+	((anAccountOrPortfolio isKindOf: Portfolio) 
+	and: [anAccountOrPortfolio containsPortfolio: anAccountOrPortfolio])
+	ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	anAccountOrPortfolio parent = self parent ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.
+
+	
+	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:33:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:33:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:33:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:33:54'!
+FAILURE!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:33:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:34:02'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:34:02'!
+ERROR!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 19:34:16'!
+parent
+	self shouldBeImplemented.! !
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:34:31'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:34:31'!
+ERROR!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'NNH 11/4/2020 19:34:47'!
+Object subclass: #Portfolio
+	instanceVariableNames: 'accounts parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 19:34:45' prior: 50872788!
+parent
+	^ parent.! !
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:34:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:34:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:35:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:35:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:35:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:35:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:35:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:35:55'!
+ERROR!
+!ReceptiveAccount methodsFor: 'fdsfsdf' stamp: 'NNH 11/4/2020 19:36:19'!
+parent
+	self shouldBeImplemented.! !
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio' stamp: 'NNH 11/4/2020 19:36:30'!
+Object subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!ReceptiveAccount methodsFor: 'fdsfsdf' stamp: 'NNH 11/4/2020 19:36:28' prior: 50872859!
+parent
+	^ parent.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:36:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:36:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:36:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:36:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:36:37'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:36:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:37:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:37:23'!
+ERROR!
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 19:38:52' prior: 50872725!
+add: anAccountOrPortfolio 
+	
+	((anAccountOrPortfolio isKindOf: Portfolio) 
+	and: [anAccountOrPortfolio containsPortfolio: anAccountOrPortfolio])
+	ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(anAccountOrPortfolio parent = self parent and: [self parent notNil]) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.
+
+	
+	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:38:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:38:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:38:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:38:57'!
+FAILURE!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:38:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:39:03'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:39:03'!
+ERROR!
+!ReceptiveAccount methodsFor: 'fsdfs' stamp: 'NNH 11/4/2020 19:39:14'!
+addParent: aPortfolio 
+	self shouldBeImplemented.! !
+!ReceptiveAccount methodsFor: 'fsdfs' stamp: 'NNH 11/4/2020 19:39:36' prior: 50872994!
+addParent: aPortfolio 
+	parent := aPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:39:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:39:43'!
+FAILURE!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:39:43'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:39:43'!
+ERROR!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:39:48'!
+ERROR!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:39:48'!
+ERROR!
+!Portfolio methodsFor: 'fdssdfsdf' stamp: 'NNH 11/4/2020 19:39:58'!
+addParent: aPortfolio 
+	self shouldBeImplemented.! !
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:40:12'!
+ERROR!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:40:12'!
+ERROR!
+!Portfolio methodsFor: 'error handling' stamp: 'NNH 11/4/2020 19:40:16' overrides: 16881409!
+error: aString 
+	self shouldBeImplemented.! !
+
+!methodRemoval: Portfolio #error: stamp: 'NNH 11/4/2020 19:40:38'!
+error: aString 
+	self shouldBeImplemented.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:40:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:40:46'!
+FAILURE!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:40:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:40:46'!
+ERROR!
+!Portfolio methodsFor: 'fdssdfsdf' stamp: 'NNH 11/4/2020 19:41:30' prior: 50873050!
+addParent: aPortfolio 
+	^ parent := aPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:41:36'!
+FAILURE!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:41:36'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:41:36'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:41:43'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:41:43'!
+FAILURE!
+!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/2/2020 21:35:18' prior: 50872429!
+containsPortfolio: aPortfolio 
+	
+	(accounts includes: self) ifTrue: [^true].
+	accounts do: [:anAccountOrPortfolio | 
+		((anAccountOrPortfolio isKindOf: anAccountOrPortfolio) 
+		and: [anAccountOrPortfolio containsPortfolio: aPortfolio]) 
+		ifTrue: [^true]
+		].
+	^false.! !
+!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/4/2020 19:45:33' prior: 50873163!
+containsPortfolio: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	accounts do: [:anAccountOrPortfolio | 
+		((anAccountOrPortfolio isKindOf: anAccountOrPortfolio) 
+		and: [anAccountOrPortfolio containsPortfolio: aPortfolio]) 
+		ifTrue: [^true]
+		].
+	^false.! !
+!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/4/2020 19:46:16' prior: 50873175!
+containsPortfolio: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	accounts do: [:anAccountOrPortfolio | 
+		((anAccountOrPortfolio isKindOf: Portfolio) 
+		and: [anAccountOrPortfolio containsPortfolio: aPortfolio]) 
+		ifTrue: [^true]
+		].
+	^false.! !
+!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/4/2020 19:47:16' prior: 50873186!
+containsPortfolio: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	accounts do: [:anAccountOrPortfolio | (anAccountOrPortfolio containsAccount: aPortfolio) ifTrue: [^true]
+		].
+	^false.! !
+!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/4/2020 19:48:08' prior: 50873197!
+containsPortfolio: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	^ accounts anySatisfy: [:anAccountOrPortfolio | (anAccountOrPortfolio containsAccount: aPortfolio) ]! !
+!Portfolio methodsFor: 'dsdasd' stamp: 'NNH 11/4/2020 19:48:15'!
+containsAccount: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	^ accounts anySatisfy: [:anAccountOrPortfolio | (anAccountOrPortfolio containsAccount: aPortfolio) ]! !
+!ReceptiveAccount methodsFor: 'fsdfs' stamp: 'NNH 11/4/2020 19:48:50'!
+containsAccount: anAccount 
+	
+	^ self == anAccount.! !
+
+!methodRemoval: Portfolio #containsPortfolio: stamp: 'NNH 11/4/2020 19:49:01'!
+containsPortfolio: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	^ accounts anySatisfy: [:anAccountOrPortfolio | (anAccountOrPortfolio containsAccount: aPortfolio) ]!
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 19:49:52' prior: 50872927!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(anAccountOrPortfolio parent = self parent and: [self parent notNil]) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.
+
+	
+	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 19:49:58' prior: 50873235!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(anAccountOrPortfolio parent = self parent and: [self parent notNil]) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 19:50:03'!
+PASSED!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 19:50:42' prior: 50872505!
+test12
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 19:51:01'!
+test13
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p3.
+	p2 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 19:51:07'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 19:51:07'!
+FAILURE!
+
+anAccountOrPortfolio containsAccount: self!
+
+(anAccountOrPortfolio parent = self parent and: [self parent notNil])!
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:11:17'!
+descendants
+	
+	| aCollectionOfDescendants |
+	
+	aCollectionOfDescendants := OrderedCollection new.
+	self addDescandantTo: aCollectionOfDescendants.
+	
+	^aCollectionOfDescendants.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:11:35'!
+addDescendantTo: aCollectionOfDescendant
+	
+	^ accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfDescendant ].! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:11:48' prior: 50873344!
+addDescendantTo: aCollectionOfDescendant
+	
+	^ accounts do: [ :anAccount | anAccount addDescendantTo: aCollectionOfDescendant ].! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:12:03' prior: 50873351!
+addDescendantTo: aCollectionOfDescendant
+	
+	^ accounts do: [ :anAccount | anAccount addDescendantTo: aCollectionOfDescendant ].! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:12:36' prior: 50873358!
+addDescendantTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	^ accounts do: [ :anAccount | anAccount addDescendantTo: aCollectionOfDescendants ].! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:13:06'!
+addDescendantTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:13:40' prior: 50873365!
+addDescendantTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	accounts do: [ :anAccount | anAccount addDescendantTo: aCollectionOfDescendants ].! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:13:45' prior: 50872515!
+addTransactionsTo: aCollectionOfTransactions
+	
+	accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:15:02' prior: 50873250!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(anAccountOrPortfolio parent = self parent and: [self parent notNil]) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	(self descendants intersection: anAccountOrPortfolio descendants) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:15:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:15:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:15:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:15:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:15:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:15:51'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:15:51'!
+ERROR!
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:16:13' prior: 50873336!
+descendants
+	
+	| aCollectionOfDescendants |
+	
+	aCollectionOfDescendants := OrderedCollection new.
+	self addDescendantTo: aCollectionOfDescendants.
+	
+	^aCollectionOfDescendants.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:16:30'!
+addDescendantsTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	accounts do: [ :anAccount | anAccount addDescendantTo: aCollectionOfDescendants ].! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:16:30' prior: 50873466!
+descendants
+	
+	| aCollectionOfDescendants |
+	
+	aCollectionOfDescendants := OrderedCollection new.
+	self addDescendantsTo: aCollectionOfDescendants.
+	
+	^aCollectionOfDescendants.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:16:30' prior: 50873379!
+addDescendantTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	accounts do: [ :anAccount | anAccount addDescendantsTo: aCollectionOfDescendants ].! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:16:30' prior: 50873474!
+addDescendantsTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	accounts do: [ :anAccount | anAccount addDescendantsTo: aCollectionOfDescendants ].! !
+
+!methodRemoval: Portfolio #addDescendantTo: stamp: 'NNH 11/4/2020 20:16:30'!
+addDescendantTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	accounts do: [ :anAccount | anAccount addDescendantsTo: aCollectionOfDescendants ].!
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:16:39'!
+addDescendantsTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.! !
+
+!methodRemoval: ReceptiveAccount #addDescendantTo: stamp: 'NNH 11/4/2020 20:16:39'!
+addDescendantTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:16:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:16:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:16:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:16:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:16:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:16:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:16:45'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:16:53'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:16:53'!
+ERROR!
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:17:33'!
+descendants
+	
+	^ OrderedCollection new.! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:18:19' prior: 50873581!
+descendants
+	
+	^ {self}.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:18:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:19:03'!
+PASSED!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:21:50'!
+test14
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p3 add: p2.
+	p3 add: p4.
+
+	self should: [p1 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:21:57'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:21:58'!
+FAILURE!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'NNH 11/4/2020 20:22:26'!
+Object subclass: #Portfolio
+	instanceVariableNames: 'accounts parent parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!Portfolio methodsFor: 'xxx' stamp: 'NNH 11/4/2020 20:22:24' prior: 50871474 overrides: 16896425!
+initialize
+	
+	accounts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+
+Object subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'NNH 11/4/2020 20:22:36'!
+Object subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!Portfolio methodsFor: 'fdssdfsdf' stamp: 'NNH 11/4/2020 20:22:47' prior: 50873111!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:23:42' prior: 50873394!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(self parents intersection: anAccountOrPortfolio parents) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	(self descendants intersection: anAccountOrPortfolio descendants) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio' stamp: 'NNH 11/4/2020 20:23:56'!
+Object subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions parent parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!ReceptiveAccount methodsFor: 'fsdfs' stamp: 'NNH 11/4/2020 20:23:55' prior: 50872999!
+addParent: aPortfolio 
+	parents add: aPortfolio.! !
+
+Object subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio' stamp: 'NNH 11/4/2020 20:24:03'!
+Object subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'NNH 11/4/2020 20:24:19' prior: 50867967 overrides: 16896425!
+initialize
+
+	transactions := OrderedCollection new.
+	parents := OrderedCollection new.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:24:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:24:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:24:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:24:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:24:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:24:32'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:24:32'!
+ERROR!
+!ReceptiveAccount methodsFor: 'fdsfsdf' stamp: 'NNH 11/4/2020 20:24:59'!
+parents
+	^ parent.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:24:59'!
+parents
+	^ parent.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:24:59' prior: 50872805!
+parent
+	^ parent.! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:24:59' prior: 50872872!
+parent
+	^ parent.! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:24:59' prior: 50873835!
+parents
+	^ parent.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:24:59' prior: 50873839!
+parents
+	^ parent.! !
+
+!methodRemoval: ReceptiveAccount #parent stamp: 'NNH 11/4/2020 20:24:59'!
+parent
+	^ parent.!
+
+!methodRemoval: Portfolio #parent stamp: 'NNH 11/4/2020 20:24:59'!
+parent
+	^ parent.!
+!ReceptiveAccount methodsFor: 'fdsfsdf' stamp: 'NNH 11/4/2020 20:25:11' prior: 50873851!
+parents
+	^ parents.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 20:25:15' prior: 50873855!
+parents
+	^ parents.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:25:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:25:18'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:25:18'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:25:28'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:25:28'!
+FAILURE!
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:29:59' prior: 50873728!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(self parents intersection: anAccountOrPortfolio parents) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	(self descendants intersection: anAccountOrPortfolio descendants) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	(self buscarEnTodosLosNodos: anAccountOrPortfolio) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:39:39'!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := (parents union: accounts) remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .
+! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:39:43' prior: 50873949!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := (parents union: accounts) remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:41:18'!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:42:51' prior: 50873927!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	(self parents intersection: anAccountOrPortfolio parents) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	(self descendants intersection: anAccountOrPortfolio descendants) ifNotEmpty: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	(self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:42:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:42:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:42:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:42:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:42:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:42:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:42:57'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:43:12'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:43:12'!
+ERROR!
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:44:03' prior: 50873960!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := (parents union: accounts) remove: yo ifAbsent: [].
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:44:18' prior: 50873971!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy remove: yo ifAbsent: [].
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:44:22' prior: 50874072!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:44:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:44:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:44:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:44:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:44:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:44:32'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:44:32'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:44:45'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:44:45'!
+ERROR!
+
+vecinos!
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:45:35' prior: 50874060!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := (parents union: accounts).
+	vecinos remove: yo ifAbsent: [].
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:45:44'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:45:44'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:45:44'!
+ERROR!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:45:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:45:51'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:45:51'!
+ERROR!
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 20:46:07' prior: 50874083!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy.
+	vecinos remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:46:25'!
+PASSED!
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:48:08' prior: 50873982!
+add: anAccountOrPortfolio 
+	
+	(anAccountOrPortfolio containsAccount: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription].
+	
+	(self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:48:19' prior: 50874283!
+add: anAccountOrPortfolio 
+	
+	
+	
+	(self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:48:24'!
+PASSED!
+
+!methodRemoval: Portfolio #addDescendantsTo: stamp: 'NNH 11/4/2020 20:48:42'!
+addDescendantsTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.
+	accounts do: [ :anAccount | anAccount addDescendantsTo: aCollectionOfDescendants ].!
+
+!methodRemoval: Portfolio #descendants stamp: 'NNH 11/4/2020 20:48:55'!
+descendants
+	
+	| aCollectionOfDescendants |
+	
+	aCollectionOfDescendants := OrderedCollection new.
+	self addDescendantsTo: aCollectionOfDescendants.
+	
+	^aCollectionOfDescendants.!
+
+!methodRemoval: ReceptiveAccount #addDescendantsTo: stamp: 'NNH 11/4/2020 20:49:08'!
+addDescendantsTo: aCollectionOfDescendants
+	
+	aCollectionOfDescendants add: self.!
+
+!methodRemoval: ReceptiveAccount #descendants stamp: 'NNH 11/4/2020 20:49:13'!
+descendants
+	
+	^ {self}.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:49:18'!
+PASSED!
+
+!methodRemoval: Portfolio #parents stamp: 'NNH 11/4/2020 20:50:14'!
+parents
+	^ parents.!
+
+!methodRemoval: ReceptiveAccount #parents stamp: 'NNH 11/4/2020 20:50:20'!
+parents
+	^ parents.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:50:25'!
+PASSED!
+
+!methodRemoval: Portfolio #containsAccount: stamp: 'NNH 11/4/2020 20:51:22'!
+containsAccount: aPortfolio 
+	
+	aPortfolio == self ifTrue: [^true].
+	^ accounts anySatisfy: [:anAccountOrPortfolio | (anAccountOrPortfolio containsAccount: aPortfolio) ]!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'NNH 11/4/2020 20:51:36'!
+PASSED!
+
+!methodRemoval: ReceptiveAccount #containsAccount: stamp: 'NNH 11/4/2020 20:51:40'!
+containsAccount: anAccount 
+	
+	^ self == anAccount.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 20:51:44'!
+PASSED!
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:52:24' prior: 50874298!
+add: anAccountOrPortfolio 
+	
+	(self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:53:00' prior: 50874567!
+add: anAccountOrPortfolio 
+	
+	(self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:53:15'!
+xxx: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'yyy' stamp: 'NNH 11/4/2020 20:53:15' prior: 50874578!
+add: anAccountOrPortfolio 
+	
+	self xxx: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'sdasdasd' stamp: 'NNH 11/4/2020 20:54:40' prior: 50874157!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+		
+	vecinos := (parents union: accounts).
+	vecinos remove: yo ifAbsent: [].
+	
+	^ unChabon == self or: [
+		vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] 
+		].
+! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 21:08:03'!
+assertThatCanBeAdded: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:08:03' prior: 50874596!
+add: anAccountOrPortfolio 
+	
+	self assertThatCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!methodRemoval: Portfolio #xxx: stamp: 'NNH 11/4/2020 21:08:03'!
+xxx: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 21:11:26'!
+assertThatIsIndependentFrom: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:11:26' prior: 50874624!
+add: anAccountOrPortfolio 
+	
+	self assertThatIsIndependentFrom: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!methodRemoval: Portfolio #assertThatCanBeAdded: stamp: 'NNH 11/4/2020 21:11:26'!
+assertThatCanBeAdded: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 21:12:35'!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:12:35' prior: 50874649!
+add: anAccountOrPortfolio 
+	
+	self assertThatIsIndependentOf: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!methodRemoval: Portfolio #assertThatIsIndependentFrom: stamp: 'NNH 11/4/2020 21:12:35'!
+assertThatIsIndependentFrom: anAccountOrPortfolio
+
+	^ (self buscarEnTodosLosNodos: anAccountOrPortfolio empezandoPor: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 21:13:12' prior: 50874604!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: yo ifAbsent: [].
+	
+	^ unChabon == self or: [
+		neighbors anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] 
+		].
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 21:15:46'!
+isRelatedTo: unChabon excluding: yo
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: yo ifAbsent: [].
+	
+	^ unChabon == self or: [
+		neighbors anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] 
+		].
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 21:15:46'!
+isRelatedTo: unChabon excluding: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy.
+	vecinos remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino buscarEnTodosLosNodos: unChabon empezandoPor: self ] .! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:15:46' prior: 50874225!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy.
+	vecinos remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino isRelatedTo: unChabon excluding: self ] .! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:15:46' prior: 50874665!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	^ (self isRelatedTo: anAccountOrPortfolio excluding: self) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:15:46' prior: 50874693!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: yo ifAbsent: [].
+	
+	^ unChabon == self or: [
+		neighbors anySatisfy: [:unVecino | unVecino isRelatedTo: unChabon excluding: self ] 
+		].
+! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:15:46' prior: 50874705!
+isRelatedTo: unChabon excluding: yo
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: yo ifAbsent: [].
+	
+	^ unChabon == self or: [
+		neighbors anySatisfy: [:unVecino | unVecino isRelatedTo: unChabon excluding: self ] 
+		].
+! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:15:46' prior: 50874716!
+isRelatedTo: unChabon excluding: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy.
+	vecinos remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino isRelatedTo: unChabon excluding: self ] .! !
+
+!methodRemoval: Portfolio #buscarEnTodosLosNodos:empezandoPor: stamp: 'NNH 11/4/2020 21:15:46'!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: yo ifAbsent: [].
+	
+	^ unChabon == self or: [
+		neighbors anySatisfy: [:unVecino | unVecino isRelatedTo: unChabon excluding: self ] 
+		].
+!
+
+!methodRemoval: ReceptiveAccount #buscarEnTodosLosNodos:empezandoPor: stamp: 'NNH 11/4/2020 21:15:46'!
+buscarEnTodosLosNodos: unChabon empezandoPor: yo
+	
+	| vecinos |
+	
+	unChabon == self ifTrue: [^true].
+	
+	vecinos := parents copy.
+	vecinos remove: yo.
+	
+	^ vecinos anySatisfy: [:unVecino | unVecino isRelatedTo: unChabon excluding: self ] .!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 21:15:57'!
+PASSED!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 21:17:23' prior: 50874759!
+isRelatedTo: anAccount excluding: anAccountToExclude
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: anAccountToExclude ifAbsent: [].
+	
+	^ anAccount == self or: [
+		neighbors anySatisfy: [:aNeighbor | aNeighbor isRelatedTo: anAccount excluding: self ] 
+		].
+! !
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/4/2020 21:18:11' prior: 50874771!
+isRelatedTo: anAccount excluding: anAccountToExclude
+	
+	| neighbors |
+		
+	neighbors := parents copy.
+	neighbors remove: anAccountToExclude ifAbsent: [].
+	
+	^ anAccount == self or: [
+		neighbors anySatisfy: [:aNeighbor | aNeighbor isRelatedTo: anAccount excluding: self ] 
+		].! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test10 stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test11 stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test12 stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test13 stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 21:18:31'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'NNH 11/4/2020 21:18:36'!
+PASSED!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:28:29'!
+test10PortfolioShouldNotAddItself
+	
+	| portfolio |
+	
+	portfolio := Portfolio new.
+
+	self should: [portfolio add: portfolio]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test10 stamp: 'NNH 11/4/2020 21:28:29'!
+test10
+	
+	| portfolio |
+	
+	portfolio := Portfolio new.
+
+	self should: [portfolio add: portfolio]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:29:42'!
+test11PortfolioShouldNotAddParentPortfolio
+	
+	| aPortfolio anotherPortfolio |
+	
+	aPortfolio := Portfolio new.
+	anotherPortfolio := Portfolio new.
+	anotherPortfolio add: aPortfolio.
+
+	self should: [aPortfolio add: anotherPortfolio]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test11 stamp: 'NNH 11/4/2020 21:29:42'!
+test11
+	
+	| aPortfolio anotherPortfolio |
+	
+	aPortfolio := Portfolio new.
+	anotherPortfolio := Portfolio new.
+	anotherPortfolio add: aPortfolio.
+
+	self should: [aPortfolio add: anotherPortfolio]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:31:50'!
+test12PortfoliosShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test12 stamp: 'NNH 11/4/2020 21:31:50'!
+test12
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:33:03'!
+test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p3.
+	p2 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test13 stamp: 'NNH 11/4/2020 21:33:03'!
+test13
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p3.
+	p2 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:34:11' prior: 50874991!
+test12PortfoliosShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p3 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 21:34:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfoliosShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 21:34:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 21:34:25'!
+PASSED!
+
+!testRun: #PortfolioTest #test14 stamp: 'NNH 11/4/2020 21:34:25'!
+PASSED!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:35:01'!
+test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p3 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test12PortfoliosShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 21:35:01'!
+test12PortfoliosShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p3 add: p2]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:43:44'!
+test14TwoPortfolioShouldNotHaveTheSamePortfolios
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p3 add: p2.
+	p3 add: p4.
+
+	self should: [p1 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test14 stamp: 'NNH 11/4/2020 21:43:44'!
+test14
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p3 add: p2.
+	p3 add: p4.
+
+	self should: [p1 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 21:43:58'!
+test14TwoPortfoliosShouldNotHaveTheSamePortfolios
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p3 add: p2.
+	p3 add: p4.
+
+	self should: [p1 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test14TwoPortfolioShouldNotHaveTheSamePortfolios stamp: 'NNH 11/4/2020 21:43:58'!
+test14TwoPortfolioShouldNotHaveTheSamePortfolios
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p3 add: p2.
+	p3 add: p4.
+
+	self should: [p1 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 22:44:50' prior: 50875147!
+test14TwoPortfoliosShouldNotHaveTheSamePortfolios
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+	p3 add: p4.
+
+	self should: [p2 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 22:44:58'!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+	p3 add: p4.
+
+	self should: [p2 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test14TwoPortfoliosShouldNotHaveTheSamePortfolios stamp: 'NNH 11/4/2020 22:45:03'!
+test14TwoPortfoliosShouldNotHaveTheSamePortfolios
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+	p3 add: p4.
+
+	self should: [p2 add: p4]
+	raise: Error
+	withMessageText: Portfolio cannotIncludeItselfErrorDescription.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 22:45:48'!
+PASSED!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 22:48:17'!
+test15
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p3.
+	p1 add: p4.
+	p2 add: p3.
+
+	self shouldnt: [p2 add: p4] raise: Error.
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 22:48:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 22:48:20'!
+FAILURE!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 22:48:20'!
+FAILURE!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:06:17'!
+isRelatedTo: anAccount
+	
+	^ (self tieneComoDescendienteA: anAccount) or: [
+		parents anySatisfy: [:aParent | aParent isRelatedTo: anAccount ]
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:09:04' prior: 50875331!
+isRelatedTo: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isRelatedTo: anAccount ]) or: [
+		self tieneComoDescendienteA: anAccount
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:19:52'!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isRelatedTo: anAccount ]) or: [
+		self includes: anAccount
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:20:08'!
+belongsToAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isRelatedTo: anAccount ]) or: [
+		self includes: anAccount
+		].
+	
+	
+! !
+
+!methodRemoval: Portfolio #belongsToAPortfolioWith: stamp: 'NNH 11/4/2020 23:20:29'!
+belongsToAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isRelatedTo: anAccount ]) or: [
+		self includes: anAccount
+		].
+	
+	
+!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:20:44' prior: 50875347!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAPortfolioWith: anAccount ]) or: [
+		self includes: anAccount
+		].
+	
+	
+! !
+
+!methodRemoval: Portfolio #isRelatedTo: stamp: 'NNH 11/4/2020 23:20:48'!
+isRelatedTo: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isRelatedTo: anAccount ]) or: [
+		self tieneComoDescendienteA: anAccount
+		].
+	
+	
+!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:22:27'!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		accounts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	
+! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:23:47'!
+includes: anAccountToSearch
+	
+	^ anAccountToSearch == self.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:23:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:23:56'!
+FAILURE!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:23:56'!
+FAILURE!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:24:37' prior: 50874738!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	^ (self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+
+!methodRemoval: Portfolio #isRelatedTo:excluding: stamp: 'NNH 11/4/2020 23:24:59'!
+isRelatedTo: anAccount excluding: anAccountToExclude
+	
+	| neighbors |
+		
+	neighbors := (parents union: accounts).
+	neighbors remove: anAccountToExclude ifAbsent: [].
+	
+	^ anAccount == self or: [
+		neighbors anySatisfy: [:aNeighbor | aNeighbor isRelatedTo: anAccount excluding: self ] 
+		].
+!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:12'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:25:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:12'!
+FAILURE!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:25:20'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:26'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:25:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:26'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:35'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:35'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:47'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:25:47'!
+FAILURE!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:29:49' prior: 50875457!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	^ (self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:38:36'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:39:40' prior: 50875624!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.
+	
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:03'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+	
+	
+	
+	aCollectionOfAccounts add: self.
+	accounts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:08' prior: 50875640!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	accounts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:32'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:43:35'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:43:40'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:43:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:43:40'!
+FAILURE!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:46:17' prior: 50875616!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	^ ((self isInAPortfolioWith: anAccountOrPortfolio) or: [
+			(self accountsInPortfolio intersection: anAccountOrPortfolio accountsInPortfolio) isEmpty not
+		]	
+	) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:46:23'!
+PASSED!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:47:23'!
+hasAccountsInCommonWith: anAccountOrPortfolio
+
+	^ (self accountsInPortfolio intersection: anAccountOrPortfolio accountsInPortfolio) isEmpty not! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:47:23' prior: 50875732!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	^ ((self isInAPortfolioWith: anAccountOrPortfolio) or: [
+			self hasAccountsInCommonWith: anAccountOrPortfolio
+		]	
+	) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ]! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:48:40' prior: 50875807!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class cannotIncludeItselfErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class cannotIncludeItselfErrorDescription]! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:51:09' prior: 50874950!
+test10PortfolioShouldNotAddItself
+	
+	| portfolio |
+	
+	portfolio := Portfolio new.
+
+	self should: [portfolio add: portfolio] raise: Error.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:51:53' prior: 50874967!
+test11PortfolioShouldNotAddParentPortfolio
+	
+	| aPortfolio anotherPortfolio |
+	
+	aPortfolio := Portfolio new.
+	anotherPortfolio := Portfolio new.
+	anotherPortfolio add: aPortfolio.
+
+	self should: [aPortfolio add: anotherPortfolio] raise: Error.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:52:53' prior: 50875099!
+test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+
+	self should: [p3 add: p2]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:52:58'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:52:58'!
+ERROR!
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:53:14'!
+canNotBelongToACommonPortfolioErrorDescription
+	self shouldBeImplemented.! !
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:54:30' prior: 50875871!
+canNotBelongToACommonPortfolioErrorDescription
+	^ 'There is a portfolio containing both portfolios'! !
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:54:38'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:54:38'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:54:49'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:54:49'!
+FAILURE!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:54:57'!
+FAILURE!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:57:24' prior: 50875818!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class cannotIncludeItselfErrorDescription]! !
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:57:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:57:43'!
+FAILURE!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:57:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:57:43'!
+FAILURE!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/4/2020 23:58:20' prior: 50875012!
+test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 add: p3.
+	p2 add: p3.
+
+	self should: [p1 add: p2]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:58:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:58:26'!
+ERROR!
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:58:36'!
+canNotHaveAnAccountInCommonErrorDescription
+	self shouldBeImplemented.! !
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:58:51' prior: 50876002!
+canNotHaveAnAccountInCommonErrorDescription
+	^ 'Portfolios should not share an account'! !
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:58:59'!
+FAILURE!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:59:29' prior: 50875905!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ]! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:59:36' prior: 50876018!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:59:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:59:42'!
+FAILURE!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/4/2020 23:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/4/2020 23:59:42'!
+FAILURE!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 00:00:08' prior: 50875186!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+	p3 add: p4.
+
+	self should: [p2 add: p4]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/5/2020 00:00:16'!
+FAILURE!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/5/2020 00:00:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/5/2020 00:00:16'!
+FAILURE!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 00:00:30' prior: 50876107!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 add: p2.
+	p1 add: p3.
+	p3 add: p4.
+
+	self should: [p2 add: p4]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/5/2020 00:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/5/2020 00:01:24'!
+PASSED!
+
+----SNAPSHOT----(5 November 2020 00:04:01) CuisUniversity-4384.image priorSource: 17306647!
+
+----SNAPSHOT----(5 November 2020 00:04:06) CuisUniversity-4384.image priorSource: 17428767!
+
+----QUIT----(5 November 2020 00:04:10) CuisUniversity-4384.image priorSource: 17428860!
+
+----STARTUP---- (5 November 2020 00:06:16) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+
+----SNAPSHOT----(5 November 2020 00:07:14) CuisUniversity-4384.image priorSource: 17428953!
+
+----QUIT----(5 November 2020 00:07:17) CuisUniversity-4384.image priorSource: 17429155!
