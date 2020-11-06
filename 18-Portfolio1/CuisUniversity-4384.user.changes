@@ -32621,3 +32621,3060 @@ assertFinancialProductCanBeAdded: anAccountOrPortfolio
 ----SNAPSHOT----(6 November 2020 00:14:54) CuisUniversity-4384.image priorSource: 17429248!
 
 ----QUIT----(6 November 2020 00:15:01) CuisUniversity-4384.image priorSource: 17443367!
+
+----STARTUP---- (6 November 2020 14:55:55) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+
+!classRemoval: #PortfolioHoja stamp: 'NNH 11/6/2020 14:56:16'!
+PortfolioTipoDeNodo subclass: #PortfolioHoja
+	instanceVariableNames: 'receptiveAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classRemoval: #PortfolioNodo stamp: 'NNH 11/6/2020 14:56:16'!
+PortfolioTipoDeNodo subclass: #PortfolioNodo
+	instanceVariableNames: 'financialProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classRemoval: #PortfolioTipoDeNodo stamp: 'NNH 11/6/2020 14:56:17'!
+Object subclass: #PortfolioTipoDeNodo
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!methodRemoval: Portfolio #accountsInPortfolio stamp: 'NNH 11/6/2020 14:56:47'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.
+	
+	
+	
+!
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/6/2020 14:57:43'!
+addFinancialProduct: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50872110!
+test05PortfolioWithOneAccountRegistersATransactionOfThatAccount
+
+	| portfolio account aTransaction |
+
+	account := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: account.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: account.
+
+	self assert: (portfolio hasRegistered: aTransaction).
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50872040!
+test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount
+
+	| portfolio account |
+
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: account.
+	
+	self assert: 100 equals: portfolio balance.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875831!
+test10PortfolioShouldNotAddItself
+	
+	| portfolio |
+	
+	portfolio := Portfolio new.
+
+	self should: [portfolio addFinancialProduct: portfolio] raise: Error.! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50873755 overrides: 50876380!
+addParent: aPortfolio 
+	parents addFinancialProduct: aPortfolio.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50872133!
+test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount
+
+	| portfolio anAccount anotherAccount aTransaction |
+
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: anotherAccount.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: anAccount.
+	portfolio addFinancialProduct: anotherAccount.
+
+	self assert: (portfolio hasRegistered: aTransaction).
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875839!
+test11PortfolioShouldNotAddParentPortfolio
+	
+	| aPortfolio anotherPortfolio |
+	
+	aPortfolio := Portfolio new.
+	anotherPortfolio := Portfolio new.
+	anotherPortfolio addFinancialProduct: aPortfolio.
+
+	self should: [aPortfolio addFinancialProduct: anotherPortfolio] raise: Error.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50876177!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p2.
+	p1 addFinancialProduct: p3.
+	p3 addFinancialProduct: p4.
+
+	self should: [p2 addFinancialProduct: p4]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875981!
+test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 addFinancialProduct: p3.
+	p2 addFinancialProduct: p3.
+
+	self should: [p1 addFinancialProduct: p2]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50876534!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts addFinancialProduct: anAccountOrPortfolio.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50872064!
+test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances
+
+	| portfolio anAccount anotherAccount |
+
+	anAccount := ReceptiveAccount new.
+	Deposit register: 100 on: anAccount.
+	anotherAccount := ReceptiveAccount new.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: anAccount.
+	portfolio addFinancialProduct: anotherAccount.
+
+	self assert: 100 equals: portfolio balance.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50872201!
+test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount
+
+	| portfolio account aTransaction |
+
+	account := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: account.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: account.
+
+	self assert: 1 equals: portfolio transactions size.
+	self assert: portfolio transactions includes: aTransaction.
+	
+	! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875649 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts addFinancialProduct: self.
+	accounts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50867972!
+register: aTransaction
+
+	transactions addFinancialProduct: aTransaction 
+! !
+!FinancialProduct methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50876380!
+addParent: aPortfolio 
+	
+	parents addFinancialProduct: aPortfolio.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875264!
+test15
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p3.
+	p1 addFinancialProduct: p4.
+	p2 addFinancialProduct: p3.
+
+	self shouldnt: [p2 addFinancialProduct: p4] raise: Error.
+! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875658 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts addFinancialProduct: self.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50872227!
+test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts
+
+	| portfolio anAccount anotherAccount aTransaction |
+
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: anotherAccount.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: anAccount.
+	portfolio addFinancialProduct: anotherAccount.
+
+	self assert: 1 equals: portfolio transactions size.
+	self assert: portfolio transactions includes: aTransaction.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50875850!
+test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 addFinancialProduct: p2.
+	p1 addFinancialProduct: p3.
+
+	self should: [p3 addFinancialProduct: p2]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 14:57:43' prior: 50876795!
+addFinancialProduct: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts addFinancialProduct: anAccountOrPortfolio.! !
+
+!methodRemoval: Portfolio #add: stamp: 'NNH 11/6/2020 14:57:43'!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts addFinancialProduct: anAccountOrPortfolio.!
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/6/2020 14:58:09' prior: 50877019!
+addFinancialProduct: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 14:58:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 14:58:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 14:58:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 14:58:18'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 14:58:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 14:58:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 14:58:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 14:58:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:58:35'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:58:35'!
+ERROR!
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'NNH 11/6/2020 14:58:51' prior: 50876954!
+register: aTransaction
+
+	transactions add: aTransaction 
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 14:58:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 14:58:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 14:58:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 14:58:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 14:58:55'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:59:00'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 14:59:00'!
+ERROR!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 14:59:19' prior: 50876944 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts addFinancialProduct: self.
+	accounts do: [:anAccount | anAccount add: aCollectionOfAccounts].
+	
+	
+	
+! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 14:59:49' prior: 50876979 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.! !
+!ReceptiveAccount methodsFor: 'inserting - private' stamp: 'NNH 11/6/2020 14:59:55' prior: 50876839 overrides: 50876960!
+addParent: aPortfolio 
+	parents add: aPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:00:09'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:00:09'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:00:09'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:00:09'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:00:09'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:00:16'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:00:16'!
+ERROR!
+!FinancialProduct methodsFor: 'inserting - private' stamp: 'NNH 11/6/2020 15:00:43' prior: 50876960!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:00:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:00:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:00:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:00:54'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:00:54'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:01:00'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:01:00'!
+ERROR!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:01:22' prior: 50877233 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	accounts do: [:anAccount | anAccount add: aCollectionOfAccounts].
+	
+	
+	
+! !
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:01:26'!
+ERROR!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:01:34'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:01:34'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:01:34'!
+FAILURE!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:01:34'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:01:34'!
+FAILURE!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:01:34'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:01:34'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:01:34'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:01:34'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:02:08'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:02:08'!
+ERROR!
+
+!methodRemoval: ReceptiveAccount #addParent: stamp: 'NNH 11/6/2020 15:03:49'!
+addParent: aPortfolio 
+	parents add: aPortfolio.!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:06:07'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:06:07'!
+ERROR!
+
+----STARTUP---- (6 November 2020 15:07:44) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:08:00'!
+PASSED!
+
+!classRemoval: #PortfolioHoja stamp: 'NNH 11/6/2020 15:08:10'!
+PortfolioTipoDeNodo subclass: #PortfolioHoja
+	instanceVariableNames: 'receptiveAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classRemoval: #PortfolioNodo stamp: 'NNH 11/6/2020 15:08:10'!
+PortfolioTipoDeNodo subclass: #PortfolioNodo
+	instanceVariableNames: 'financialProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classRemoval: #PortfolioTipoDeNodo stamp: 'NNH 11/6/2020 15:08:10'!
+Object subclass: #PortfolioTipoDeNodo
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:08:13'!
+PASSED!
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/6/2020 15:08:43'!
+addFinancialProduct: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!methodRemoval: Portfolio #add: stamp: 'NNH 11/6/2020 15:09:09'!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:31' prior: 50872040!
+test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount
+
+	| portfolio account |
+
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: account.
+	
+	self assert: 100 equals: portfolio balance.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:37' prior: 50872064!
+test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances
+
+	| portfolio anAccount anotherAccount |
+
+	anAccount := ReceptiveAccount new.
+	Deposit register: 100 on: anAccount.
+	anotherAccount := ReceptiveAccount new.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: anAccount.
+	portfolio addFinancialProduct: anotherAccount.
+
+	self assert: 100 equals: portfolio balance.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:40' prior: 50872110!
+test05PortfolioWithOneAccountRegistersATransactionOfThatAccount
+
+	| portfolio account aTransaction |
+
+	account := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: account.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: account.
+
+	self assert: (portfolio hasRegistered: aTransaction).
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:45' prior: 50872133!
+test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount
+
+	| portfolio anAccount anotherAccount aTransaction |
+
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: anotherAccount.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: anAccount.
+	portfolio addFinancialProduct: anotherAccount.
+
+	self assert: (portfolio hasRegistered: aTransaction).
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:48' prior: 50872201!
+test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount
+
+	| portfolio account aTransaction |
+
+	account := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: account.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: account.
+
+	self assert: 1 equals: portfolio transactions size.
+	self assert: portfolio transactions includes: aTransaction.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:53' prior: 50872227!
+test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts
+
+	| portfolio anAccount anotherAccount aTransaction |
+
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	aTransaction := Deposit register: 100 on: anotherAccount.
+	
+	portfolio := Portfolio new.
+	portfolio addFinancialProduct: anAccount.
+	portfolio addFinancialProduct: anotherAccount.
+
+	self assert: 1 equals: portfolio transactions size.
+	self assert: portfolio transactions includes: aTransaction.
+	
+	! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:09:56' prior: 50875831!
+test10PortfolioShouldNotAddItself
+	
+	| portfolio |
+	
+	portfolio := Portfolio new.
+
+	self should: [portfolio addFinancialProduct: portfolio] raise: Error.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:10:00' prior: 50875839!
+test11PortfolioShouldNotAddParentPortfolio
+	
+	| aPortfolio anotherPortfolio |
+	
+	aPortfolio := Portfolio new.
+	anotherPortfolio := Portfolio new.
+	anotherPortfolio addFinancialProduct: aPortfolio.
+
+	self should: [aPortfolio addFinancialProduct: anotherPortfolio] raise: Error.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:10:07' prior: 50875850!
+test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 addFinancialProduct: p2.
+	p1 addFinancialProduct: p3.
+
+	self should: [p3 addFinancialProduct: p2]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:10:12' prior: 50875981!
+test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	| p1 p2 p3 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+
+	p1 addFinancialProduct: p3.
+	p2 addFinancialProduct: p3.
+
+	self should: [p1 addFinancialProduct: p2]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:10:19' prior: 50876177!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p2.
+	p1 addFinancialProduct: p3.
+	p3 addFinancialProduct: p4.
+
+	self should: [p2 addFinancialProduct: p4]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:10:25' prior: 50875264!
+test15
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p3.
+	p1 addFinancialProduct: p4.
+	p2 addFinancialProduct: p3.
+
+	self shouldnt: [p2 addFinancialProduct: p4] raise: Error.
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:10:53'!
+PASSED!
+
+!methodRemoval: Portfolio #accountsInPortfolio stamp: 'NNH 11/6/2020 15:11:10'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.
+	
+	
+	
+!
+
+!methodRemoval: ReceptiveAccount #addParent: stamp: 'NNH 11/6/2020 15:12:10'!
+addParent: aPortfolio 
+	parents add: aPortfolio.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:12:27'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:12:27'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:12:27'!
+FAILURE!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:12:27'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:12:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:12:38'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:12:38'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:12:38'!
+FAILURE!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:12:38'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:12:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:12:43'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:12:43'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:13:11'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:13:11'!
+ERROR!
+
+FinancialProduct subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:14:16'!
+FinancialProduct subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:14:19'!
+PASSED!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:14:38'!
+FinancialProduct subclass: #Portfolio
+	instanceVariableNames: 'financialProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50873387!
+addTransactionsTo: aCollectionOfTransactions
+	
+	financialProducts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50871829 overrides: 50876397!
+hasRegistered: aTransaction
+	^ financialProducts anySatisfy: [:anAccount | anAccount hasRegistered: aTransaction].! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50875649 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	financialProducts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50876898!
+addFinancialProduct: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	financialProducts add: anAccountOrPortfolio.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50875386 overrides: 50876515!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50873705 overrides: 16896425!
+initialize
+	
+	financialProducts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:14:38' prior: 50871550 overrides: 50876388!
+balance
+	^ financialProducts sum: [:anAccount | anAccount balance] ifEmpty: [0].! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:14:44'!
+PASSED!
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:18:10'!
+includesFinancialProduct: anAccountToSearch
+	
+	self subclassResponsibility.! !
+
+!methodRemoval: FinancialProduct #includes: stamp: 'NNH 11/6/2020 15:18:24'!
+includes: anAccountToSearch
+	
+	self subclassResponsibility.!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:18:59' overrides: 50877468!
+includesFinancialProduct: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	
+! !
+
+!methodRemoval: Portfolio #includes: stamp: 'NNH 11/6/2020 15:19:03'!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	
+!
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:19:13' overrides: 50877468!
+includesFinancialProduct: anAccountToSearch
+	
+	^ anAccountToSearch == self.! !
+
+!methodRemoval: ReceptiveAccount #includes: stamp: 'NNH 11/6/2020 15:19:19'!
+includes: anAccountToSearch
+	
+	^ anAccountToSearch == self.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:19:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:19:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:19:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:19:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:19:23'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:19:28'!
+ERROR!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:19:28'!
+ERROR!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:19:41' prior: 50875371!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAPortfolioWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:19:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:19:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:19:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:19:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:19:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:19:46'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:19:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:19:46'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:19:51'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:19:51'!
+ERROR!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:20:18' prior: 50877478 overrides: 50877468!
+includesFinancialProduct: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includesFinancialProduct: anAccountToSearch]
+		].
+	
+	
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:20:26'!
+PASSED!
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:21:08'!
+financialProducts
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:21:08' prior: 50875799!
+hasAccountsInCommonWith: anAccountOrPortfolio
+
+	^ (self financialProducts intersection: anAccountOrPortfolio financialProducts) isEmpty not! !
+
+!methodRemoval: FinancialProduct #accountsInPortfolio stamp: 'NNH 11/6/2020 15:21:08'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:22:31'!
+addFinancialProductTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	financialProducts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:22:31'!
+addFinancialProductTo: aCollectionOfAccounts
+		
+	self subclassResponsibility.! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:22:31' overrides: 50877741!
+addFinancialProductTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.! !
+!FinancialProduct methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:22:31' prior: 50877707!
+financialProducts
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addFinancialProductTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:22:31' prior: 50877372 overrides: 50876509!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	financialProducts do: [:anAccount | anAccount addFinancialProductTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:22:31' prior: 50877732 overrides: 50877741!
+addFinancialProductTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	financialProducts do: [:anAccount | anAccount addFinancialProductTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+
+!methodRemoval: Portfolio #addAccountsInPortfolioTo: stamp: 'NNH 11/6/2020 15:22:31'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	financialProducts do: [:anAccount | anAccount addFinancialProductTo: aCollectionOfAccounts].
+	
+	
+	
+!
+
+!methodRemoval: FinancialProduct #addAccountsInPortfolioTo: stamp: 'NNH 11/6/2020 15:22:31'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	self subclassResponsibility.!
+
+!methodRemoval: ReceptiveAccount #addAccountsInPortfolioTo: stamp: 'NNH 11/6/2020 15:22:31'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:23:20'!
+hasProductsInCommonWith: anAccountOrPortfolio
+
+	^ (self financialProducts intersection: anAccountOrPortfolio financialProducts) isEmpty not! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:23:20' prior: 50876520!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasProductsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+
+!methodRemoval: Portfolio #hasAccountsInCommonWith: stamp: 'NNH 11/6/2020 15:23:20'!
+hasAccountsInCommonWith: anAccountOrPortfolio
+
+	^ (self financialProducts intersection: anAccountOrPortfolio financialProducts) isEmpty not!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:29:49'!
+isInAProductWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAPortfolioWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:29:49' prior: 50877569!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAProductWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:29:49' prior: 50877808!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAProductWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasProductsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:29:49' prior: 50877828!
+isInAProductWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAProductWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+! !
+
+!methodRemoval: Portfolio #isInAPortfolioWith: stamp: 'NNH 11/6/2020 15:29:49'!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAProductWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+!
+!FinancialProduct methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:30:16'!
+hasProductsInCommonWith: anAccountOrPortfolio
+
+	^ (self financialProducts intersection: anAccountOrPortfolio financialProducts) isEmpty not! !
+
+!methodRemoval: Portfolio #hasProductsInCommonWith: stamp: 'NNH 11/6/2020 15:30:16'!
+hasProductsInCommonWith: anAccountOrPortfolio
+
+	^ (self financialProducts intersection: anAccountOrPortfolio financialProducts) isEmpty not!
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:30:22'!
+isInAProductWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAProductWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+! !
+
+!methodRemoval: Portfolio #isInAProductWith: stamp: 'NNH 11/6/2020 15:30:22'!
+isInAProductWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAProductWith: anAccount ]) or: [
+		self includesFinancialProduct: anAccount
+		].
+	
+	
+!
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:30:36' prior: 50877642 overrides: 50877468!
+includesFinancialProduct: anAccountToSearch
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includesFinancialProduct: anAccountToSearch]
+		].
+	
+	
+! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:30:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'NNH 11/6/2020 15:31:01'!
+PASSED!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:32:12'!
+test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p3.
+	p1 addFinancialProduct: p4.
+	p2 addFinancialProduct: p3.
+
+	self shouldnt: [p2 addFinancialProduct: p4] raise: Error.
+! !
+
+!methodRemoval: PortfolioTest #test15 stamp: 'NNH 11/6/2020 15:32:12'!
+test15
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p3.
+	p1 addFinancialProduct: p4.
+	p2 addFinancialProduct: p3.
+
+	self shouldnt: [p2 addFinancialProduct: p4] raise: Error.
+!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:33:39'!
+test14PortfolioShouldNotContainAccountTwice
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p2.
+	p1 addFinancialProduct: p3.
+	p3 addFinancialProduct: p4.
+
+	self should: [p2 addFinancialProduct: p4]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test14Rombo stamp: 'NNH 11/6/2020 15:33:39'!
+test14Rombo
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	p1 addFinancialProduct: p2.
+	p1 addFinancialProduct: p3.
+	p3 addFinancialProduct: p4.
+
+	self should: [p2 addFinancialProduct: p4]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 15:33:48'!
+PASSED!
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:34:32'!
+signalCanNotBelongToACommonPortfolio
+
+	^ self error: self class canNotBelongToACommonPortfolioErrorDescription! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:34:32' prior: 50877846!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAProductWith: anAccountOrPortfolio) ifTrue: [self signalCanNotBelongToACommonPortfolio ].
+	(self hasProductsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:34:54'!
+signalCanNotHaveAnAccountInCommon
+
+	^ self error: self class canNotHaveAnAccountInCommonErrorDescription! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:34:54' prior: 50878115!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAProductWith: anAccountOrPortfolio) ifTrue: [self signalCanNotBelongToACommonPortfolio ].
+	(self hasProductsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self signalCanNotHaveAnAccountInCommon ].! !
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/6/2020 15:35:10' prior: 50877381!
+addFinancialProduct: aFinancialProduct 
+	
+	self assertFinancialProductCanBeAdded: aFinancialProduct.
+	
+	aFinancialProduct addParent: self.	
+	financialProducts add: aFinancialProduct.! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:35:30' prior: 50877772 overrides: 50877741!
+addFinancialProductTo: aCollectionOfFinancialProducts
+		
+	aCollectionOfFinancialProducts add: self.
+	financialProducts do: [:anAccount | anAccount addFinancialProductTo: aCollectionOfFinancialProducts].
+	
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:35:41' prior: 50878155 overrides: 50877741!
+addFinancialProductTo: aCollectionOfFinancialProducts
+		
+	aCollectionOfFinancialProducts add: self.
+	financialProducts do: [:aFinancialProduct | aFinancialProduct addFinancialProductTo: aCollectionOfFinancialProducts].
+	
+	
+	
+! !
+!Portfolio methodsFor: 'transactions - private' stamp: 'NNH 11/6/2020 15:35:57' prior: 50877355!
+addTransactionsTo: aCollectionOfTransactions
+	
+	financialProducts do: [ :aFinancialProduct | aFinancialProduct addTransactionsTo: aCollectionOfTransactions ].! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:36:07' prior: 50878134!
+assertFinancialProductCanBeAdded: aFinancialProduct
+
+	(self isInAProductWith: aFinancialProduct) ifTrue: [self signalCanNotBelongToACommonPortfolio ].
+	(self hasProductsInCommonWith: aFinancialProduct)	 ifTrue: [self signalCanNotHaveAnAccountInCommon ].! !
+!Portfolio methodsFor: 'balance' stamp: 'NNH 11/6/2020 15:36:21' prior: 50877407 overrides: 50876388!
+balance
+	^ financialProducts sum: [:aFinancialProduct | aFinancialProduct balance] ifEmpty: [0].! !
+!Portfolio methodsFor: 'testing' stamp: 'NNH 11/6/2020 15:36:35' prior: 50877364 overrides: 50876397!
+hasRegistered: aTransaction
+	^ financialProducts anySatisfy: [:aFinancialProduct | aFinancialProduct hasRegistered: aTransaction].! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:36:50' prior: 50877907 overrides: 50877468!
+includesFinancialProduct: aFinancialProductToSearch
+	
+	^ (aFinancialProductToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includesFinancialProduct: aFinancialProductToSearch]
+		].
+	
+	
+! !
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:36:58' prior: 50878212 overrides: 50877468!
+includesFinancialProduct: aFinancialProductToSearch
+	
+	^ (aFinancialProductToSearch == self) or: [
+		financialProducts anySatisfy: [:aFinancialProduct | aFinancialProduct includesFinancialProduct: aFinancialProductToSearch]
+		].
+	
+	
+! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:38:47' prior: 50877747 overrides: 50877741!
+addFinancialProductTo: aCollectionOfFinancialProducts
+		
+	aCollectionOfFinancialProducts add: self.! !
+!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:39:07' prior: 50877495 overrides: 50877468!
+includesFinancialProduct: aFinancialProductToSearch
+	
+	^ aFinancialProductToSearch == self.! !
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:39:25' prior: 50877741!
+addFinancialProductTo: aCollectionOfFinancialProducts
+		
+	self subclassResponsibility.! !
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:39:45' prior: 50877753!
+financialProducts
+	
+	| accountsInPortfolio |
+	
+	accountsInPortfolio := OrderedCollection new.
+	self addFinancialProductTo: accountsInPortfolio.
+	
+	^ accountsInPortfolio.! !
+!FinancialProduct methodsFor: 'balance' stamp: 'NNH 11/6/2020 15:39:55' prior: 50876388!
+balance
+
+	self subclassResponsibility.! !
+!FinancialProduct methodsFor: 'assertions' stamp: 'NNH 11/6/2020 15:40:11' prior: 50877875!
+hasProductsInCommonWith: aFinancialProduct
+
+	^ (self financialProducts intersection: aFinancialProduct financialProducts) isEmpty not! !
+!FinancialProduct methodsFor: 'testing' stamp: 'NNH 11/6/2020 15:40:19' prior: 50876397!
+hasRegistered: aTransaction
+
+	self subclassResponsibility.! !
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 15:40:34' prior: 50877890!
+isInAProductWith: aFinancialProduct
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAProductWith: aFinancialProduct ]) or: [
+		self includesFinancialProduct: aFinancialProduct
+		].
+	
+	
+! !
+!FinancialProduct methodsFor: 'transactions' stamp: 'NNH 11/6/2020 15:40:48' prior: 50876392!
+transactions
+
+	self subclassResponsibility.! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 15:41:46'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 15:41:49'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 15:42:32'!
+PASSED!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:51:31'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'testing balance' stamp: 'NNH 11/6/2020 15:51:29' overrides: 16927572!
+setUp
+
+	emptPortfolio := Portfolio new.
+	! !
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:54:06'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptPortfolio hundredDollarsAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:54:34'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptPortfolio hundredDollarsAccount aDeposit'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:54:36'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 15:54:32' prior: 50878481 overrides: 16927572!
+setUp
+
+	emptPortfolio := Portfolio new.
+	
+	hundredDollarsAccount := ReceptiveAccount new.
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.! !
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:54:42'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/6/2020 15:54:42' prior: 50878514 overrides: 16927572!
+setUp
+
+	emptyPortfolio := Portfolio new.
+	
+	hundredDollarsAccount := ReceptiveAccount new.
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.! !
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:55:20'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 15:55:19' prior: 50878536 overrides: 16927572!
+setUp
+
+	emptyPortfolio := Portfolio new.
+	
+	hundredDollarsAccount := ReceptiveAccount new.
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	emptyAccount := ReceptiveAccount new.
+
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.! !
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:57:25'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 15:57:23' prior: 50878559 overrides: 16927572!
+setUp
+
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	
+	! !
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 15:58:08'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 15:58:06' prior: 50878583 overrides: 16927572!
+setUp
+
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.	
+	! !
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 15:58:41' prior: 50878609 overrides: 16927572!
+setUp
+
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: hundredDollarsAccount.
+	twoAccountsPortfolio addFinancialProduct: emptyAccount.	
+	! !
+!PortfolioTest methodsFor: 'testing balance' stamp: 'NNH 11/6/2020 15:58:59' prior: 50872026!
+test01BalanceOfEmptyPortfolioIsZero
+	
+	self assert: 0 equals: emptyPortfolio balance.
+	
+	! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 15:59:02'!
+PASSED!
+!PortfolioTest methodsFor: 'testing balance' stamp: 'NNH 11/6/2020 15:59:24' prior: 50876915!
+test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount
+	
+	self assert: 100 equals: hundredDollarsPortfolio balance.
+	
+	! !
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 15:59:28'!
+PASSED!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:00:51' prior: 50878627 overrides: 16927572!
+setUp
+
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: emptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: hundredDollarsAccount.
+	
+	! !
+!PortfolioTest methodsFor: 'testing balance' stamp: 'NNH 11/6/2020 16:01:11' prior: 50876927!
+test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances
+
+	self assert: 100 equals: twoAccountsPortfolio balance.
+	
+	! !
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:01:14'!
+PASSED!
+!PortfolioTest methodsFor: 'testing register operations' stamp: 'NNH 11/6/2020 16:01:33' prior: 50872163!
+test04EmptyPortfolioHasRegisteredNoTransactions
+
+	self deny: (hundredDollarsPortfolio hasRegistered: aDeposit ).
+	
+	! !
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:01:35'!
+FAILURE!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:01:35'!
+FAILURE!
+!PortfolioTest methodsFor: 'testing register operations' stamp: 'NNH 11/6/2020 16:01:42' prior: 50878703!
+test04EmptyPortfolioHasRegisteredNoTransactions
+
+	self deny: (emptyPortfolio hasRegistered: aDeposit ).
+	
+	! !
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:01:45'!
+PASSED!
+!PortfolioTest methodsFor: 'testing register operations' stamp: 'NNH 11/6/2020 16:02:06' prior: 50876943!
+test05PortfolioWithOneAccountRegistersATransactionOfThatAccount
+
+	self assert: (hundredDollarsPortfolio hasRegistered: aDeposit ).
+	
+	! !
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:02:09'!
+PASSED!
+!PortfolioTest methodsFor: 'testing register operations' stamp: 'NNH 11/6/2020 16:02:27' prior: 50876957!
+test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount
+
+	self assert: (twoAccountsPortfolio hasRegistered: aDeposit).
+	
+	! !
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:02:30'!
+PASSED!
+!PortfolioTest methodsFor: 'testing transactions' stamp: 'NNH 11/6/2020 16:03:03' prior: 50872185!
+test07EmptyPortfolioHasNoTransactions
+
+	self assert: emptyPortfolio transactions isEmpty.
+	
+	! !
+!PortfolioTest methodsFor: 'testing transactions' stamp: 'NNH 11/6/2020 16:03:27' prior: 50876975!
+test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount
+
+	self assert: 1 equals: hundredDollarsPortfolio transactions size.
+	self assert: hundredDollarsPortfolio transactions includes: aDeposit.
+	
+	! !
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:03:32'!
+PASSED!
+!PortfolioTest methodsFor: 'testing transactions' stamp: 'NNH 11/6/2020 16:04:04' prior: 50876990!
+test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts
+
+	self assert: 1 equals: twoAccountsPortfolio transactions size.
+	self assert: twoAccountsPortfolio transactions includes: aDeposit.
+	
+	! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:04:07'!
+PASSED!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:04:45' prior: 50877009!
+test10PortfolioShouldNotAddItself
+
+	self should: [emptyPortfolio addFinancialProduct: emptyPortfolio] raise: Error.! !
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:04:48'!
+PASSED!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:05:11' prior: 50877017!
+test11PortfolioShouldNotAddParentPortfolio
+	
+	self should: [emptyPortfolio addFinancialProduct: hundredDollarsPortfolio] raise: Error.! !
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:05:13'!
+FAILURE!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:05:13'!
+FAILURE!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:05:42' prior: 50878853!
+test11PortfolioShouldNotAddParentPortfolio
+	
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+
+	self should: [hundredDollarsPortfolio addFinancialProduct: emptyPortfolio] raise: Error.! !
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:05:45'!
+PASSED!
+!PortfolioTest methodsFor: 'testing register operations' stamp: 'NNH 11/6/2020 16:07:07' prior: 50878718!
+test04EmptyPortfolioHasRegisteredNoTransactions
+
+	self deny: (zeroBalancePortfolio hasRegistered: aDeposit).
+	
+	! !
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:07:41' prior: 50877029!
+test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio.
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: hundredDollarsPortfolio ]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:07:44'!
+PASSED!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:08:59' prior: 50877043!
+test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount
+	
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio.
+	zeroBalancePortfolio addFinancialProduct: hundredDollarsPortfolio.
+
+	self should: [emptyPortfolio addFinancialProduct: zeroBalancePortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:09:01'!
+PASSED!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:09:36' prior: 50878022!
+test14PortfolioShouldNotContainAccountTwice
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:09:45' prior: 50878927!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:09:48'!
+ERROR!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:09:48'!
+ERROR!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:10:10' prior: 50878947!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription ! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:10:13'!
+ERROR!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:10:13'!
+ERROR!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:10:22' prior: 50878970!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription ! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:10:25'!
+ERROR!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:10:25'!
+ERROR!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:10:39' prior: 50878993!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:10:44'!
+ERROR!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:10:44'!
+ERROR!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:11:03' prior: 50879016!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotHaveAnAccountInCommonErrorDescription.! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:11:13'!
+ERROR!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:11:13'!
+ERROR!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:15:36' prior: 50878670 overrides: 16927572!
+setUp
+
+	| anotherAccount yetAnotherAccount |
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	yetAnotherAccount := ReceptiveAccount new.
+	
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherAccount.	
+	twoAccountsPortfolio addFinancialProduct: yetAnotherAccount.
+	
+	! !
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:15:43' prior: 50879063 overrides: 16927572!
+setUp
+
+	| anotherAccount yetAnotherAccount |
+	
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	yetAnotherAccount := ReceptiveAccount new.
+	
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherAccount.	
+	twoAccountsPortfolio addFinancialProduct: yetAnotherAccount.
+	
+	! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:15:57'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:15:57'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:16:14'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:16:14'!
+FAILURE!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:16:51' prior: 50879039!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: twoAccountsPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:16:54'!
+PASSED!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:17:29' prior: 50877998!
+test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise
+	
+	| p1 p2 p3 p4 |
+	
+	p1 := Portfolio new.
+	p2 := Portfolio new.
+	p3 := Portfolio new.
+	p4 := Portfolio new.
+
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	emptyPortfolio addFinancialProduct: twoAccountsPortfolio.
+	zeroBalancePortfolio addFinancialProduct: hundredDollarsPortfolio.
+
+	self shouldnt: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio] raise: Error.
+! !
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:17:43' prior: 50879149!
+test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise
+	
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	emptyPortfolio addFinancialProduct: twoAccountsPortfolio.
+	zeroBalancePortfolio addFinancialProduct: hundredDollarsPortfolio.
+
+	self shouldnt: [zeroBalancePortfolio addFinancialProduct: twoAccountsPortfolio] raise: Error.
+! !
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:17:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:17:51'!
+FAILURE!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:17:51'!
+FAILURE!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 16:17:51'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:17:51'!
+PASSED!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 16:19:03'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio anotherEmptyAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 16:19:11'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio anotherEmptyAccount anotherHundredDollarsAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 16:19:12'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio anotherEmptyAccount anotherHundredDollarsAccount anotherDeposit'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:19:01' prior: 50879089 overrides: 16927572!
+setUp
+
+	
+	
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherEmptyAccount := ReceptiveAccount new.
+	anotherHundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	anotherDeposit := Deposit register: 100 on: anotherHundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherEmptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: anotherHundredDollarsAccount.
+	
+	! !
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:19:20' prior: 50879283 overrides: 16927572!
+setUp
+	
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherEmptyAccount := ReceptiveAccount new.
+	anotherHundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	anotherDeposit := Deposit register: 100 on: anotherHundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherEmptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: anotherHundredDollarsAccount.
+	
+	! !
+
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 16:19:52'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:20:19' prior: 50879311 overrides: 16927572!
+setUp
+	
+	| anotherEmptyAccount anotherHundredDollarsAccount anotherDeposit |
+	
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherEmptyAccount := ReceptiveAccount new.
+	anotherHundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	anotherDeposit := Deposit register: 100 on: anotherHundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherEmptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: anotherHundredDollarsAccount.
+	
+	! !
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:20:40' prior: 50879359 overrides: 16927572!
+setUp
+	
+	| anotherEmptyAccount anotherHundredDollarsAccount |
+	
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherEmptyAccount := ReceptiveAccount new.
+	anotherHundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	Deposit register: 100 on: anotherHundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherEmptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: anotherHundredDollarsAccount.
+	
+	! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:20:43'!
+FAILURE!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 16:20:43'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:20:43'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:20:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:20:44'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:20:44'!
+PASSED!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:21:43' prior: 50879389 overrides: 16927572!
+setUp
+	
+	| anotherEmptyAccount anotherHundredDollarsAccount |
+	
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	anotherEmptyAccount := ReceptiveAccount new.
+	anotherHundredDollarsAccount := ReceptiveAccount new.
+	
+	Deposit register: 100 on: hundredDollarsAccount.
+	aDeposit := Deposit register: 100 on: anotherHundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: anotherEmptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: anotherHundredDollarsAccount.
+	
+	! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:21:56'!
+FAILURE!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:21:56'!
+FAILURE!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:21:56'!
+PASSED!
+
+!classDefinition: #PortfolioTest category: 'Portfolio-Ejercicio' stamp: 'NNH 11/6/2020 16:23:08'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: 'emptyPortfolio hundredDollarsAccount aDeposit hundredDollarsPortfolio emptyAccount zeroBalancePortfolio twoAccountsPortfolio anotherPortfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:23:02' prior: 50879476 overrides: 16927572!
+setUp
+		
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	anotherPortfolio := Portfolio new.
+	
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: emptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: hundredDollarsAccount.
+	
+	! !
+!PortfolioTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/6/2020 16:23:24' prior: 50879575 overrides: 16927572!
+setUp
+		
+	emptyAccount := ReceptiveAccount new.
+	hundredDollarsAccount := ReceptiveAccount new.
+	
+	aDeposit := Deposit register: 100 on: hundredDollarsAccount.
+	
+	emptyPortfolio := Portfolio new.
+	hundredDollarsPortfolio := Portfolio new.
+	hundredDollarsPortfolio addFinancialProduct: hundredDollarsAccount.
+	zeroBalancePortfolio := Portfolio new.
+	zeroBalancePortfolio addFinancialProduct: emptyAccount.
+	anotherPortfolio := Portfolio new.
+	twoAccountsPortfolio := Portfolio new.
+	twoAccountsPortfolio addFinancialProduct: emptyAccount.	
+	twoAccountsPortfolio addFinancialProduct: hundredDollarsAccount.
+	
+	! !
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:23:29'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:23:29'!
+ERROR!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:23:29'!
+ERROR!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:23:45' prior: 50879129!
+test14PortfolioShouldNotContainAccountTwice
+
+	emptyPortfolio addFinancialProduct: zeroBalancePortfolio .
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	hundredDollarsPortfolio addFinancialProduct: anotherPortfolio .
+
+	self should: [zeroBalancePortfolio addFinancialProduct: anotherPortfolio]
+	raise: Error
+	withMessageText: Portfolio canNotBelongToACommonPortfolioErrorDescription.! !
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:23:48'!
+PASSED!
+!PortfolioTest methodsFor: 'testing dependencies' stamp: 'NNH 11/6/2020 16:23:57' prior: 50879167!
+test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise
+	
+	emptyPortfolio addFinancialProduct: hundredDollarsPortfolio .
+	emptyPortfolio addFinancialProduct: anotherPortfolio .
+	zeroBalancePortfolio addFinancialProduct: hundredDollarsPortfolio.
+
+	self shouldnt: [zeroBalancePortfolio addFinancialProduct: anotherPortfolio] raise: Error.
+! !
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:24:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test14PortfolioShouldNotContainAccountTwice stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test15MoreThanOnePortfolioWithTheSameAccountsShouldNotRaise stamp: 'NNH 11/6/2020 16:24:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'NNH 11/6/2020 16:24:16'!
+PASSED!
+
+----SNAPSHOT----(6 November 2020 16:24:26) CuisUniversity-4384.image priorSource: 17443460!
+
+----QUIT----(6 November 2020 16:24:29) CuisUniversity-4384.image priorSource: 17540816!
