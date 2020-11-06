@@ -424,15 +424,62 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
-Object subclass: #Portfolio
-	instanceVariableNames: 'accounts parents'
+!classDefinition: #FinancialProduct category: 'Portfolio-Ejercicio'!
+Object subclass: #FinancialProduct
+	instanceVariableNames: 'parents'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:59:36'!
-assertThatIsIndependentOf: anAccountOrPortfolio
+!FinancialProduct methodsFor: 'inserting - private' stamp: 'NNH 11/5/2020 23:10:08'!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+
+
+!FinancialProduct methodsFor: 'balance' stamp: 'NNH 11/5/2020 23:11:23'!
+balance
+	self subclassResponsibility.! !
+
+
+!FinancialProduct methodsFor: 'testing' stamp: 'NNH 11/5/2020 23:11:39'!
+hasRegistered: aTransaction
+	self subclassResponsibility.! !
+
+
+!FinancialProduct methodsFor: 'transactions' stamp: 'NNH 11/5/2020 23:11:30'!
+transactions
+	self subclassResponsibility.! !
+
+
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/5/2020 23:17:00'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/5/2020 23:17:37'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	self subclassResponsibility.! !
+
+!FinancialProduct methodsFor: 'testing dependencies' stamp: 'NNH 11/5/2020 23:19:01'!
+includes: anAccountToSearch
+	
+	self subclassResponsibility.! !
+
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
+FinancialProduct subclass: #Portfolio
+	instanceVariableNames: 'accounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/5/2020 23:21:11'!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
 
 	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
 	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
@@ -455,16 +502,11 @@ initialize
 	parents := OrderedCollection new.! !
 
 
-!Portfolio methodsFor: 'inserting - private' stamp: 'NNH 11/4/2020 20:22:47'!
-addParent: aPortfolio 
-	
-	parents add: aPortfolio.! !
 
-
-!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/4/2020 21:12:35'!
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/5/2020 23:21:11'!
 add: anAccountOrPortfolio 
 	
-	self assertThatIsIndependentOf: anAccountOrPortfolio.
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
 	
 	anAccountOrPortfolio addParent: self.	
 	accounts add: anAccountOrPortfolio.! !
@@ -560,8 +602,285 @@ cannotIncludeItselfErrorDescription
 	^ 'A portfolio cannot include itself'.! !
 
 
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
+FinancialProduct subclass: #Portfolio
+	instanceVariableNames: 'accounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/5/2020 23:21:11'!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/4/2020 23:47:23'!
+hasAccountsInCommonWith: anAccountOrPortfolio
+
+	^ (self accountsInPortfolio intersection: anAccountOrPortfolio accountsInPortfolio) isEmpty not! !
+
+
+!Portfolio methodsFor: 'balance' stamp: 'NNH 11/2/2020 20:17:42'!
+balance
+	^ accounts sum: [:anAccount | anAccount balance] ifEmpty: [0].! !
+
+
+!Portfolio methodsFor: 'initializing' stamp: 'NNH 11/4/2020 20:22:24'!
+initialize
+	
+	accounts := OrderedCollection new.
+	parents := OrderedCollection new.! !
+
+
+
+!Portfolio methodsFor: 'inserting' stamp: 'NNH 11/5/2020 23:21:11'!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+
+!Portfolio methodsFor: 'testing' stamp: 'NNH 11/2/2020 20:45:46'!
+hasRegistered: aTransaction
+	^ accounts anySatisfy: [:anAccount | anAccount hasRegistered: aTransaction].! !
+
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:39:40'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.
+	
+	
+	
+! !
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:08'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	aCollectionOfAccounts add: self.
+	accounts do: [:anAccount | anAccount addAccountsInPortfolioTo: aCollectionOfAccounts].
+	
+	
+	
+! !
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:22:27'!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		accounts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	
+! !
+
+!Portfolio methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:20:44'!
+isInAPortfolioWith: anAccount
+	
+	^ (parents anySatisfy: [:aParent | aParent isInAPortfolioWith: anAccount ]) or: [
+		self includes: anAccount
+		].
+	
+	
+! !
+
+
+!Portfolio methodsFor: 'transactions' stamp: 'NNH 11/4/2020 19:09:03'!
+transactions
+	
+	| aCollectionOfTransactions |
+	
+	aCollectionOfTransactions := OrderedCollection new.
+	self addTransactionsTo: aCollectionOfTransactions.
+	
+	^aCollectionOfTransactions.! !
+
+
+!Portfolio methodsFor: 'transactions - private' stamp: 'NNH 11/4/2020 20:13:45'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	accounts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Portfolio class' category: 'Portfolio-Ejercicio'!
+Portfolio class
+	instanceVariableNames: ''!
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'NNH 11/2/2020 20:16:15'!
+new
+	
+	^ self basicNew initialize.! !
+
+
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:54:30'!
+canNotBelongToACommonPortfolioErrorDescription
+	^ 'There is a portfolio containing both portfolios'! !
+
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/4/2020 23:58:51'!
+canNotHaveAnAccountInCommonErrorDescription
+	^ 'Portfolios should not share an account'! !
+
+!Portfolio class methodsFor: 'error descriptions' stamp: 'NNH 11/2/2020 21:15:01'!
+cannotIncludeItselfErrorDescription
+	^ 'A portfolio cannot include itself'.! !
+
+
+!classDefinition: #PortfolioTipoDeNodo category: 'Portfolio-Ejercicio'!
+Object subclass: #PortfolioTipoDeNodo
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:37:52'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:38:06'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	self subclassResponsibility.! !
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:38:29'!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:39:13'!
+balance
+	
+	self subclassResponsibility.! !
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:39:32'!
+hasRegistered: aTransaction
+	
+	self subclassResponsibility.! !
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:37:32'!
+includes: anAccountToSearch
+	
+	self subclassResponsibility.! !
+
+!PortfolioTipoDeNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:39:19'!
+transactions
+	
+	self subclassResponsibility.! !
+
+
+!classDefinition: #PortfolioHoja category: 'Portfolio-Ejercicio'!
+PortfolioTipoDeNodo subclass: #PortfolioHoja
+	instanceVariableNames: 'receptiveAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:48:37'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	aCollectionOfTransactions addAllLast: self transactions.! !
+
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:47:14'!
+balance
+	
+	^ receptiveAccount balance.! !
+
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:47:39'!
+hasRegistered: aTransaction
+	
+	^ receptiveAccount hasRegistered: aTransaction.! !
+
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:48:16'!
+includes: anAccountToSearch
+	
+	^ anAccountToSearch == self.! !
+
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:47:22'!
+transactions
+	
+	^ receptiveAccount transactions.! !
+
+
+!classDefinition: #PortfolioNodo category: 'Portfolio-Ejercicio'!
+PortfolioTipoDeNodo subclass: #PortfolioNodo
+	instanceVariableNames: 'financialProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:54:01'!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	financialProducts add: anAccountOrPortfolio.
+	
+	! !
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:52:46'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	financialProducts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].
+	
+	! !
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:54:24'!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].
+	
+	! !
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:50:23'!
+balance
+	^ financialProducts sum: [:anAccount | anAccount balance] ifEmpty: [0].
+	
+	! !
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:50:44'!
+hasRegistered: aTransaction
+	^ financialProducts anySatisfy: [:anAccount | anAccount hasRegistered: aTransaction].
+	
+	! !
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:52:29'!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	! !
+
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:51:14'!
+transactions
+	
+	| aCollectionOfTransactions |
+	
+	aCollectionOfTransactions := OrderedCollection new.
+	self addTransactionsTo: aCollectionOfTransactions.
+	
+	^aCollectionOfTransactions.
+	
+	! !
+
+
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!
-Object subclass: #ReceptiveAccount
+FinancialProduct subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions parents'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -594,14 +913,6 @@ hasRegistered: aTransaction
 ! !
 
 
-!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:43:35'!
-accountsInPortfolio
-	
-	| accountsInPortfolio |
-	accountsInPortfolio := OrderedCollection new.
-	self addAccountsInPortfolioTo: accountsInPortfolio.
-	^ accountsInPortfolio.! !
-
 !ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 23:42:32'!
 addAccountsInPortfolioTo: aCollectionOfAccounts
 		
@@ -611,24 +922,6 @@ addAccountsInPortfolioTo: aCollectionOfAccounts
 includes: anAccountToSearch
 	
 	^ anAccountToSearch == self.! !
-
-!ReceptiveAccount methodsFor: 'testing dependencies' stamp: 'NNH 11/4/2020 21:18:11'!
-isRelatedTo: anAccount excluding: anAccountToExclude
-	
-	| neighbors |
-		
-	neighbors := parents copy.
-	neighbors remove: anAccountToExclude ifAbsent: [].
-	
-	^ anAccount == self or: [
-		neighbors anySatisfy: [:aNeighbor | aNeighbor isRelatedTo: anAccount excluding: self ] 
-		].! !
-
-
-!ReceptiveAccount methodsFor: 'transactions - private' stamp: 'NNH 11/4/2020 19:18:40'!
-addTransactionsTo: aCollectionOfTransactions
-	
-	self transactions do: [:aTransaction | aCollectionOfTransactions add: aTransaction].! !
 
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
@@ -641,3 +934,9 @@ register: aTransaction
 transactions 
 
 	^ transactions copy! !
+
+
+!ReceptiveAccount methodsFor: 'transactions - private' stamp: 'NNH 11/5/2020 23:14:22'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	aCollectionOfTransactions addAllLast: self transactions.! !

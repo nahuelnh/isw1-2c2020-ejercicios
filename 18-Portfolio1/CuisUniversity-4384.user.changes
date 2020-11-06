@@ -32250,3 +32250,374 @@ PASSED!
 ----SNAPSHOT----(5 November 2020 00:07:14) CuisUniversity-4384.image priorSource: 17428953!
 
 ----QUIT----(5 November 2020 00:07:17) CuisUniversity-4384.image priorSource: 17429155!
+
+----STARTUP---- (5 November 2020 22:29:43) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+
+!methodRemoval: ReceptiveAccount #isRelatedTo:excluding: stamp: 'NNH 11/5/2020 22:35:26'!
+isRelatedTo: anAccount excluding: anAccountToExclude
+	
+	| neighbors |
+		
+	neighbors := parents copy.
+	neighbors remove: anAccountToExclude ifAbsent: [].
+	
+	^ anAccount == self or: [
+		neighbors anySatisfy: [:aNeighbor | aNeighbor isRelatedTo: anAccount excluding: self ] 
+		].!
+
+Object subclass: #ProductoFinanciero
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #ProductoFinanciero category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 22:43:51'!
+Object subclass: #ProductoFinanciero
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+ProductoFinanciero subclass: #Portfolio
+	instanceVariableNames: 'accounts parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+Portfolio superclass: ProductoFinanciero !
+
+ReceptiveAccount superclass: ProductoFinanciero !
+
+Object subclass: #ProductoFinanciero
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #ProductoFinanciero category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:09:41'!
+Object subclass: #ProductoFinanciero
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+ProductoFinanciero subclass: #Portfolio
+	instanceVariableNames: 'accounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:09:50'!
+ProductoFinanciero subclass: #Portfolio
+	instanceVariableNames: 'accounts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!ProductoFinanciero methodsFor: 'inserting - private' stamp: 'NNH 11/5/2020 23:10:08'!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+
+!methodRemoval: Portfolio #addParent: stamp: 'NNH 11/5/2020 23:10:08'!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.!
+!ProductoFinanciero methodsFor: 'nil' stamp: 'NNH 11/5/2020 23:11:23'!
+balance
+	self subclassResponsibility.! !
+!ProductoFinanciero methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:11:30'!
+transactions
+	self subclassResponsibility.! !
+!ProductoFinanciero methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:11:39'!
+hasRegistered: aTransaction
+	self subclassResponsibility.! !
+!ReceptiveAccount methodsFor: 'transactions - private' stamp: 'NNH 11/5/2020 23:14:22' prior: 50872619!
+addTransactionsTo: aCollectionOfTransactions
+	
+	aCollectionOfTransactions addAllLast: self transactions.! !
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'NNH 11/5/2020 23:14:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfEmptyPortfolioIsZero stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsBalanceOfThatAccount stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithMoreThanOneAccountIsSumOfBalances stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test04EmptyPortfolioHasRegisteredNoTransactions stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioWithOneAccountRegistersATransactionOfThatAccount stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test06APortfolioWithMoreThanOneAccountRegistersATransactionThatIsNotFromTheFirstAccount stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test07EmptyPortfolioHasNoTransactions stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithOneAccountHasTheTransactionsOfThatAccount stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test09APortfolioWithMoreThanOneAccountHasTheTransactionsOfItsAccounts stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioShouldNotAddItself stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioShouldNotAddParentPortfolio stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioShouldNotAddAccountIfTheyBothBelongToAnotherPortfolio stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test13PortfolioShouldNotAddAnotherPortfolioWhenTheyShareAnAccount stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test14Rombo stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test15 stamp: 'NNH 11/5/2020 23:14:32'!
+PASSED!
+!ProductoFinanciero methodsFor: 'testing dependencies' stamp: 'NNH 11/5/2020 23:17:00'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+
+!methodRemoval: ReceptiveAccount #accountsInPortfolio stamp: 'NNH 11/5/2020 23:17:00'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.!
+!ProductoFinanciero methodsFor: 'testing dependencies' stamp: 'NNH 11/5/2020 23:17:37'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	self subclassResponsibility.! !
+!ProductoFinanciero methodsFor: 'testing dependencies' stamp: 'NNH 11/5/2020 23:19:01'!
+includes: anAccountToSearch
+	
+	self subclassResponsibility.! !
+!Portfolio methodsFor: 'assertions' stamp: 'NNH 11/5/2020 23:21:11'!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:21:11' prior: 50874675!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	accounts add: anAccountOrPortfolio.! !
+
+!methodRemoval: Portfolio #assertThatIsIndependentOf: stamp: 'NNH 11/5/2020 23:21:11'!
+assertThatIsIndependentOf: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].!
+
+!classRenamed: #ProductoFinanciero as: #FinancialProduct stamp: 'NNH 11/5/2020 23:24:09'!
+Smalltalk renameClassNamed: #ProductoFinanciero as: #FinancialProduct!
+
+Object subclass: #PortfolioArbol
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioArbol category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:35:08'!
+Object subclass: #PortfolioArbol
+	instanceVariableNames: 'parents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+PortfolioArbol subclass: #PortfolioNodo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioNodo category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:35:35'!
+PortfolioArbol subclass: #PortfolioNodo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+PortfolioArbol subclass: #PortfolioHoja
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioHoja category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:35:40'!
+PortfolioArbol subclass: #PortfolioHoja
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+PortfolioArbol subclass: #PortfolioHoja
+	instanceVariableNames: 'receptiveAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioHoja category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:36:12'!
+PortfolioArbol subclass: #PortfolioHoja
+	instanceVariableNames: 'receptiveAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+PortfolioArbol subclass: #PortfolioNodo
+	instanceVariableNames: 'financialProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #PortfolioNodo category: 'Portfolio-Ejercicio' stamp: 'NNH 11/5/2020 23:36:24'!
+PortfolioArbol subclass: #PortfolioNodo
+	instanceVariableNames: 'financialProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!PortfolioArbol methodsFor: 'nil' stamp: 'NNH 11/5/2020 23:37:32'!
+includes: anAccountToSearch
+	
+	self subclassResponsibility.! !
+!PortfolioArbol methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:37:52'!
+accountsInPortfolio
+	
+	| accountsInPortfolio |
+	accountsInPortfolio := OrderedCollection new.
+	self addAccountsInPortfolioTo: accountsInPortfolio.
+	^ accountsInPortfolio.! !
+!PortfolioArbol methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:38:06'!
+addAccountsInPortfolioTo: aCollectionOfAccounts
+		
+	self subclassResponsibility.! !
+!PortfolioArbol methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:38:29'!
+addParent: aPortfolio 
+	
+	parents add: aPortfolio.! !
+!PortfolioArbol methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:39:13'!
+balance
+	
+	self subclassResponsibility.! !
+!PortfolioArbol methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:39:19'!
+transactions
+	
+	self subclassResponsibility.! !
+!PortfolioArbol methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:39:32'!
+hasRegistered: aTransaction
+	
+	self subclassResponsibility.! !
+
+!classRenamed: #PortfolioArbol as: #PortfolioTipoDeNodo stamp: 'NNH 11/5/2020 23:44:48'!
+Smalltalk renameClassNamed: #PortfolioArbol as: #PortfolioTipoDeNodo!
+!PortfolioHoja methodsFor: 'nil' stamp: 'NNH 11/5/2020 23:47:14' overrides: 50876648!
+balance
+	
+	^ receptiveAccount balance.! !
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:47:22' overrides: 50876652!
+transactions
+	
+	^ receptiveAccount transactions.! !
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:47:39' overrides: 50876657!
+hasRegistered: aTransaction
+	
+	^ receptiveAccount hasRegistered: aTransaction.! !
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:48:16' overrides: 50876623!
+includes: anAccountToSearch
+	
+	^ anAccountToSearch == self.! !
+!PortfolioHoja methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:48:37'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	aCollectionOfTransactions addAllLast: self transactions.! !
+!PortfolioNodo methodsFor: 'nil' stamp: 'NNH 11/5/2020 23:50:23' overrides: 50876648!
+balance
+	^ financialProducts sum: [:anAccount | anAccount balance] ifEmpty: [0].
+	
+	! !
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:50:44' overrides: 50876657!
+hasRegistered: aTransaction
+	^ financialProducts anySatisfy: [:anAccount | anAccount hasRegistered: aTransaction].
+	
+	! !
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:51:14' overrides: 50876652!
+transactions
+	
+	| aCollectionOfTransactions |
+	
+	aCollectionOfTransactions := OrderedCollection new.
+	self addTransactionsTo: aCollectionOfTransactions.
+	
+	^aCollectionOfTransactions.
+	
+	! !
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:52:29' overrides: 50876623!
+includes: anAccountToSearch
+	
+	
+	^ (anAccountToSearch == self) or: [
+		financialProducts anySatisfy: [:anAccount | anAccount includes: anAccountToSearch]
+		].
+	
+	! !
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:52:46'!
+addTransactionsTo: aCollectionOfTransactions
+	
+	financialProducts do: [ :anAccount | anAccount addTransactionsTo: aCollectionOfTransactions ].
+	
+	! !
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:54:01'!
+add: anAccountOrPortfolio 
+	
+	self assertFinancialProductCanBeAdded: anAccountOrPortfolio.
+	
+	anAccountOrPortfolio addParent: self.	
+	financialProducts add: anAccountOrPortfolio.
+	
+	! !
+!PortfolioNodo methodsFor: 'as yet unclassified' stamp: 'NNH 11/5/2020 23:54:24'!
+assertFinancialProductCanBeAdded: anAccountOrPortfolio
+
+	(self isInAPortfolioWith: anAccountOrPortfolio) ifTrue: [self error: self class canNotBelongToACommonPortfolioErrorDescription ].
+	(self hasAccountsInCommonWith: anAccountOrPortfolio)	 ifTrue: [self error: self class canNotHaveAnAccountInCommonErrorDescription ].
+	
+	! !
+
+----SNAPSHOT----(6 November 2020 00:14:54) CuisUniversity-4384.image priorSource: 17429248!
+
+----QUIT----(6 November 2020 00:15:01) CuisUniversity-4384.image priorSource: 17443367!
