@@ -43419,3 +43419,382 @@ reportReceivingTransferComponent: aReceivingTransferComponent
 FAILURE!
 
 ----QUIT----(13 November 2020 21:25:09) CuisUniversity-4384.image priorSource: 17723901!
+
+----STARTUP---- (14 November 2020 10:26:08) as /home/agustin/Escritorio/Uba/Materias/Compu/ISW1/imagenportfolio2/CuisUniversity-4384.image!
+
+
+!classRemoval: #Transfer stamp: 'AM 11/14/2020 10:26:25'!
+Object subclass: #Transfer
+	instanceVariableNames: 'value sending receiving'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #SimpleTreeStructureReporter stamp: 'AM 11/14/2020 10:26:27'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #DetailedTreeStructureReporter stamp: 'AM 11/14/2020 10:26:28'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #TreeStructureReporter stamp: 'AM 11/14/2020 10:26:29'!
+Reporter subclass: #TreeStructureReporter
+	instanceVariableNames: 'numberOfLeadingTabs treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #NetTransferReporter stamp: 'AM 11/14/2020 10:26:30'!
+Reporter subclass: #NetTransferReporter
+	instanceVariableNames: 'netTransfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #AccountSummaryReporter stamp: 'AM 11/14/2020 10:26:32'!
+Reporter subclass: #AccountSummaryReporter
+	instanceVariableNames: 'accountSummary'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #Reporter stamp: 'AM 11/14/2020 10:26:33'!
+Object subclass: #Reporter
+	instanceVariableNames: 'account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #Withdraw stamp: 'AM 11/14/2020 10:26:35'!
+AccountTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #SendingTransferComponent stamp: 'AM 11/14/2020 10:26:36'!
+TransferComponent subclass: #SendingTransferComponent
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #ReceivingTransferComponent stamp: 'AM 11/14/2020 10:26:38'!
+TransferComponent subclass: #ReceivingTransferComponent
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #TransferComponent stamp: 'AM 11/14/2020 10:26:39'!
+AccountTransaction subclass: #TransferComponent
+	instanceVariableNames: 'receptiveAccount transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #Deposit stamp: 'AM 11/14/2020 10:26:40'!
+AccountTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #AccountTransaction stamp: 'AM 11/14/2020 10:26:42'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #ReceptiveAccount stamp: 'AM 11/14/2020 10:26:43'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions transfer name'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #Portfolio stamp: 'AM 11/14/2020 10:26:44'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents accountName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #Account stamp: 'AM 11/14/2020 10:26:46'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #SimpleTreeStructureReporterTest stamp: 'AM 11/14/2020 10:26:47'!
+TestCase subclass: #SimpleTreeStructureReporterTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #ReceptiveAccountTest stamp: 'AM 11/14/2020 10:26:49'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #PortfolioTest stamp: 'AM 11/14/2020 10:26:50'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #NetTransferReporterTest stamp: 'AM 11/14/2020 10:26:52'!
+TestCase subclass: #NetTransferReporterTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #DetailedTreeStructureReporterTest stamp: 'AM 11/14/2020 10:26:53'!
+TestCase subclass: #DetailedTreeStructureReporterTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRemoval: #AccountSummaryReporterTest stamp: 'AM 11/14/2020 10:26:54'!
+TestCase subclass: #AccountSummaryReporterTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+----End fileIn of /home/agustin/Escritorio/Uba/Materias/Compu/ISW1/isw1-2c2020-ejercicios/19-Portfolio2/Portfolio.st----!
+
+!methodRemoval: Portfolio #accounts stamp: 'AM 11/14/2020 10:27:36'!
+accounts
+	^ accounts copy!
+
+!testRun: #AccountSummaryReporterTest #test01EmptyAccountSummaryShouldOnlyPrintBalance stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test02AReceptiveAccountWithOneTransactionShowsItInSummary stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test03AReceptiveAccountWithMoreThanOneTransactionShowsThemInAccountSummary stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test04EmptyPortfolioBalanceShouldOnlyPrintBalance stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test05AccountSummaryOfPortfolioWithReceptiveAccountsShowsTheirTransactionsAndBalance stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test06PortfolioAccountSummaryIsCalculatedRecursively stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test01DetailedReportShowsNameAndBalanceOnEmptyReceptiveAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test03DetailedReportOnEmptyPortfolioShowsNameAndBalance stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test04DetailedReportOnPortoflioWithReceptiveAccountsShowsTheirNamesAndBalances stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test05DetailedReportIsRecursiveOnPortfolio stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test01AnEmptyReceptiveAccountHasZeroNetTransfer stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test02NetTransferIsAffectedCorrectlyInReceptiveAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test03NetTransferIsOnlyAffectedByTransfersInReceptiveAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test04NetTransferOfEmptyPortfolioIsZero stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test05NetTransferOfComposedPortfolioIsSumOfNetTransfers stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test06NetTransferIsCalculatedRecursivelyInAPortfolio stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08BalanceShouldBeDecreasedOnTransferSendingAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09BalanceShouldBeIncreasedOnTransferReceivingAccount stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10BalanceOfAnAccountIsAffectedBySendingAndReceivingTransfers stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11AccountsRegisterTransfersOnlyWhenAffected stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12TransferComponentsKnowTheirTransfer stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13AnAccountShouldNotTransferToItself stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test14TransferValueMustBePositive stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test01AReceptiveAccountShowsItselfOnTreeStructure stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test02TreeStructureOfEmptyPortfolioOnlyShowsItsName stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test03APortfolioWithReceptiveAccountsShowsTreeStructure stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test04TreeStructureIsCalculatedRecursivelyInPortfolio stamp: 'AM 11/14/2020 10:30:24'!
+PASSED!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:34:10' prior: 50890239 overrides: 50890002!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	treeStructure add: 
+		(self leadingTabs, (self formatReceivingTransferComponent: aReceivingTransferComponent))! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:34:27' prior: 50890262 overrides: 50890013!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	treeStructure add: 
+		(self leadingTabs, (self formatSendingTransferComponent: aSendingTransferComponent) )
+		! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:34:36' prior: 50890273 overrides: 50890026!
+reportWithdraw: aWithdraw 
+
+	treeStructure add: 
+		(self leadingTabs, (self formatWithdraw: aWithdraw) ) ! !
+!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:34:47' prior: 50890303 overrides: 50890008!
+reportReceptiveAccount: aReceptiveAccount 	
+	
+	treeStructure add: 
+		(self leadingTabs, aReceptiveAccount accountName)! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:35:08' prior: 50890250 overrides: 50890008!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 self reportAccountWithTabs: aReceptiveAccount evaluating: [ 	self reportTransactionsRecursively: aReceptiveAccount ].
+		
+	treeStructure add: 
+		(self leadingTabs , '\t', (self formatBalance: aReceptiveAccount))! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:35:39' prior: 50890079 overrides: 50890002!
+reportReceivingTransferComponent: aReceivingTransferComponent
+ 
+	accountSummary add: 
+		(self formatReceivingTransferComponent: aReceivingTransferComponent)
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:35:46' prior: 50890065 overrides: 50889992!
+reportDeposit: aDeposit
+	
+	accountSummary add: 
+		(self formatDeposit: aDeposit)
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:35:51' prior: 50890104 overrides: 50890026!
+reportWithdraw: aWithdraw
+
+	accountSummary add:
+		(self formatWithdraw: aWithdraw)
+	
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:35:55' prior: 50890095 overrides: 50890013!
+reportSendingTransferComponent: aSendingTransferComponent
+ 
+	accountSummary add: 
+	(self formatSendingTransferComponent: aSendingTransferComponent)
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/14/2020 10:35:56' prior: 50890664 overrides: 50890013!
+reportSendingTransferComponent: aSendingTransferComponent
+ 
+	accountSummary add: 
+		(self formatSendingTransferComponent: aSendingTransferComponent)
+	
+	! !
+
+----QUIT----(14 November 2020 10:38:15) CuisUniversity-4384.image priorSource: 17811768!
