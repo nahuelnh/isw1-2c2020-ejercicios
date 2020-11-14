@@ -133,8 +133,8 @@ TestCase subclass: #DetailedTreeStructureReporterTest
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/12/2020 23:59:12'!
-test03
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 21:00:42'!
+test03DetailedReportOnEmptyPortfolioShowsNameAndBalance
 
 	| anEmptyPortfolio portfolioDetailedTreeStructure |
 	
@@ -145,8 +145,8 @@ test03
 	self assert: (portfolioDetailedTreeStructure hasEqualElements: { 'Cuenta de Pepe'. '\tBalance = 0' }).
 	self assert: portfolioDetailedTreeStructure first equals: 'Cuenta de Pepe'.! !
 
-!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 00:07:00'!
-test04
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 21:01:03'!
+test04DetailedReportOnPortoflioWithReceptiveAccountsShowsTheirNamesAndBalances
 
 	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure expectedPortfolioTreeStructure |
 	
@@ -163,8 +163,8 @@ test04
 
 	self assert:  pepitoPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
 
-!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 00:17:17'!
-test05
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 21:01:18'!
+test05DetailedReportIsRecursiveOnPortfolio
 
 	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio expectedPortfolioTreeStructure |
 	
@@ -185,8 +185,8 @@ test05
 	self assert:  agustinPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
 
 
-!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/12/2020 23:33:31'!
-test01
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:53:03'!
+test01DetailedReportShowsNameAndBalanceOnEmptyReceptiveAccount
 
 	| aReceptiveAccount aReceptiveAccountTreeStructure |
 	
@@ -197,8 +197,8 @@ test01
 	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
 	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.! !
 
-!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/12/2020 23:56:31'!
-test02
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:53:50'!
+test02DetailedReportShowsEveryTransactionOnReceptiveAccount
 
 	| aReceptiveAccount aReceptiveAccountTreeStructure anotherReceptiveAccount expectedAccountTreeStructure |
 	
@@ -717,37 +717,37 @@ test14TransferShouldNotHaveNonPositiveValue
 		! !
 
 
-!classDefinition: #TreeStructureReporterTest category: 'Portfolio'!
-TestCase subclass: #TreeStructureReporterTest
+!classDefinition: #SimpleTreeStructureReporterTest category: 'Portfolio'!
+TestCase subclass: #SimpleTreeStructureReporterTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!TreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 17:43:59'!
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:56:49'!
 test01AReceptiveAccountShowsItselfOnTreeStructure
 
 	| aReceptiveAccount aReceptiveAccountTreeStructure |
 	
 	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
 	
-	aReceptiveAccountTreeStructure :=  (TreeStructureReporter for: aReceptiveAccount) report.
+	aReceptiveAccountTreeStructure :=  (SimpleTreeStructureReporter for: aReceptiveAccount) report.
 	
 	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'}).! !
 
 
-!TreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:44:20'!
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:56:49'!
 test02TreeStructureOfEmptyPortfolioIsZItsName
 
 	| anEmptyPortfolio emptyPortfolioTreeStructure |
 	
 	anEmptyPortfolio := Portfolio named: 'Portfolio de Pepito'.
 	
-	emptyPortfolioTreeStructure :=  (TreeStructureReporter for: anEmptyPortfolio) report.
+	emptyPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: anEmptyPortfolio) report.
 
 	self assert:  (emptyPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito' } ).! !
 
-!TreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:44:28'!
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:56:49'!
 test03APortfolioWithReceptiveAccountsShowsTreeStructure
 
 	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure |
@@ -760,12 +760,12 @@ test03APortfolioWithReceptiveAccountsShowsTreeStructure
 	pepitoPortfolio add: pepeReceptiveAccount.
 	pepitoPortfolio add: pepoteReceptiveAccount.
 	
-	pepitoPortfolioTreeStructure :=  (TreeStructureReporter for: pepitoPortfolio) report.
+	pepitoPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: pepitoPortfolio) report.
 
 	self assert:  (pepitoPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito'. '\tCuenta de Pepe'. '\tCuenta de Pepote'}).
 	self assert:   pepitoPortfolioTreeStructure first equals: 'Portfolio de Pepito'.! !
 
-!TreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:44:39'!
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:56:49'!
 test04TreeStructureIsCalculatedRecursivelyInPortfolio
 
 	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio |
@@ -778,7 +778,7 @@ test04TreeStructureIsCalculatedRecursivelyInPortfolio
 	agustinPortfolio add: nahuelPortfolio.
 	nahuelPortfolio add: hernanReceptiveAccount.
 	
-	agustinPortfolioTreeStructure :=  (TreeStructureReporter for: agustinPortfolio) report.
+	agustinPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: agustinPortfolio) report.
 
 	self assert:  (agustinPortfolioTreeStructure hasEqualElements: { 'Portfolio de Agustin'. '\tPortfolio de Nahuel'. '\t\tCuenta de Hernan'}).
 	self assert:   agustinPortfolioTreeStructure first equals: 'Portfolio de Agustin'.
@@ -937,6 +937,12 @@ initializeNamed: anAccountName
 	accountName := anAccountName.! !
 
 
+!Portfolio methodsFor: 'iterating' stamp: 'AM 11/13/2020 20:36:41'!
+onAccountsDo: aBlockToExecuteOnAccounts
+
+	accounts do: aBlockToExecuteOnAccounts ! !
+
+
 !Portfolio methodsFor: 'reports' stamp: 'AM 11/12/2020 21:45:17'!
 report: aReporter
 
@@ -1039,6 +1045,12 @@ initialize
 initializeNamed: aReceptiveAccountName 
 	
 	name := aReceptiveAccountName.! !
+
+
+!ReceptiveAccount methodsFor: 'iterating' stamp: 'AM 11/13/2020 20:41:16'!
+onTransactionsDo: aBlockToExecuteOnTransactions
+
+	transactions do: aBlockToExecuteOnTransactions! !
 
 
 !ReceptiveAccount methodsFor: 'reports' stamp: 'AM 11/12/2020 21:45:28'!
@@ -1307,6 +1319,27 @@ report
 	self subclassResponsibility ! !
 
 
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:13:35'!
+formatDeposit: aDeposit
+
+	^ 'Depósito por ', aDeposit value asString. ! !
+
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:16:55'!
+formatReceivingTransferComponent: aReceivingTransferComponent
+
+	^ 'Salida por transferencia de ', aReceivingTransferComponent value asString.! !
+
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:16:00'!
+formatSendingTransferComponent: aSendingTransferComponent
+
+	^ 'Salida por transferencia de ', aSendingTransferComponent value asString.! !
+
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:14:59'!
+formatWithdraw: aWithdraw
+
+	^ 'Extracción por ', aWithdraw value asString.! !
+
+
 !Reporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:28:31'!
 reportDeposit: aDeposit
 
@@ -1367,133 +1400,48 @@ report
 	^ accountSummary.! !
 
 
-!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:28:32'!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:17:38'!
 reportDeposit: aDeposit
 	
-	accountSummary add: 'Depósito por ', aDeposit value asString
+	accountSummary add: (self formatDeposit: aDeposit)
 	
 	! !
 
-!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:28:45'!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:07'!
 reportPortfolio: aPortfolio
 
-	aPortfolio accounts do: [ :anAccount | anAccount report: self ].
+	aPortfolio onAccountsDo: [ :anAccount | anAccount report: self ].
 	
 	! !
 
-!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:28:54'!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:17:56'!
 reportReceivingTransferComponent: aReceivingTransferComponent
  
-	accountSummary add: 'Entrada por transferencia de ', aReceivingTransferComponent value asString
+	accountSummary add: (self formatReceivingTransferComponent: aReceivingTransferComponent)
 	
 	! !
 
-!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:29:04'!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:26'!
 reportReceptiveAccount: aReceptiveAccount
 	
-	aReceptiveAccount transactions do: [ :aTransaction | aTransaction report: self ].
+	aReceptiveAccount onTransactionsDo: [ :aTransaction | aTransaction report: self ].
 	
 	! !
 
-!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:29:13'!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:18:09'!
 reportSendingTransferComponent: aSendingTransferComponent
  
-	accountSummary add: 'Salida por transferencia de ', aSendingTransferComponent value asString
+	accountSummary add: (self formatSendingTransferComponent: aSendingTransferComponent)
 	
 	! !
 
-!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:29:22'!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:18:24'!
 reportWithdraw: aWithdraw
 
-	accountSummary add: 'Extracción por ', aWithdraw value asString.
+	accountSummary add: (self formatWithdraw: aWithdraw)
 	
 	
 	! !
-
-
-!classDefinition: #DetailedTreeStructureReporter category: 'Portfolio'!
-Reporter subclass: #DetailedTreeStructureReporter
-	instanceVariableNames: 'detailedTreeStructure numberOfLeadingTabs'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Portfolio'!
-
-!DetailedTreeStructureReporter methodsFor: 'reporting' stamp: 'AM 11/13/2020 17:50:24'!
-report
-
-	numberOfLeadingTabs := 0.
-	detailedTreeStructure := OrderedCollection new.
-	account report: self.
-	
-	^ detailedTreeStructure ! !
-
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:49:37'!
-reportDeposit: aDeposit 
-	
-	| leadingTabs |
-	
-	leadingTabs := self leadingTabs.
-	
-	detailedTreeStructure add: leadingTabs, 'Depósito por ', aDeposit value asString. ! !
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:50:24'!
-reportPortfolio: aPortfolio 
-	
-	| leadingTabs |
-	leadingTabs := self leadingTabs.
-	detailedTreeStructure add: leadingTabs, aPortfolio accountName.
-	numberOfLeadingTabs := numberOfLeadingTabs + 1.
-	aPortfolio accounts do: [:anAccount | anAccount report: self].
-	numberOfLeadingTabs := numberOfLeadingTabs - 1.
-	detailedTreeStructure add: leadingTabs, '\tBalance = ', aPortfolio balance asString.! !
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:49:37'!
-reportReceivingTransferComponent: aReceivingTransferComponent 
-	
-	| leadingTabs |
-	
-	leadingTabs := self leadingTabs.
-	detailedTreeStructure add: leadingTabs, 'Entrada por transferencia de ', aReceivingTransferComponent value asString.! !
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 18:25:23'!
-reportReceptiveAccount: aReceptiveAccount 
-	
-	 | leadingTabs |
-	
-	leadingTabs := self leadingTabs.
-	detailedTreeStructure add: leadingTabs, aReceptiveAccount accountName.
-	numberOfLeadingTabs := numberOfLeadingTabs + 1.
-	aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self].
-	numberOfLeadingTabs := numberOfLeadingTabs - 1.
-	detailedTreeStructure add: leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:49:37'!
-reportSendingTransferComponent: aSendingTransferComponent 
-
-	| leadingTabs |
-	
-	leadingTabs := self leadingTabs.
-	detailedTreeStructure add: leadingTabs, 'Salida por transferencia de ', aSendingTransferComponent value asString.! !
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:49:37'!
-reportWithdraw: aWithdraw 
-
-	| leadingTabs |
-	
-	leadingTabs := self leadingTabs.
-	detailedTreeStructure add: leadingTabs, 'Extracción por ', aWithdraw value asString.! !
-
-
-!DetailedTreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 17:50:24'!
-leadingTabs 
-	
-	| leadingTabs |
-	
-	leadingTabs := ''.
-	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
-	
-	^leadingTabs! !
 
 
 !classDefinition: #NetTransferReporter category: 'Portfolio'!
@@ -1517,22 +1465,20 @@ report
 !NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:28:32'!
 reportDeposit: aDeposit ! !
 
-!NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 21:23:09'!
+!NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:44'!
 reportPortfolio: aPortfolio 
 	
-	^ aPortfolio accounts do: [ :anAccount | anAccount report: self ].
-	
-	"aPortfolio onAccountsDo: [ :anAccount | anAccount report: self ]"! !
+	^ aPortfolio onAccountsDo: [ :anAccount | anAccount report: self ]! !
 
 !NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:28:54'!
 reportReceivingTransferComponent: aReceivingTransferComponent 
 	
 	netTransfer := netTransfer + aReceivingTransferComponent value! !
 
-!NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:29:04'!
+!NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:54'!
 reportReceptiveAccount: aReceptiveAccount 
 	
-	aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self ]! !
+	aReceptiveAccount onTransactionsDo: [:aTransaction | aTransaction report: self ]! !
 
 !NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/12/2020 00:29:13'!
 reportSendingTransferComponent: aSendingTransferComponent 
@@ -1545,53 +1491,136 @@ reportWithdraw: aWithdraw ! !
 
 !classDefinition: #TreeStructureReporter category: 'Portfolio'!
 Reporter subclass: #TreeStructureReporter
-	instanceVariableNames: 'treeStructure numberOfLeadingTabs'
+	instanceVariableNames: 'numberOfLeadingTabs treeStructure'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!TreeStructureReporter methodsFor: 'reporting' stamp: 'AM 11/12/2020 23:23:41'!
-leadingTabs: aNumberOfTabs
+!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:18:31'!
+leadingTabs
 	
 	| leadingTabs |
 	
 	leadingTabs := ''.
-	aNumberOfTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
 	
 	^leadingTabs ! !
 
-!TreeStructureReporter methodsFor: 'reporting' stamp: 'AM 11/13/2020 17:50:34'!
+
+!TreeStructureReporter methodsFor: 'reporting' stamp: 'AM 11/13/2020 20:19:54'!
 report
-	
-	treeStructure := OrderedCollection new.
+
 	numberOfLeadingTabs := 0.
 	
+	treeStructure := OrderedCollection new.
 	account report: self.
 	
-	^ treeStructure! !
+	^ treeStructure ! !
 
 
-!TreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:50:34'!
-reportPortfolio: aPortfolio 
+!TreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:45:54'!
+reportAccount: anAccount do: aBlock
 	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, anAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aBlock value.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+
+
+!classDefinition: #DetailedTreeStructureReporter category: 'Portfolio'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!DetailedTreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:48:50'!
+addBalanceOf: anAccount
+
+	^ treeStructure add: 
+		self leadingTabs , '\tBalance = ', anAccount balance asString! !
+
+
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:19:01'!
+reportDeposit: aDeposit 
 	
 	| leadingTabs |
 	
+	leadingTabs := self leadingTabs.
 	
-	leadingTabs := self leadingTabs: numberOfLeadingTabs.
-	
-	treeStructure add: leadingTabs,  aPortfolio accountName.
-	
-	numberOfLeadingTabs := numberOfLeadingTabs + 1.
-	aPortfolio accounts do: [:anAccount | anAccount report: self ].
-	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+	treeStructure add: 
+		(leadingTabs, (self formatDeposit: aDeposit) ).! !
 
-!TreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 17:50:34'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:48:29'!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio 
+		do: [aPortfolio onAccountsDo: [:anAccount | anAccount report: self] ].
+	
+	self addBalanceOf: aPortfolio.! !
+
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:22:40'!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, (self formatReceivingTransferComponent: aReceivingTransferComponent))! !
+
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:45:45'!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 self reportAccount: aReceptiveAccount 
+		do: [aReceptiveAccount onTransactionsDo: [:aTransaction | aTransaction report: self] ].
+		
+		
+	treeStructure add: self leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
+
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:20:11'!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, (self formatSendingTransferComponent: aSendingTransferComponent) )
+		! !
+
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:19:16'!
+reportWithdraw: aWithdraw 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, (self formatWithdraw: aWithdraw) ) ! !
+
+
+!classDefinition: #SimpleTreeStructureReporter category: 'Portfolio'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:47:28'!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio
+		do:  [aPortfolio onAccountsDo: [:anAccount | anAccount report: self] ].! !
+
+!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:22:02'!
 reportReceptiveAccount: aReceptiveAccount 
 
 	| leadingTabs |
 	
-	leadingTabs := self leadingTabs: numberOfLeadingTabs.
+	leadingTabs := self leadingTabs.
 	
 	treeStructure add: leadingTabs, aReceptiveAccount accountName! !
 

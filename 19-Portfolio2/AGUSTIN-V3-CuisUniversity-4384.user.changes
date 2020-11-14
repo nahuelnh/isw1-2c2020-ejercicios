@@ -41423,3 +41423,1999 @@ reportReceptiveAccount: aReceptiveAccount
 	detailedTreeStructure add: leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
 
 ----QUIT----(13 November 2020 18:31:23) CuisUniversity-4384.image priorSource: 17672102!
+
+----STARTUP---- (13 November 2020 20:04:19) as /home/agustin/Escritorio/Uba/Materias/Compu/ISW1/imagenportfolio2/CuisUniversity-4384.image!
+
+
+!classRenamed: #TreeStructureReporter as: #SimpleTreeStructureReporter stamp: 'AM 11/13/2020 20:06:31'!
+Smalltalk renameClassNamed: #TreeStructureReporter as: #SimpleTreeStructureReporter!
+!TreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:06:31' prior: 50884031!
+test04TreeStructureIsCalculatedRecursivelyInPortfolio
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: agustinPortfolio) report.
+
+	self assert:  (agustinPortfolioTreeStructure hasEqualElements: { 'Portfolio de Agustin'. '\tPortfolio de Nahuel'. '\t\tCuenta de Hernan'}).
+	self assert:   agustinPortfolioTreeStructure first equals: 'Portfolio de Agustin'.
+	self assert:   agustinPortfolioTreeStructure last equals: '\t\tCuenta de Hernan'.! !
+!TreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:06:32' prior: 50883924!
+test01AReceptiveAccountShowsItselfOnTreeStructure
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (SimpleTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'}).! !
+!TreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:06:32' prior: 50883961!
+test02TreeStructureOfEmptyPortfolioIsZItsName
+
+	| anEmptyPortfolio emptyPortfolioTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	emptyPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: anEmptyPortfolio) report.
+
+	self assert:  (emptyPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito' } ).! !
+!TreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:06:32' prior: 50883975!
+test03APortfolioWithReceptiveAccountsShowsTreeStructure
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: pepitoPortfolio) report.
+
+	self assert:  (pepitoPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito'. '\tCuenta de Pepe'. '\tCuenta de Pepote'}).
+	self assert:   pepitoPortfolioTreeStructure first equals: 'Portfolio de Pepito'.! !
+
+!classRenamed: #TreeStructureReporterTest as: #SimpleTreeStructureReporterTest stamp: 'AM 11/13/2020 20:06:40'!
+Smalltalk renameClassNamed: #TreeStructureReporterTest as: #SimpleTreeStructureReporterTest!
+
+Reporter subclass: #TreeStructureReporter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #TreeStructureReporter category: 'Portfolio' stamp: 'AM 11/13/2020 20:08:19'!
+Reporter subclass: #TreeStructureReporter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:08:47'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #DetailedTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:08:54'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+Reporter subclass: #DetailedTreeStructureReporterPostita
+	instanceVariableNames: 'detailedTreeStructure numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #DetailedTreeStructureReporterPostita category: 'Portfolio' stamp: 'AM 11/13/2020 20:10:40'!
+Reporter subclass: #DetailedTreeStructureReporterPostita
+	instanceVariableNames: 'detailedTreeStructure numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+DetailedTreeStructureReporterPostita class
+	instanceVariableNames: ''!
+
+!classDefinition: 'DetailedTreeStructureReporterPostita class' category: 'Portfolio' stamp: 'AM 11/13/2020 20:10:40'!
+DetailedTreeStructureReporterPostita class
+	instanceVariableNames: ''!
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting' stamp: 'AM 11/13/2020 20:10:40' overrides: 50878590!
+report
+
+	numberOfLeadingTabs := 0.
+	detailedTreeStructure := OrderedCollection new.
+	account report: self.
+	
+	^ detailedTreeStructure ! !
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:10:40' overrides: 50877042!
+reportDeposit: aDeposit 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	
+	detailedTreeStructure add: leadingTabs, 'Depósito por ', aDeposit value asString. ! !
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:10:40' overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	| leadingTabs |
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aPortfolio accounts do: [:anAccount | anAccount report: self].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	detailedTreeStructure add: leadingTabs, '\tBalance = ', aPortfolio balance asString.! !
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:10:40' overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, 'Entrada por transferencia de ', aReceivingTransferComponent value asString.! !
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:10:41' overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, aReceptiveAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	detailedTreeStructure add: leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:10:41' overrides: 50877231!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, 'Salida por transferencia de ', aSendingTransferComponent value asString.! !
+!DetailedTreeStructureReporterPostita methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:10:41' overrides: 50877275!
+reportWithdraw: aWithdraw 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, 'Extracción por ', aWithdraw value asString.! !
+!DetailedTreeStructureReporterPostita methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:10:41'!
+leadingTabs 
+	
+	| leadingTabs |
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs! !
+
+!classRemoval: #DetailedTreeStructureReporterPostita stamp: 'AM 11/13/2020 20:11:11'!
+Reporter subclass: #DetailedTreeStructureReporterPostita
+	instanceVariableNames: 'detailedTreeStructure numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #DetailedTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:12:49'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: 'numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!DetailedTreeStructureReporterPosta methodsFor: 'nil' stamp: 'AM 11/13/2020 20:12:45'!
+leadingTabs 
+	
+	| leadingTabs |
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs! !
+
+!classDefinition: #DetailedTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:12:58'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: 'numberOfLeadingTabs detailedTreeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:12:56' overrides: 50878590!
+report
+
+	numberOfLeadingTabs := 0.
+	detailedTreeStructure := OrderedCollection new.
+	account report: self.
+	
+	^ detailedTreeStructure ! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:13:05' overrides: 50877042!
+reportDeposit: aDeposit 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	
+	detailedTreeStructure add: leadingTabs, 'Depósito por ', aDeposit value asString. ! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:13:10' overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	| leadingTabs |
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aPortfolio accounts do: [:anAccount | anAccount report: self].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	detailedTreeStructure add: leadingTabs, '\tBalance = ', aPortfolio balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:13:17' overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, 'Entrada por transferencia de ', aReceivingTransferComponent value asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:13:22' overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, aReceptiveAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	detailedTreeStructure add: leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:13:27' overrides: 50877231!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, 'Salida por transferencia de ', aSendingTransferComponent value asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:13:32' overrides: 50877275!
+reportWithdraw: aWithdraw 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	detailedTreeStructure add: leadingTabs, 'Extracción por ', aWithdraw value asString.! !
+!SimpleTreeStructureReporterPosta methodsFor: 'nil' stamp: 'AM 11/13/2020 20:14:32'!
+leadingTabs: aNumberOfTabs
+	
+	| leadingTabs |
+	
+	leadingTabs := ''.
+	aNumberOfTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs ! !
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:14:45' prior: 50885912!
+leadingTabs: aNumberOfTabs
+	
+	 
+	
+	leadingTabs := ''.
+	aNumberOfTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs ! !
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:14:46'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'leadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:15:13'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'leadingTabs numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:15:11' prior: 50885921!
+leadingTabs: aNumberOfTabs
+	
+	 
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs ! !
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:15:23'!
+leadingTabs
+	
+	 
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs ! !
+
+!methodRemoval: SimpleTreeStructureReporterPosta #leadingTabs: stamp: 'AM 11/13/2020 20:15:23'!
+leadingTabs: aNumberOfTabs
+	
+	 
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs !
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:15:33'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'leadingTabs numberOfLeadingTabs treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!SimpleTreeStructureReporterPosta methodsFor: 'nil' stamp: 'AM 11/13/2020 20:15:31' overrides: 50878590!
+report
+	
+	treeStructure := OrderedCollection new.
+	numberOfLeadingTabs := 0.
+	
+	account report: self.
+	
+	^ treeStructure! !
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:16:07'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'le numberOfLeadingTabs treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:16:07' prior: 50885956!
+leadingTabs
+	
+	 
+	
+	le := ''.
+	numberOfLeadingTabs timesRepeat: [le := le, '\t'].
+	
+	^le ! !
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:16:14' prior: 50885999!
+leadingTabs
+	
+	 
+	
+	| leadingTabs |
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [le := le, '\t'].
+	
+	^leadingTabs ! !
+
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'numberOfLeadingTabs treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:16:28'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'numberOfLeadingTabs treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:16:36' overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	
+	| leadingTabs |
+	
+	
+	leadingTabs := self leadingTabs: numberOfLeadingTabs.
+	
+	treeStructure add: leadingTabs,  aPortfolio accountName.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aPortfolio accounts do: [:anAccount | anAccount report: self ].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+!SimpleTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:16:44' overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs: numberOfLeadingTabs.
+	
+	treeStructure add: leadingTabs, aReceptiveAccount accountName! !
+
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: 'detailedTreeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #DetailedTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:17:54'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: 'detailedTreeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:18:03'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: 'treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #TreeStructureReporter category: 'Portfolio' stamp: 'AM 11/13/2020 20:18:03'!
+Reporter subclass: #TreeStructureReporter
+	instanceVariableNames: 'numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:18:12'!
+leadingTabs
+	
+	 
+	
+	| leadingTabs |
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [le := le, '\t'].
+	
+	^leadingTabs ! !
+
+!methodRemoval: SimpleTreeStructureReporterPosta #leadingTabs stamp: 'AM 11/13/2020 20:18:12'!
+leadingTabs
+	
+	 
+	
+	| leadingTabs |
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [le := le, '\t'].
+	
+	^leadingTabs !
+!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:18:26' prior: 50886086!
+leadingTabs
+	
+	 
+	
+	| leadingTabs |
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs ! !
+!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:18:31' prior: 50886101!
+leadingTabs
+	
+	| leadingTabs |
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs ! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting' stamp: 'AM 11/13/2020 20:19:00' prior: 50885826 overrides: 50878590!
+report
+
+	numberOfLeadingTabs := 0.
+	
+	detailedTreeStructure := OrderedCollection new.
+	account report: self.
+	
+	^ detailedTreeStructure ! !
+
+!classDefinition: #DetailedTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:19:19'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: 'treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:19' prior: 50886118 overrides: 50878590!
+report
+
+	numberOfLeadingTabs := 0.
+	
+	treeStructure := OrderedCollection new.
+	account report: self.
+	
+	^ treeStructure ! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:19' prior: 50885892 overrides: 50877231!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, 'Salida por transferencia de ', aSendingTransferComponent value asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:19' prior: 50885835 overrides: 50877042!
+reportDeposit: aDeposit 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	
+	treeStructure add: leadingTabs, 'Depósito por ', aDeposit value asString. ! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:19' prior: 50885845 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	| leadingTabs |
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aPortfolio accounts do: [:anAccount | anAccount report: self].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	treeStructure add: leadingTabs, '\tBalance = ', aPortfolio balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:19' prior: 50885874 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, aReceptiveAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	treeStructure add: leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:19' prior: 50885862 overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, 'Entrada por transferencia de ', aReceivingTransferComponent value asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:19:20' prior: 50885904 overrides: 50877275!
+reportWithdraw: aWithdraw 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, 'Extracción por ', aWithdraw value asString.! !
+
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #SimpleTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:19:34'!
+TreeStructureReporter subclass: #SimpleTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #DetailedTreeStructureReporterPosta category: 'Portfolio' stamp: 'AM 11/13/2020 20:19:43'!
+TreeStructureReporter subclass: #DetailedTreeStructureReporterPosta
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classDefinition: #TreeStructureReporter category: 'Portfolio' stamp: 'AM 11/13/2020 20:19:44'!
+Reporter subclass: #TreeStructureReporter
+	instanceVariableNames: 'numberOfLeadingTabs treeStructure'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+!TreeStructureReporter methodsFor: 'reporting' stamp: 'AM 11/13/2020 20:19:54' overrides: 50878590!
+report
+
+	numberOfLeadingTabs := 0.
+	
+	treeStructure := OrderedCollection new.
+	account report: self.
+	
+	^ treeStructure ! !
+
+!methodRemoval: DetailedTreeStructureReporterPosta #report stamp: 'AM 11/13/2020 20:19:54'!
+report
+
+	numberOfLeadingTabs := 0.
+	
+	treeStructure := OrderedCollection new.
+	account report: self.
+	
+	^ treeStructure !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:20:08' prior: 50886167 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aPortfolio accounts do: [:anAccount | anAccount report: self].
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	treeStructure add: leadingTabs, '\tBalance = ', aPortfolio balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:20:19' prior: 50886184 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, aReceptiveAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self].
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	treeStructure add: leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
+
+!methodRemoval: DetailedTreeStructureReporterPosta #leadingTabs stamp: 'AM 11/13/2020 20:21:26'!
+leadingTabs 
+	
+	| leadingTabs |
+	
+	leadingTabs := ''.
+	numberOfLeadingTabs timesRepeat: [leadingTabs := leadingTabs, '\t'].
+	
+	^leadingTabs!
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:21:57' prior: 50886030 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	
+	| leadingTabs |
+	
+	
+	leadingTabs := self leadingTabs.
+	
+	treeStructure add: leadingTabs,  aPortfolio accountName.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	aPortfolio accounts do: [:anAccount | anAccount report: self ].
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:22:02' prior: 50886045 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	
+	treeStructure add: leadingTabs, aReceptiveAccount accountName! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:23:33'!
+reportAccount: anAccount do: aBlock
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, anAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aBlock value: anAccount.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	treeStructure add: leadingTabs, '\tBalance = ', anAccount balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:25:23' prior: 50886268 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio 
+		do: [aPortfolio accounts do: [:anAccount | anAccount report: self] ].! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:25:28' prior: 50886335!
+reportAccount: anAccount do: aBlock
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, anAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aBlock value.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.
+	treeStructure add: leadingTabs, '\tBalance = ', anAccount balance asString.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:26:07' prior: 50886285 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 self reportAccount: aReceptiveAccount 
+		do: [aReceptiveAccount transactions do: [:anAccount | anAccount report: self] ].! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:26:19' prior: 50886376 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 self reportAccount: aReceptiveAccount 
+		do: [aReceptiveAccount transactions do: [:aTransaction | aTransaction report: self] ].! !
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:28:21' prior: 50886311 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	
+	| leadingTabs |
+	
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs,  aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aPortfolio accounts do: [:anAccount | anAccount report: self ].
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:28:24' prior: 50886396 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs,  aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aPortfolio accounts do: [:anAccount | anAccount report: self ].
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+!DetailedTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:31:37' prior: 50886351 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio 
+		do: [aPortfolio accounts do: [:anAccount | anAccount report: self] ].! !
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:32:02' prior: 50883296!
+test04
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure expectedPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (DetailedTreeStructureReporterPosta for: pepitoPortfolio) report.
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Pepito' with: '\tCuenta de Pepe' with: '\t\tBalance = 0' with: '\tCuenta de Pepote' with: '\t\tBalance = 0' with: '\tBalance = 0'.
+
+	self assert:  pepitoPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:32:07' prior: 50883162!
+test03
+
+	| anEmptyPortfolio portfolioDetailedTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Cuenta de Pepe'.
+	
+	portfolioDetailedTreeStructure := ( DetailedTreeStructureReporterPosta for: anEmptyPortfolio ) report.
+	
+	self assert: (portfolioDetailedTreeStructure hasEqualElements: { 'Cuenta de Pepe'. '\tBalance = 0' }).
+	self assert: portfolioDetailedTreeStructure first equals: 'Cuenta de Pepe'.! !
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:32:10' prior: 50883065!
+test02
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure anotherReceptiveAccount expectedAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	anotherReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepe'.
+	
+	Deposit register: 100 on: aReceptiveAccount.
+	Withdraw register: 50 on: aReceptiveAccount.
+	Transfer from: aReceptiveAccount to: anotherReceptiveAccount for: 100.
+	Transfer from: anotherReceptiveAccount to: aReceptiveAccount for: 100.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporterPosta for: aReceptiveAccount) report.
+	expectedAccountTreeStructure := OrderedCollection 				with: 'Cuenta Pepito' with: '\tDepósito por 100' with: '\tExtracción por 50' with: '\tSalida por transferencia de 100' with: '\tEntrada por transferencia de 100'  with: '\tBalance = 50'.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: expectedAccountTreeStructure).
+	self assert: aReceptiveAccountTreeStructure first equals: expectedAccountTreeStructure first.
+	self assert: aReceptiveAccountTreeStructure last equals: expectedAccountTreeStructure last.! !
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:32:15' prior: 50882539!
+test01
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporterPosta for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
+	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.! !
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:32:19' prior: 50883854!
+test05
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio expectedPortfolioTreeStructure |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	Deposit register: 100 on: hernanReceptiveAccount.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (DetailedTreeStructureReporterPosta for: agustinPortfolio) report.
+	
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Agustin' with:  '\tPortfolio de Nahuel' with: '\t\tCuenta de Hernan' with: '\t\t\tDepósito por 100' with: '\t\t\tBalance = 100' with: '\t\tBalance = 100'.
+	expectedPortfolioTreeStructure add: '\tBalance = 100'.
+	self assert:  agustinPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
+
+!classRemoval: #DetailedTreeStructureReporter stamp: 'AM 11/13/2020 20:32:27'!
+Reporter subclass: #DetailedTreeStructureReporter
+	instanceVariableNames: 'detailedTreeStructure numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!classRenamed: #DetailedTreeStructureReporterPosta as: #DetailedTreeStructureReporter stamp: 'AM 11/13/2020 20:32:34'!
+Smalltalk renameClassNamed: #DetailedTreeStructureReporterPosta as: #DetailedTreeStructureReporter!
+!DetailedTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:32:35' prior: 50886464!
+test03
+
+	| anEmptyPortfolio portfolioDetailedTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Cuenta de Pepe'.
+	
+	portfolioDetailedTreeStructure := ( DetailedTreeStructureReporter for: anEmptyPortfolio ) report.
+	
+	self assert: (portfolioDetailedTreeStructure hasEqualElements: { 'Cuenta de Pepe'. '\tBalance = 0' }).
+	self assert: portfolioDetailedTreeStructure first equals: 'Cuenta de Pepe'.! !
+!DetailedTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:32:35' prior: 50886434!
+test04
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure expectedPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (DetailedTreeStructureReporter for: pepitoPortfolio) report.
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Pepito' with: '\tCuenta de Pepe' with: '\t\tBalance = 0' with: '\tCuenta de Pepote' with: '\t\tBalance = 0' with: '\tBalance = 0'.
+
+	self assert:  pepitoPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
+!DetailedTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:32:35' prior: 50886520!
+test01
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
+	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.! !
+!DetailedTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:32:35' prior: 50886481!
+test02
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure anotherReceptiveAccount expectedAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	anotherReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepe'.
+	
+	Deposit register: 100 on: aReceptiveAccount.
+	Withdraw register: 50 on: aReceptiveAccount.
+	Transfer from: aReceptiveAccount to: anotherReceptiveAccount for: 100.
+	Transfer from: anotherReceptiveAccount to: aReceptiveAccount for: 100.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	expectedAccountTreeStructure := OrderedCollection 				with: 'Cuenta Pepito' with: '\tDepósito por 100' with: '\tExtracción por 50' with: '\tSalida por transferencia de 100' with: '\tEntrada por transferencia de 100'  with: '\tBalance = 50'.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: expectedAccountTreeStructure).
+	self assert: aReceptiveAccountTreeStructure first equals: expectedAccountTreeStructure first.
+	self assert: aReceptiveAccountTreeStructure last equals: expectedAccountTreeStructure last.! !
+!DetailedTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:32:35' prior: 50886537!
+test05
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio expectedPortfolioTreeStructure |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	Deposit register: 100 on: hernanReceptiveAccount.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (DetailedTreeStructureReporter for: agustinPortfolio) report.
+	
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Agustin' with:  '\tPortfolio de Nahuel' with: '\t\tCuenta de Hernan' with: '\t\t\tDepósito por 100' with: '\t\t\tBalance = 100' with: '\t\tBalance = 100'.
+	expectedPortfolioTreeStructure add: '\tBalance = 100'.
+	self assert:  agustinPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
+
+!testRun: #DetailedTreeStructureReporterTest #test01 stamp: 'AM 11/13/2020 20:32:43'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02 stamp: 'AM 11/13/2020 20:32:43'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test03 stamp: 'AM 11/13/2020 20:32:43'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test04 stamp: 'AM 11/13/2020 20:32:43'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test05 stamp: 'AM 11/13/2020 20:32:43'!
+PASSED!
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:32:57' prior: 50885582!
+test02TreeStructureOfEmptyPortfolioIsZItsName
+
+	| anEmptyPortfolio emptyPortfolioTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	emptyPortfolioTreeStructure :=  (SimpleTreeStructureReporterPosta for: anEmptyPortfolio) report.
+
+	self assert:  (emptyPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito' } ).! !
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:33:02' prior: 50885537!
+test04TreeStructureIsCalculatedRecursivelyInPortfolio
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (SimpleTreeStructureReporterPosta for: agustinPortfolio) report.
+
+	self assert:  (agustinPortfolioTreeStructure hasEqualElements: { 'Portfolio de Agustin'. '\tPortfolio de Nahuel'. '\t\tCuenta de Hernan'}).
+	self assert:   agustinPortfolioTreeStructure first equals: 'Portfolio de Agustin'.
+	self assert:   agustinPortfolioTreeStructure last equals: '\t\tCuenta de Hernan'.! !
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 20:33:06' prior: 50885597!
+test03APortfolioWithReceptiveAccountsShowsTreeStructure
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (SimpleTreeStructureReporterPosta for: pepitoPortfolio) report.
+
+	self assert:  (pepitoPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito'. '\tCuenta de Pepe'. '\tCuenta de Pepote'}).
+	self assert:   pepitoPortfolioTreeStructure first equals: 'Portfolio de Pepito'.! !
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:33:10' prior: 50885567!
+test01AReceptiveAccountShowsItselfOnTreeStructure
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (SimpleTreeStructureReporterPosta for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'}).! !
+
+!classRemoval: #SimpleTreeStructureReporter stamp: 'AM 11/13/2020 20:33:20'!
+Reporter subclass: #SimpleTreeStructureReporter
+	instanceVariableNames: 'treeStructure numberOfLeadingTabs'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio'!
+
+!methodRemoval: SimpleTreeStructureReporterPosta #report stamp: 'AM 11/13/2020 20:33:43'!
+report
+	
+	treeStructure := OrderedCollection new.
+	numberOfLeadingTabs := 0.
+	
+	account report: self.
+	
+	^ treeStructure!
+!Portfolio methodsFor: 'nil' stamp: 'AM 11/13/2020 20:36:28'!
+onAccountsDo: aBlockToExecuteOnAccounts! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:36:41' prior: 50886838!
+onAccountsDo: aBlockToExecuteOnAccounts
+
+	accounts do: aBlockToExecuteOnAccounts ! !
+!ReceptiveAccount methodsFor: 'nil' stamp: 'AM 11/13/2020 20:41:16'!
+onTransactionsDo: aBlockToExecuteOnTransactions
+
+	transactions do: aBlockToExecuteOnTransactions! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:07' prior: 50877090 overrides: 50877084!
+reportPortfolio: aPortfolio
+
+	aPortfolio onAccountsDo: [ :anAccount | anAccount report: self ].
+	
+	! !
+
+!testRun: #AccountSummaryReporterTest #test01EmptyReceptiveAccountsSummaryShouldOnlyHaveZeroBalance stamp: 'AM 11/13/2020 20:42:10'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test02AReceptiveAccountWithOneTransactionShowsItInSummaryWithAffectedBalance stamp: 'AM 11/13/2020 20:42:10'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test03AReceptiveAccountWithEveryTransactionShowsThemInAccountSummaryAffectingBalance stamp: 'AM 11/13/2020 20:42:10'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test04AccountSummaryOfEmptyPortfolioOnlyShowsZeroBalance stamp: 'AM 11/13/2020 20:42:10'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test05AccountSummaryOfPortfolioWithReceptiveAccountsShowsTheirTransactionsAndBalance stamp: 'AM 11/13/2020 20:42:10'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test06PortfolioAccountSummaryIsCalculatedRecursively stamp: 'AM 11/13/2020 20:42:10'!
+PASSED!
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:26' prior: 50877183 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount
+	
+	aReceptiveAccount onTransactionsDo: [ :aTransaction | aTransaction report: self ].
+	
+	! !
+!NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:44' prior: 50878596 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	^ aPortfolio onAccountsDo: [ :anAccount | anAccount report: self ]! !
+!NetTransferReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:42:54' prior: 50877175 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	aReceptiveAccount onTransactionsDo: [:aTransaction | aTransaction report: self ]! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:43:16' prior: 50886426 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio 
+		do: [aPortfolio onAccountsDo: [:anAccount | anAccount report: self] ].! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:43:37' prior: 50886386 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 self reportAccount: aReceptiveAccount 
+		do: [aReceptiveAccount onTransactionsDo: [:aTransaction | aTransaction report: self] ].! !
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:43:55' prior: 50886411 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs,  aPortfolio accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aPortfolio onAccountsDo: [:anAccount | anAccount report: self ].
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:45:01' prior: 50886360!
+reportAccount: anAccount do: aBlock
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, anAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aBlock value.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:45:22' prior: 50886918 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio 
+		do: [aPortfolio onAccountsDo: [:anAccount | anAccount report: self] ].
+	
+	treeStructure add: self leadingTabs , '\tBalance = ', aPortfolio balance asString.! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:45:45' prior: 50886927 overrides: 50877169!
+reportReceptiveAccount: aReceptiveAccount 
+	
+	 self reportAccount: aReceptiveAccount 
+		do: [aReceptiveAccount onTransactionsDo: [:aTransaction | aTransaction report: self] ].
+		
+		
+	treeStructure add: self leadingTabs, '\tBalance = ', aReceptiveAccount balance asString.! !
+!TreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:45:54'!
+reportAccount: anAccount do: aBlock
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, anAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aBlock value.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.! !
+
+!methodRemoval: DetailedTreeStructureReporter #reportAccount:do: stamp: 'AM 11/13/2020 20:45:54'!
+reportAccount: anAccount do: aBlock
+	
+	 | leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: leadingTabs, anAccount accountName.
+	numberOfLeadingTabs := numberOfLeadingTabs + 1.
+	
+	aBlock value.
+	
+	numberOfLeadingTabs := numberOfLeadingTabs - 1.!
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:46:23' prior: 50886937 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio
+		do:  [:anAccount | anAccount report: self ].! !
+
+!testRun: #AccountSummaryReporterTest #test01EmptyReceptiveAccountsSummaryShouldOnlyHaveZeroBalance stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test02AReceptiveAccountWithOneTransactionShowsItInSummaryWithAffectedBalance stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test03AReceptiveAccountWithEveryTransactionShowsThemInAccountSummaryAffectingBalance stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test04AccountSummaryOfEmptyPortfolioOnlyShowsZeroBalance stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test05AccountSummaryOfPortfolioWithReceptiveAccountsShowsTheirTransactionsAndBalance stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test06PortfolioAccountSummaryIsCalculatedRecursively stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test01 stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02 stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test03 stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test04 stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test05 stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test01AnEmptyReceptiveAccountHasZeroNetTransfer stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test02TransfersAffectCorrectlyNetTransferInReceptiveAccount stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test03JustTransfersAffectNetTransfersInReceptiveAccount stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test04NetTransferOfEmptyPortfolioIsZero stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test05NetTransferOfPortfolioWithReceptiveAccountsIsTheirSumOfNetTransfers stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test06NetTransferIsCalculatedRecursivelyInAPortfolio stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08BalanceShouldBeDecreasedOnTransferSendingAccount stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09BalanceShouldBeIncreasedOnTransferReceivingAccount stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10BalanceOfAnAccountIsAffectedBySendingAndReceivingTransfers stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11AccountsRegisterTransfersThatAffectThem stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12TransferComponentsKnowTheirTransfer stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13AnAccountShouldNotTransferToItself stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test14TransferShouldNotHaveNonPositiveValue stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test01AReceptiveAccountShowsItselfOnTreeStructure stamp: 'AM 11/13/2020 20:46:40'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test02TreeStructureOfEmptyPortfolioIsZItsName stamp: 'AM 11/13/2020 20:46:40'!
+ERROR!
+
+!testRun: #SimpleTreeStructureReporterTest #test03APortfolioWithReceptiveAccountsShowsTreeStructure stamp: 'AM 11/13/2020 20:46:40'!
+ERROR!
+
+!testRun: #SimpleTreeStructureReporterTest #test04TreeStructureIsCalculatedRecursivelyInPortfolio stamp: 'AM 11/13/2020 20:46:40'!
+ERROR!
+
+!testRun: #SimpleTreeStructureReporterTest #test02TreeStructureOfEmptyPortfolioIsZItsName stamp: 'AM 11/13/2020 20:46:46'!
+ERROR!
+!SimpleTreeStructureReporterPosta methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:47:28' prior: 50887013 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio
+		do:  [aPortfolio onAccountsDo: [:anAccount | anAccount report: self] ].! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:48:29'!
+addBalanceOf: aPortfolio
+
+	^ treeStructure add: self leadingTabs , '\tBalance = ', aPortfolio balance asString! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:48:29' prior: 50886964 overrides: 50877084!
+reportPortfolio: aPortfolio 
+	
+	self reportAccount: aPortfolio 
+		do: [aPortfolio onAccountsDo: [:anAccount | anAccount report: self] ].
+	
+	self addBalanceOf: aPortfolio.! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:48:42' prior: 50887230!
+addBalanceOf: anAccount
+
+	^ treeStructure add: self leadingTabs , '\tBalance = ', anAccount balance asString! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 20:48:50' prior: 50887248!
+addBalanceOf: anAccount
+
+	^ treeStructure add: 
+		self leadingTabs , '\tBalance = ', anAccount balance asString! !
+
+!testRun: #DetailedTreeStructureReporterTest #test01 stamp: 'AM 11/13/2020 20:50:56'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02 stamp: 'AM 11/13/2020 20:50:56'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test03 stamp: 'AM 11/13/2020 20:50:56'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test04 stamp: 'AM 11/13/2020 20:50:56'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test05 stamp: 'AM 11/13/2020 20:50:56'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test01EmptyReceptiveAccountsSummaryShouldOnlyHaveZeroBalance stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test02AReceptiveAccountWithOneTransactionShowsItInSummaryWithAffectedBalance stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test03AReceptiveAccountWithEveryTransactionShowsThemInAccountSummaryAffectingBalance stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test04AccountSummaryOfEmptyPortfolioOnlyShowsZeroBalance stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test05AccountSummaryOfPortfolioWithReceptiveAccountsShowsTheirTransactionsAndBalance stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test06PortfolioAccountSummaryIsCalculatedRecursively stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test01 stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02 stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test03 stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test04 stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test05 stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test01AnEmptyReceptiveAccountHasZeroNetTransfer stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test02TransfersAffectCorrectlyNetTransferInReceptiveAccount stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test03JustTransfersAffectNetTransfersInReceptiveAccount stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test04NetTransferOfEmptyPortfolioIsZero stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test05NetTransferOfPortfolioWithReceptiveAccountsIsTheirSumOfNetTransfers stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test06NetTransferIsCalculatedRecursivelyInAPortfolio stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08BalanceShouldBeDecreasedOnTransferSendingAccount stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09BalanceShouldBeIncreasedOnTransferReceivingAccount stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10BalanceOfAnAccountIsAffectedBySendingAndReceivingTransfers stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11AccountsRegisterTransfersThatAffectThem stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12TransferComponentsKnowTheirTransfer stamp: 'AM 11/13/2020 20:51:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13AnAccountShouldNotTransferToItself stamp: 'AM 11/13/2020 20:51:29'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test14TransferShouldNotHaveNonPositiveValue stamp: 'AM 11/13/2020 20:51:29'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test01AReceptiveAccountShowsItselfOnTreeStructure stamp: 'AM 11/13/2020 20:51:29'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test02TreeStructureOfEmptyPortfolioIsZItsName stamp: 'AM 11/13/2020 20:51:29'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test03APortfolioWithReceptiveAccountsShowsTreeStructure stamp: 'AM 11/13/2020 20:51:29'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test04TreeStructureIsCalculatedRecursivelyInPortfolio stamp: 'AM 11/13/2020 20:51:29'!
+PASSED!
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:52:32'!
+test01DetailedTreeStructureReportShowsNameAndBalanceOnEmptyReceptiveAccount
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
+	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.! !
+
+!methodRemoval: DetailedTreeStructureReporterTest #test01 stamp: 'AM 11/13/2020 20:52:32'!
+test01
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
+	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.!
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:53:03'!
+test01DetailedReportShowsNameAndBalanceOnEmptyReceptiveAccount
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
+	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.! !
+
+!methodRemoval: DetailedTreeStructureReporterTest #test01DetailedTreeStructureReportShowsNameAndBalanceOnEmptyReceptiveAccount stamp: 'AM 11/13/2020 20:53:03'!
+test01DetailedTreeStructureReportShowsNameAndBalanceOnEmptyReceptiveAccount
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'. '\tBalance = 0'}).
+	self assert: aReceptiveAccountTreeStructure first equals: 'Cuenta Pepito'.!
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 20:53:50'!
+test02DetailedReportShowsEveryTransactionOnReceptiveAccount
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure anotherReceptiveAccount expectedAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	anotherReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepe'.
+	
+	Deposit register: 100 on: aReceptiveAccount.
+	Withdraw register: 50 on: aReceptiveAccount.
+	Transfer from: aReceptiveAccount to: anotherReceptiveAccount for: 100.
+	Transfer from: anotherReceptiveAccount to: aReceptiveAccount for: 100.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	expectedAccountTreeStructure := OrderedCollection 				with: 'Cuenta Pepito' with: '\tDepósito por 100' with: '\tExtracción por 50' with: '\tSalida por transferencia de 100' with: '\tEntrada por transferencia de 100'  with: '\tBalance = 50'.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: expectedAccountTreeStructure).
+	self assert: aReceptiveAccountTreeStructure first equals: expectedAccountTreeStructure first.
+	self assert: aReceptiveAccountTreeStructure last equals: expectedAccountTreeStructure last.! !
+
+!methodRemoval: DetailedTreeStructureReporterTest #test02 stamp: 'AM 11/13/2020 20:53:51'!
+test02
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure anotherReceptiveAccount expectedAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	anotherReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepe'.
+	
+	Deposit register: 100 on: aReceptiveAccount.
+	Withdraw register: 50 on: aReceptiveAccount.
+	Transfer from: aReceptiveAccount to: anotherReceptiveAccount for: 100.
+	Transfer from: anotherReceptiveAccount to: aReceptiveAccount for: 100.
+	
+	aReceptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: aReceptiveAccount) report.
+	expectedAccountTreeStructure := OrderedCollection 				with: 'Cuenta Pepito' with: '\tDepósito por 100' with: '\tExtracción por 50' with: '\tSalida por transferencia de 100' with: '\tEntrada por transferencia de 100'  with: '\tBalance = 50'.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: expectedAccountTreeStructure).
+	self assert: aReceptiveAccountTreeStructure first equals: expectedAccountTreeStructure first.
+	self assert: aReceptiveAccountTreeStructure last equals: expectedAccountTreeStructure last.!
+
+aaa := ReceptiveAccount named: ''.!
+
+!classRenamed: #SimpleTreeStructureReporterPosta as: #SimpleTreeStructureReporter stamp: 'AM 11/13/2020 20:56:47'!
+Smalltalk renameClassNamed: #SimpleTreeStructureReporterPosta as: #SimpleTreeStructureReporter!
+!SimpleTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:56:49' prior: 50886737!
+test02TreeStructureOfEmptyPortfolioIsZItsName
+
+	| anEmptyPortfolio emptyPortfolioTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	emptyPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: anEmptyPortfolio) report.
+
+	self assert:  (emptyPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito' } ).! !
+!SimpleTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:56:49' prior: 50886752!
+test04TreeStructureIsCalculatedRecursivelyInPortfolio
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: agustinPortfolio) report.
+
+	self assert:  (agustinPortfolioTreeStructure hasEqualElements: { 'Portfolio de Agustin'. '\tPortfolio de Nahuel'. '\t\tCuenta de Hernan'}).
+	self assert:   agustinPortfolioTreeStructure first equals: 'Portfolio de Agustin'.
+	self assert:   agustinPortfolioTreeStructure last equals: '\t\tCuenta de Hernan'.! !
+!SimpleTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:56:49' prior: 50886782!
+test03APortfolioWithReceptiveAccountsShowsTreeStructure
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (SimpleTreeStructureReporter for: pepitoPortfolio) report.
+
+	self assert:  (pepitoPortfolioTreeStructure hasEqualElements: { 'Portfolio de Pepito'. '\tCuenta de Pepe'. '\tCuenta de Pepote'}).
+	self assert:   pepitoPortfolioTreeStructure first equals: 'Portfolio de Pepito'.! !
+!SimpleTreeStructureReporterTest methodsFor: 'as yet unclassified' stamp: 'AM 11/13/2020 20:56:49' prior: 50886810!
+test01AReceptiveAccountShowsItselfOnTreeStructure
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Pepito'.
+	
+	aReceptiveAccountTreeStructure :=  (SimpleTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Pepito'}).! !
+
+reporter := SimpleTreeStructureReporter for: a.!
+
+reporter report!
+
+a := ReceptiveAccount named: ''.!
+
+a := ReceptiveAccount named: ''.!
+
+reporter := SimpleTreeStructureReporter for: a.!
+
+reporter report!
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 21:00:42'!
+test03DetailedReportOnEmptyPortfolioShowsNameAndBalance
+
+	| anEmptyPortfolio portfolioDetailedTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Cuenta de Pepe'.
+	
+	portfolioDetailedTreeStructure := ( DetailedTreeStructureReporter for: anEmptyPortfolio ) report.
+	
+	self assert: (portfolioDetailedTreeStructure hasEqualElements: { 'Cuenta de Pepe'. '\tBalance = 0' }).
+	self assert: portfolioDetailedTreeStructure first equals: 'Cuenta de Pepe'.! !
+
+!methodRemoval: DetailedTreeStructureReporterTest #test03 stamp: 'AM 11/13/2020 21:00:42'!
+test03
+
+	| anEmptyPortfolio portfolioDetailedTreeStructure |
+	
+	anEmptyPortfolio := Portfolio named: 'Cuenta de Pepe'.
+	
+	portfolioDetailedTreeStructure := ( DetailedTreeStructureReporter for: anEmptyPortfolio ) report.
+	
+	self assert: (portfolioDetailedTreeStructure hasEqualElements: { 'Cuenta de Pepe'. '\tBalance = 0' }).
+	self assert: portfolioDetailedTreeStructure first equals: 'Cuenta de Pepe'.!
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 21:01:03'!
+test04DetailedReportOnPortoflioWithReceptiveAccountsShowsTheirNamesAndBalances
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure expectedPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (DetailedTreeStructureReporter for: pepitoPortfolio) report.
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Pepito' with: '\tCuenta de Pepe' with: '\t\tBalance = 0' with: '\tCuenta de Pepote' with: '\t\tBalance = 0' with: '\tBalance = 0'.
+
+	self assert:  pepitoPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
+
+!methodRemoval: DetailedTreeStructureReporterTest #test04 stamp: 'AM 11/13/2020 21:01:03'!
+test04
+
+	| pepitoPortfolio pepeReceptiveAccount pepoteReceptiveAccount pepitoPortfolioTreeStructure expectedPortfolioTreeStructure |
+	
+	pepitoPortfolio := Portfolio named: 'Portfolio de Pepito'.
+	
+	pepeReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepe'.
+	pepoteReceptiveAccount := ReceptiveAccount named: 'Cuenta de Pepote'.
+	
+	pepitoPortfolio add: pepeReceptiveAccount.
+	pepitoPortfolio add: pepoteReceptiveAccount.
+	
+	pepitoPortfolioTreeStructure :=  (DetailedTreeStructureReporter for: pepitoPortfolio) report.
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Pepito' with: '\tCuenta de Pepe' with: '\t\tBalance = 0' with: '\tCuenta de Pepote' with: '\t\tBalance = 0' with: '\tBalance = 0'.
+
+	self assert:  pepitoPortfolioTreeStructure equals: expectedPortfolioTreeStructure.!
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 21:01:18'!
+test05DetailedReportIsRecursiveOnPortfolio
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio expectedPortfolioTreeStructure |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	Deposit register: 100 on: hernanReceptiveAccount.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (DetailedTreeStructureReporter for: agustinPortfolio) report.
+	
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Agustin' with:  '\tPortfolio de Nahuel' with: '\t\tCuenta de Hernan' with: '\t\t\tDepósito por 100' with: '\t\t\tBalance = 100' with: '\t\tBalance = 100'.
+	expectedPortfolioTreeStructure add: '\tBalance = 100'.
+	self assert:  agustinPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
+
+!methodRemoval: DetailedTreeStructureReporterTest #test05 stamp: 'AM 11/13/2020 21:01:18'!
+test05
+
+	| agustinPortfolioTreeStructure agustinPortfolio hernanReceptiveAccount nahuelPortfolio expectedPortfolioTreeStructure |
+	
+	agustinPortfolio := Portfolio named: 'Portfolio de Agustin'.
+	nahuelPortfolio := Portfolio named: 'Portfolio de Nahuel'.
+	
+	hernanReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernan'.
+	
+	Deposit register: 100 on: hernanReceptiveAccount.
+	
+	agustinPortfolio add: nahuelPortfolio.
+	nahuelPortfolio add: hernanReceptiveAccount.
+	
+	agustinPortfolioTreeStructure :=  (DetailedTreeStructureReporter for: agustinPortfolio) report.
+	
+	expectedPortfolioTreeStructure := OrderedCollection with: 'Portfolio de Agustin' with:  '\tPortfolio de Nahuel' with: '\t\tCuenta de Hernan' with: '\t\t\tDepósito por 100' with: '\t\t\tBalance = 100' with: '\t\tBalance = 100'.
+	expectedPortfolioTreeStructure add: '\tBalance = 100'.
+	self assert:  agustinPortfolioTreeStructure equals: expectedPortfolioTreeStructure.!
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:13:35'!
+formatDeposit: aDeposit
+
+	^ 'Depósito por ', aDeposit value asString. ! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:14:00' prior: 50886157 overrides: 50877042!
+reportDeposit: aDeposit 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	
+	treeStructure add: 
+		(leadingTabs, self formatDeposit: aDeposit).! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:14:43' prior: 50886214 overrides: 50877275!
+reportWithdraw: aWithdraw 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, self formatWithdraw: aWithdraw) ! !
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:14:59'!
+formatWithdraw: aWithdraw
+
+	^ 'Extracción por ', aWithdraw value asString.! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:15:40' prior: 50886145 overrides: 50877231!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, self formatSendingTransferComponent: aSendingTransferComponent)
+		! !
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:16:00'!
+formatSendingTransferComponent: aSendingTransferComponent
+
+	^ 'Salida por transferencia de ', aSendingTransferComponent value asString.! !
+!Reporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 21:16:55'!
+formatReceivingTransferComponent: aReceivingTransferComponent
+
+	^ 'Salida por transferencia de ', aReceivingTransferComponent value asString.! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:17:14' prior: 50886202 overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, self formatReceivingTransferComponent: aReceivingTransferComponent )! !
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:17:19' prior: 50887943 overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, self formatReceivingTransferComponent: aReceivingTransferComponent)! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:17:38' prior: 50877047 overrides: 50877042!
+reportDeposit: aDeposit
+	
+	accountSummary add: (self formatDeposit: aDeposit)
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:17:56' prior: 50877118 overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent
+ 
+	accountSummary add: (self formatReceivingTransferComponent: aReceivingTransferComponent)
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:18:09' prior: 50877223 overrides: 50877231!
+reportSendingTransferComponent: aSendingTransferComponent
+ 
+	accountSummary add: (self formatSendingTransferComponent: aSendingTransferComponent)
+	
+	! !
+!AccountSummaryReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:18:24' prior: 50877269 overrides: 50877275!
+reportWithdraw: aWithdraw
+
+	accountSummary add: (self formatWithdraw: aWithdraw)
+	
+	
+	! !
+
+!testRun: #AccountSummaryReporterTest #test01EmptyReceptiveAccountsSummaryShouldOnlyHaveZeroBalance stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test02AReceptiveAccountWithOneTransactionShowsItInSummaryWithAffectedBalance stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test03AReceptiveAccountWithEveryTransactionShowsThemInAccountSummaryAffectingBalance stamp: 'AM 11/13/2020 21:18:32'!
+FAILURE!
+
+!testRun: #AccountSummaryReporterTest #test04AccountSummaryOfEmptyPortfolioOnlyShowsZeroBalance stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test05AccountSummaryOfPortfolioWithReceptiveAccountsShowsTheirTransactionsAndBalance stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #AccountSummaryReporterTest #test06PortfolioAccountSummaryIsCalculatedRecursively stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test01DetailedReportShowsNameAndBalanceOnEmptyReceptiveAccount stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/13/2020 21:18:32'!
+ERROR!
+
+!testRun: #DetailedTreeStructureReporterTest #test03DetailedReportOnEmptyPortfolioShowsNameAndBalance stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test04DetailedReportOnPortoflioWithReceptiveAccountsShowsTheirNamesAndBalances stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test05DetailedReportIsRecursiveOnPortfolio stamp: 'AM 11/13/2020 21:18:32'!
+ERROR!
+
+!testRun: #NetTransferReporterTest #test01AnEmptyReceptiveAccountHasZeroNetTransfer stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test02TransfersAffectCorrectlyNetTransferInReceptiveAccount stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test03JustTransfersAffectNetTransfersInReceptiveAccount stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test04NetTransferOfEmptyPortfolioIsZero stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test05NetTransferOfPortfolioWithReceptiveAccountsIsTheirSumOfNetTransfers stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #NetTransferReporterTest #test06NetTransferIsCalculatedRecursivelyInAPortfolio stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08BalanceShouldBeDecreasedOnTransferSendingAccount stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09BalanceShouldBeIncreasedOnTransferReceivingAccount stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10BalanceOfAnAccountIsAffectedBySendingAndReceivingTransfers stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11AccountsRegisterTransfersThatAffectThem stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12TransferComponentsKnowTheirTransfer stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13AnAccountShouldNotTransferToItself stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test14TransferShouldNotHaveNonPositiveValue stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test01AReceptiveAccountShowsItselfOnTreeStructure stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test02TreeStructureOfEmptyPortfolioIsZItsName stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test03APortfolioWithReceptiveAccountsShowsTreeStructure stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #SimpleTreeStructureReporterTest #test04TreeStructureIsCalculatedRecursivelyInPortfolio stamp: 'AM 11/13/2020 21:18:32'!
+PASSED!
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/13/2020 21:18:39'!
+ERROR!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:19:01' prior: 50887893 overrides: 50877042!
+reportDeposit: aDeposit 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	
+	treeStructure add: 
+		(leadingTabs, (self formatDeposit: aDeposit) ).! !
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/13/2020 21:19:03'!
+ERROR!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:19:16' prior: 50887902 overrides: 50877275!
+reportWithdraw: aWithdraw 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, (self formatWithdraw: aWithdraw) ) ! !
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/13/2020 21:19:18'!
+ERROR!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:20:11' prior: 50887917 overrides: 50877231!
+reportSendingTransferComponent: aSendingTransferComponent 
+
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, (self formatSendingTransferComponent: aSendingTransferComponent) )
+		! !
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/13/2020 21:20:12'!
+ERROR!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:22:40' prior: 50887955 overrides: 50877133!
+reportReceivingTransferComponent: aReceivingTransferComponent 
+	
+	| leadingTabs |
+	
+	leadingTabs := self leadingTabs.
+	treeStructure add: 
+		(leadingTabs, (self formatReceivingTransferComponent: aReceivingTransferComponent))! !
+
+!testRun: #DetailedTreeStructureReporterTest #test02DetailedReportShowsEveryTransactionOnReceptiveAccount stamp: 'AM 11/13/2020 21:22:47'!
+FAILURE!
+
+----QUIT----(13 November 2020 21:25:09) CuisUniversity-4384.image priorSource: 17723901!
