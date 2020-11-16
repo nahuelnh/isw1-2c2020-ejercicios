@@ -886,10 +886,16 @@ test05UnnamedReceptiveAccountShowsDefaultName
 
 !classDefinition: #Account category: 'Portfolio'!
 Object subclass: #Account
-	instanceVariableNames: 'accountName'
+	instanceVariableNames: 'accountName isNamed'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
+
+!Account methodsFor: 'accessing' stamp: 'AM 11/16/2020 14:53:10'!
+accountName
+	
+	self subclassResponsibility ! !
+
 
 !Account methodsFor: 'balance' stamp: 'HAW 5/25/2019 12:23:40'!
 balance
@@ -944,7 +950,7 @@ named: anAccountName
 
 !classDefinition: #Portfolio category: 'Portfolio'!
 Account subclass: #Portfolio
-	instanceVariableNames: 'parents accounts isNamed'
+	instanceVariableNames: 'parents accounts'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
@@ -1123,7 +1129,7 @@ with: anAccount with: anotherAccount
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio'!
 Account subclass: #ReceptiveAccount
-	instanceVariableNames: 'transactions isNamed'
+	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
