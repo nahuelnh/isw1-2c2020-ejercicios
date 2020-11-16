@@ -5,58 +5,6 @@ TestCase subclass: #AccountSummaryReporterTest
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!AccountSummaryReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:31:13'!
-test01EmptyAccountSummaryShouldOnlyPrintBalance
-
-	| anEmptyAccount anEmptyAccountSummaryAccount |
-	
-	anEmptyAccount := ReceptiveAccount new.
-	
-	anEmptyAccountSummaryAccount := (AccountSummaryReporter for: anEmptyAccount) report.
-	
-	self assert: anEmptyAccountSummaryAccount size equals: 1.
-	self assert: anEmptyAccountSummaryAccount includes: 'Balance = 0'.! !
-
-!AccountSummaryReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:37:46'!
-test02AReceptiveAccountWithOneTransactionShowsItInSummary
-
-	| anAccount expectedAccountSummary anAccountSummaryAccount |
-	
-	anAccount := ReceptiveAccount new.
-	
-	Deposit register: 10  on: anAccount.
-	
-	expectedAccountSummary := OrderedCollection with: 'Depósito por 10' with:  'Balance = 10'.
-	anAccountSummaryAccount :=  (AccountSummaryReporter for: anAccount) report.
-	
-	self assert: expectedAccountSummary equals: anAccountSummaryAccount.! !
-
-!AccountSummaryReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:38:18'!
-test03AReceptiveAccountWithMoreThanOneTransactionShowsThemInAccountSummary
-
-	| anAccount expectedAccountSummary anotherAccount anAccountSummaryAccount |
-	
-	anAccount := ReceptiveAccount new.
-	anotherAccount := ReceptiveAccount new.
-	
-	Deposit register: 10  on: anAccount.
-	Withdraw register: 40  on: anAccount.
-	Transfer from: anAccount to: anotherAccount for: 100.
-	Transfer from: anotherAccount to: anAccount for: 50.
-	
-	expectedAccountSummary := OrderedCollection with: 'Depósito por 10'
-												with: 'Extracción por 40'
-												with: 'Salida por transferencia de 100'
-												with: 'Entrada por transferencia de 50'
-												with: 'Balance = -80'.
-												
-	anAccountSummaryAccount := (AccountSummaryReporter for: anAccount) report.
-												
-	self assert: (anAccountSummaryAccount hasEqualElements: expectedAccountSummary).
-	self assert: anAccountSummaryAccount last equals: 'Balance = -80'.
-	! !
-
-
 !AccountSummaryReporterTest methodsFor: 'tests -- portfolio' stamp: 'NNH 11/13/2020 23:37:05'!
 test04EmptyPortfolioBalanceShouldOnlyPrintBalance
 
@@ -125,6 +73,58 @@ test06PortfolioAccountSummaryIsCalculatedRecursively
 	self assert: 'Balance = 80' equals:  aPortfolioAccountSummary last.
 	self assert: (aPortfolioAccountSummary hasEqualElements: expectedAccountSummary).! !
 
+
+!AccountSummaryReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:31:13'!
+test01EmptyAccountSummaryShouldOnlyPrintBalance
+
+	| anEmptyAccount anEmptyAccountSummaryAccount |
+	
+	anEmptyAccount := ReceptiveAccount new.
+	
+	anEmptyAccountSummaryAccount := (AccountSummaryReporter for: anEmptyAccount) report.
+	
+	self assert: anEmptyAccountSummaryAccount size equals: 1.
+	self assert: anEmptyAccountSummaryAccount includes: 'Balance = 0'.! !
+
+!AccountSummaryReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:37:46'!
+test02AReceptiveAccountWithOneTransactionShowsItInSummary
+
+	| anAccount expectedAccountSummary anAccountSummaryAccount |
+	
+	anAccount := ReceptiveAccount new.
+	
+	Deposit register: 10  on: anAccount.
+	
+	expectedAccountSummary := OrderedCollection with: 'Depósito por 10' with:  'Balance = 10'.
+	anAccountSummaryAccount :=  (AccountSummaryReporter for: anAccount) report.
+	
+	self assert: expectedAccountSummary equals: anAccountSummaryAccount.! !
+
+!AccountSummaryReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:38:18'!
+test03AReceptiveAccountWithMoreThanOneTransactionShowsThemInAccountSummary
+
+	| anAccount expectedAccountSummary anotherAccount anAccountSummaryAccount |
+	
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	
+	Deposit register: 10  on: anAccount.
+	Withdraw register: 40  on: anAccount.
+	Transfer from: anAccount to: anotherAccount for: 100.
+	Transfer from: anotherAccount to: anAccount for: 50.
+	
+	expectedAccountSummary := OrderedCollection with: 'Depósito por 10'
+												with: 'Extracción por 40'
+												with: 'Salida por transferencia de 100'
+												with: 'Entrada por transferencia de 50'
+												with: 'Balance = -80'.
+												
+	anAccountSummaryAccount := (AccountSummaryReporter for: anAccount) report.
+												
+	self assert: (anAccountSummaryAccount hasEqualElements: expectedAccountSummary).
+	self assert: anAccountSummaryAccount last equals: 'Balance = -80'.
+	! !
+
 
 !classDefinition: #DetailedTreeStructureReporterTest category: 'Portfolio'!
 TestCase subclass: #DetailedTreeStructureReporterTest
@@ -184,8 +184,8 @@ test05DetailedReportIsRecursiveOnPortfolio
 	expectedPortfolioTreeStructure add: '\tBalance = 100'.
 	self assert:  agustinPortfolioTreeStructure equals: expectedPortfolioTreeStructure.! !
 
-!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'NNH 11/15/2020 23:39:16'!
-test06UnnamedAccountShowsDefaultName
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/16/2020 00:10:38'!
+test07UnnamedPortfolioShowsDefaultName
 
 	| portfolio portfolioTreeStructure |
 	
@@ -193,7 +193,7 @@ test06UnnamedAccountShowsDefaultName
 	
 	portfolioTreeStructure :=  (DetailedTreeStructureReporter for: portfolio) report.
 
-	self assert:  (portfolioTreeStructure hasEqualElements: { 'Cuenta sin nombre'. '\tBalance = 0'}).! !
+	self assert:  (portfolioTreeStructure hasEqualElements: { 'Portfolio sin nombre'. '\tBalance = 0'}).! !
 
 
 !DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:43:50'!
@@ -228,6 +228,17 @@ test02DetailedReportShowsEveryTransactionOnReceptiveAccount
 	self assert: aReceptiveAccountTreeStructure first equals: expectedAccountTreeStructure first.
 	self assert: aReceptiveAccountTreeStructure last equals: expectedAccountTreeStructure last.! !
 
+!DetailedTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/16/2020 00:11:43'!
+test06UnnamedReceptiveAccountShowsDefaultName
+
+	| receptiveAccount receptiveAccountTreeStructure |
+	
+	receptiveAccount := ReceptiveAccount new.
+	
+	receptiveAccountTreeStructure :=  (DetailedTreeStructureReporter for: receptiveAccount) report.
+
+	self assert:  (receptiveAccountTreeStructure hasEqualElements: { 'Cuenta corriente sin nombre'. '\tBalance = 0'}).! !
+
 
 !classDefinition: #NetTransferReporterTest category: 'Portfolio'!
 TestCase subclass: #NetTransferReporterTest
@@ -235,6 +246,49 @@ TestCase subclass: #NetTransferReporterTest
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
+
+!NetTransferReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:53:15'!
+test04NetTransferOfEmptyPortfolioIsZero
+
+	| anEmptyPortfolio emptyPortfolioNetTransfer |
+	
+	anEmptyPortfolio := Portfolio new.
+	
+	emptyPortfolioNetTransfer :=  (NetTransferReporter for: anEmptyPortfolio) report.
+
+	self assert:  emptyPortfolioNetTransfer equals: 0.! !
+
+!NetTransferReporterTest methodsFor: 'tests -- portfolio' stamp: 'NNH 11/13/2020 23:41:04'!
+test05NetTransferOfComposedPortfolioIsSumOfNetTransfers
+
+	| aPortfolio anAccount anotherAccount aPortfolioNetTransfer |
+	
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	Transfer from: anAccount to: anotherAccount for: 100.
+	
+	aPortfolio := Portfolio with: anAccount.
+	
+	aPortfolioNetTransfer :=  (NetTransferReporter for: aPortfolio) report.
+
+	
+	self assert: aPortfolioNetTransfer equals: -100.! !
+
+!NetTransferReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:53:27'!
+test06NetTransferIsCalculatedRecursivelyInAPortfolio
+
+	| aPortfolio anAccount anotherAccount aPortfolioNetTransfer |
+	
+	anAccount := ReceptiveAccount new.
+	anotherAccount := ReceptiveAccount new.
+	Transfer from: anAccount to: anotherAccount for: 100.
+	
+	aPortfolio := Portfolio with: anAccount with: anotherAccount.
+	
+	aPortfolioNetTransfer :=  (NetTransferReporter for: aPortfolio) report.
+	
+	self assert: aPortfolioNetTransfer equals: 0.! !
+
 
 !NetTransferReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/13/2020 17:51:52'!
 test01AnEmptyReceptiveAccountHasZeroNetTransfer
@@ -278,49 +332,6 @@ test03NetTransferIsOnlyAffectedByTransfersInReceptiveAccount
 	
 	self assert: anAccountNetTransferReport equals: 500.
 	! !
-
-
-!NetTransferReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:53:15'!
-test04NetTransferOfEmptyPortfolioIsZero
-
-	| anEmptyPortfolio emptyPortfolioNetTransfer |
-	
-	anEmptyPortfolio := Portfolio new.
-	
-	emptyPortfolioNetTransfer :=  (NetTransferReporter for: anEmptyPortfolio) report.
-
-	self assert:  emptyPortfolioNetTransfer equals: 0.! !
-
-!NetTransferReporterTest methodsFor: 'tests -- portfolio' stamp: 'NNH 11/13/2020 23:41:04'!
-test05NetTransferOfComposedPortfolioIsSumOfNetTransfers
-
-	| aPortfolio anAccount anotherAccount aPortfolioNetTransfer |
-	
-	anAccount := ReceptiveAccount new.
-	anotherAccount := ReceptiveAccount new.
-	Transfer from: anAccount to: anotherAccount for: 100.
-	
-	aPortfolio := Portfolio with: anAccount.
-	
-	aPortfolioNetTransfer :=  (NetTransferReporter for: aPortfolio) report.
-
-	
-	self assert: aPortfolioNetTransfer equals: -100.! !
-
-!NetTransferReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/13/2020 17:53:27'!
-test06NetTransferIsCalculatedRecursivelyInAPortfolio
-
-	| aPortfolio anAccount anotherAccount aPortfolioNetTransfer |
-	
-	anAccount := ReceptiveAccount new.
-	anotherAccount := ReceptiveAccount new.
-	Transfer from: anAccount to: anotherAccount for: 100.
-	
-	aPortfolio := Portfolio with: anAccount with: anotherAccount.
-	
-	aPortfolioNetTransfer :=  (NetTransferReporter for: aPortfolio) report.
-	
-	self assert: aPortfolioNetTransfer equals: 0.! !
 
 
 !classDefinition: #PortfolioTest category: 'Portfolio'!
@@ -548,32 +559,18 @@ test16NamedPortfolioShouldKnowItsName
 	self assert: portfolio accountName equals: 'Portfolio de Hernán'.
 	self assert: portfolio isNamed.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'NNH 11/15/2020 23:24:17'!
-test16UnnamedPortfolioShouldHaveDefaultName
-	
-	| aReceptiveAccount |
-	
-	aReceptiveAccount := ReceptiveAccount new.
-	
-	self assert: aReceptiveAccount isNamed not.
-
-	self should: [aReceptiveAccount accountName]  
-	raise: Error
-	withMessageText: ReceptiveAccount canNotRetrieveNameOfUnnamedAccountErrorDescription.
-	! !
-
-!PortfolioTest methodsFor: 'tests' stamp: 'NNH 11/15/2020 23:21:56'!
-test17UnnamedPortfolioShouldHaveDefaultName
+!PortfolioTest methodsFor: 'tests' stamp: 'AM 11/16/2020 00:15:30'!
+test17UnnamedPortfolioShouldNotBeNamedAndSignalNoName
 	
 	| portfolio |
 	
 	portfolio := Portfolio new.
 	
-	self assert: portfolio isNamed not.
+	self deny: portfolio isNamed.
 
 	self should: [portfolio accountName]  
-	raise: Error
-	withMessageText: Portfolio canNotRetrieveNameOfUnnamedPortfolioErrorDescription
+		raise: Error
+		withMessageText: Portfolio canNotRetrieveNameOfUnnamedPortfolioErrorDescription
 	! !
 
 
@@ -666,6 +663,37 @@ test07AccountKnowsItsTransactions
 	self assert: 1 equals: account transactions size .
 	self assert: (account transactions includes: deposit).
 ! !
+
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'NNH 11/15/2020 23:07:55'!
+test15NamedReceptiveAccountShouldKnowItsName
+	
+	| aReceptiveAccount |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernán'.
+	
+	self assert: aReceptiveAccount accountName equals: 'Cuenta de Hernán'.
+	self assert: aReceptiveAccount isNamed.
+	
+	
+	
+		! !
+
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'AM 11/16/2020 00:36:10'!
+test16UnnamedReceptiveAccountShouldNotBeNamedAndSignalNoName
+	
+	| aReceptiveAccount |
+	
+	aReceptiveAccount := ReceptiveAccount new.
+	
+	self deny: aReceptiveAccount isNamed.
+
+	self should: [aReceptiveAccount accountName]  
+		raise: Error
+		withMessageText: ReceptiveAccount canNotRetrieveNameOfUnnamedReceptiveAccountErrorDescription.
+	
+	
+	
+		! !
 
 
 !ReceptiveAccountTest methodsFor: 'tests - transfers' stamp: 'AM 11/10/2020 22:53:39'!
@@ -765,37 +793,6 @@ test14TransferValueMustBePositive
 		withMessageText: Transfer canNotTransferNonPositiveAmountErrorDescription.
 		! !
 
-!ReceptiveAccountTest methodsFor: 'tests - transfers' stamp: 'NNH 11/15/2020 23:07:55'!
-test15NamedReceptiveAccountShouldKnowItsName
-	
-	| aReceptiveAccount |
-	
-	aReceptiveAccount := ReceptiveAccount named: 'Cuenta de Hernán'.
-	
-	self assert: aReceptiveAccount accountName equals: 'Cuenta de Hernán'.
-	self assert: aReceptiveAccount isNamed.
-	
-	
-	
-		! !
-
-!ReceptiveAccountTest methodsFor: 'tests - transfers' stamp: 'NNH 11/15/2020 23:24:17'!
-test16UnnamedReceptiveAccountShouldHaveDefaultName
-	
-	| aReceptiveAccount |
-	
-	aReceptiveAccount := ReceptiveAccount new.
-	
-	self assert: aReceptiveAccount isNamed not.
-
-	self should: [aReceptiveAccount accountName]  
-	raise: Error
-	withMessageText: ReceptiveAccount canNotRetrieveNameOfUnnamedAccountErrorDescription.
-	
-	
-	
-		! !
-
 
 !classDefinition: #SimpleTreeStructureReporterTest category: 'Portfolio'!
 TestCase subclass: #SimpleTreeStructureReporterTest
@@ -803,18 +800,6 @@ TestCase subclass: #SimpleTreeStructureReporterTest
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
-
-!SimpleTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:46:53'!
-test01AReceptiveAccountShowsItselfOnTreeStructure
-
-	| aReceptiveAccount aReceptiveAccountTreeStructure |
-	
-	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Hernán'.
-	
-	aReceptiveAccountTreeStructure :=  (SimpleTreeStructureReporter for: aReceptiveAccount) report.
-	
-	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Hernán'}).! !
-
 
 !SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'NNH 11/13/2020 23:47:01'!
 test02TreeStructureOfEmptyPortfolioOnlyShowsItsName
@@ -864,8 +849,8 @@ test04TreeStructureIsCalculatedRecursivelyInPortfolio
 	self assert:   agustinPortfolioTreeStructure first equals: 'Portfolio de Agustin'.
 	self assert:   agustinPortfolioTreeStructure last equals: '\t\tCuenta de Hernan'.! !
 
-!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'NNH 11/15/2020 23:36:03'!
-test05UnnamedAccountShowsDefaultName
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- portfolio' stamp: 'AM 11/16/2020 00:07:09'!
+test06UnnamedPortfolioShowsDefaultName
 
 	| portfolio portfolioTreeStructure |
 	
@@ -873,12 +858,35 @@ test05UnnamedAccountShowsDefaultName
 	
 	portfolioTreeStructure :=  (SimpleTreeStructureReporter for: portfolio) report.
 
-	self assert:  (portfolioTreeStructure hasEqualElements: { 'Cuenta sin nombre'}).! !
+	self assert:  (portfolioTreeStructure hasEqualElements: { 'Portfolio sin nombre'}).! !
+
+
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'NNH 11/13/2020 23:46:53'!
+test01AReceptiveAccountShowsItselfOnTreeStructure
+
+	| aReceptiveAccount aReceptiveAccountTreeStructure |
+	
+	aReceptiveAccount := ReceptiveAccount named: 'Cuenta Hernán'.
+	
+	aReceptiveAccountTreeStructure :=  (SimpleTreeStructureReporter for: aReceptiveAccount) report.
+	
+	self assert: (aReceptiveAccountTreeStructure hasEqualElements: {'Cuenta Hernán'}).! !
+
+!SimpleTreeStructureReporterTest methodsFor: 'tests -- receptive account' stamp: 'AM 11/16/2020 00:07:51'!
+test05UnnamedReceptiveAccountShowsDefaultName
+
+	| receptiveAccount receptiveAccountTreeStructure |
+	
+	receptiveAccount := ReceptiveAccount new.
+	
+	receptiveAccountTreeStructure :=  (SimpleTreeStructureReporter for: receptiveAccount) report.
+
+	self assert:  (receptiveAccountTreeStructure hasEqualElements: { 'Cuenta corriente sin nombre'}).! !
 
 
 !classDefinition: #Account category: 'Portfolio'!
 Object subclass: #Account
-	instanceVariableNames: ''
+	instanceVariableNames: 'accountName'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
@@ -893,6 +901,12 @@ balance
 addedTo: aPortfolio
 
 	self subclassResponsibility ! !
+
+
+!Account methodsFor: 'reports' stamp: 'AM 11/12/2020 21:45:08'!
+report: aReporter
+
+	self subclassResponsibility.! !
 
 
 !Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:23:47'!
@@ -916,19 +930,13 @@ transactions
 
 	self subclassResponsibility ! !
 
-
-!Account methodsFor: 'reports' stamp: 'AM 11/12/2020 21:45:08'!
-report: aReporter
-
-	self subclassResponsibility.! !
-
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Account class' category: 'Portfolio'!
 Account class
 	instanceVariableNames: ''!
 
-!Account class methodsFor: 'as yet unclassified' stamp: 'AM 11/12/2020 22:55:51'!
+!Account class methodsFor: 'instance creations' stamp: 'AM 11/12/2020 22:55:51'!
 named: anAccountName 
 	
 	^ self new initializeNamed: anAccountName! !
@@ -936,20 +944,16 @@ named: anAccountName
 
 !classDefinition: #Portfolio category: 'Portfolio'!
 Account subclass: #Portfolio
-	instanceVariableNames: 'accounts parents accountName'
+	instanceVariableNames: 'parents accounts isNamed'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!Portfolio methodsFor: 'accessing' stamp: 'NNH 11/15/2020 23:23:44'!
+!Portfolio methodsFor: 'accessing' stamp: 'NNH 11/16/2020 12:47:41'!
 accountName
 
-	accountName ifNil: [self error: self class canNotRetrieveNameOfUnnamedPortfolioErrorDescription ].
+	isNamed ifFalse: [self signalCanNotRetrieveNameOfUnnamedPortfolio ].
 	^ accountName! !
-
-!Portfolio methodsFor: 'accessing' stamp: 'AM 11/11/2020 23:39:47'!
-accounts
-	^ accounts copy! !
 
 
 !Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 12:17:31'!
@@ -964,11 +968,6 @@ assertCanAdd: accountToAdd
 
 	(self anyRootParentIsComposedBy: accountToAdd) ifTrue: [ self signalCanNotAddAccount ].
 ! !
-
-!Portfolio methodsFor: 'account management - private' stamp: 'HAW 5/25/2019 11:48:34'!
-signalCanNotAddAccount
-	
-	self error: self class canNotAddAccountErrorMessage! !
 
 
 !Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:20'!
@@ -1018,16 +1017,18 @@ addedTo: aPortfolio
 	parents add: aPortfolio ! !
 
 
-!Portfolio methodsFor: 'initialization' stamp: 'HAW 5/25/2019 12:03:18'!
+!Portfolio methodsFor: 'initialization' stamp: 'NNH 11/16/2020 12:45:29'!
 initialize
 
 	accounts := OrderedCollection new.
-	parents := OrderedCollection new.! !
+	parents := OrderedCollection new.
+	isNamed := false.! !
 
-!Portfolio methodsFor: 'initialization' stamp: 'AM 11/12/2020 22:54:22'!
+!Portfolio methodsFor: 'initialization' stamp: 'NNH 11/16/2020 12:45:38'!
 initializeNamed: anAccountName 
 	
-	accountName := anAccountName.! !
+	accountName := anAccountName.
+	isNamed := true.! !
 
 
 !Portfolio methodsFor: 'iterating' stamp: 'AM 11/13/2020 20:36:41'!
@@ -1057,9 +1058,20 @@ isComposedBy: anAccount
 
 	^ self = anAccount or: [ accounts anySatisfy: [ :composedAccount | (composedAccount isComposedBy: anAccount) or: [ anAccount isComposedBy: composedAccount ]]]! !
 
-!Portfolio methodsFor: 'testing' stamp: 'NNH 11/15/2020 23:20:14'!
+!Portfolio methodsFor: 'testing' stamp: 'NNH 11/16/2020 12:45:55'!
 isNamed
-	^ accountName isNil not.! !
+	^ isNamed.! !
+
+
+!Portfolio methodsFor: 'signaling' stamp: 'HAW 5/25/2019 11:48:34'!
+signalCanNotAddAccount
+	
+	self error: self class canNotAddAccountErrorMessage! !
+
+!Portfolio methodsFor: 'signaling' stamp: 'NNH 11/16/2020 12:47:41'!
+signalCanNotRetrieveNameOfUnnamedPortfolio
+
+	^ self error: self class canNotRetrieveNameOfUnnamedPortfolioErrorDescription! !
 
 
 !Portfolio methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:42:55'!
@@ -1083,22 +1095,6 @@ transactions
 Portfolio class
 	instanceVariableNames: ''!
 
-!Portfolio class methodsFor: 'instance creation' stamp: 'HAW 5/25/2019 11:18:21'!
-with: anAccount
-
-	^self new 
-		add: anAccount;
-		yourself! !
-
-!Portfolio class methodsFor: 'instance creation' stamp: 'HAW 5/25/2019 11:23:59'!
-with: anAccount with: anotherAccount
-
-	^self new 
-		add: anAccount;
-		add: anotherAccount;
-		yourself! !
-
-
 !Portfolio class methodsFor: 'error descriptions' stamp: 'NR 11/9/2020 06:01:26'!
 canNotAddAccountErrorMessage
 	
@@ -1108,19 +1104,35 @@ canNotAddAccountErrorMessage
 canNotRetrieveNameOfUnnamedPortfolioErrorDescription
 	^ 'Can not retrieve name of unnamed portfolio'.! !
 
+
+!Portfolio class methodsFor: 'instance creations' stamp: 'HAW 5/25/2019 11:18:21'!
+with: anAccount
+
+	^self new 
+		add: anAccount;
+		yourself! !
+
+!Portfolio class methodsFor: 'instance creations' stamp: 'HAW 5/25/2019 11:23:59'!
+with: anAccount with: anotherAccount
+
+	^self new 
+		add: anAccount;
+		add: anotherAccount;
+		yourself! !
+
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio'!
 Account subclass: #ReceptiveAccount
-	instanceVariableNames: 'transactions transfer name'
+	instanceVariableNames: 'transactions isNamed'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!ReceptiveAccount methodsFor: 'accessing' stamp: 'NNH 11/15/2020 23:24:17'!
+!ReceptiveAccount methodsFor: 'accessing' stamp: 'NNH 11/16/2020 12:49:00'!
 accountName
 
-	name ifNil: [self error: self class canNotRetrieveNameOfUnnamedAccountErrorDescription ].
-	^ name! !
+	isNamed ifFalse: [self signalCanNotRetrieveNameOfUnnamedReceptiveAccount ].
+	^ accountName! !
 
 
 !ReceptiveAccount methodsFor: 'balance' stamp: 'AM 11/10/2020 10:46:31'!
@@ -1137,17 +1149,17 @@ addedTo: aPortfolio
 	! !
 
 
-!ReceptiveAccount methodsFor: 'initialization' stamp: 'AM 11/10/2020 10:47:37'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'NNH 11/16/2020 12:44:51'!
 initialize
 
-	super initialize.
-	transactions := OrderedCollection new.! !
+	transactions := OrderedCollection new.
+	isNamed := false.! !
 
-
-!ReceptiveAccount methodsFor: 'intialization' stamp: 'AM 11/12/2020 22:36:43'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'NNH 11/16/2020 12:45:00'!
 initializeNamed: aReceptiveAccountName 
 	
-	name := aReceptiveAccountName.! !
+	accountName := aReceptiveAccountName.
+	isNamed := true.! !
 
 
 !ReceptiveAccount methodsFor: 'iterating' stamp: 'AM 11/13/2020 20:41:16'!
@@ -1173,10 +1185,10 @@ isComposedBy: anAccount
 
 	^self = anAccount ! !
 
-!ReceptiveAccount methodsFor: 'testing' stamp: 'NNH 11/15/2020 23:09:48'!
+!ReceptiveAccount methodsFor: 'testing' stamp: 'NNH 11/16/2020 12:45:10'!
 isNamed
 	
-	^ name isNil not.! !
+	^ isNamed.! !
 
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'NR 11/9/2020 05:56:36'!
@@ -1195,22 +1207,22 @@ transactions
 
 	^ transactions copy! !
 
+
+!ReceptiveAccount methodsFor: 'signaling' stamp: 'NNH 11/16/2020 12:49:00'!
+signalCanNotRetrieveNameOfUnnamedReceptiveAccount
+
+	^ self error: self class canNotRetrieveNameOfUnnamedReceptiveAccountErrorDescription! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'ReceptiveAccount class' category: 'Portfolio'!
 ReceptiveAccount class
 	instanceVariableNames: ''!
 
-!ReceptiveAccount class methodsFor: 'instance creation' stamp: 'AM 11/12/2020 21:54:06'!
-named: aReceptiveAccountName
+!ReceptiveAccount class methodsFor: 'error descriptions' stamp: 'AM 11/16/2020 00:32:33'!
+canNotRetrieveNameOfUnnamedReceptiveAccountErrorDescription
 
-	^self new initializeNamed: aReceptiveAccountName ! !
-
-
-!ReceptiveAccount class methodsFor: 'error description' stamp: 'NNH 11/15/2020 23:24:17'!
-canNotRetrieveNameOfUnnamedAccountErrorDescription
-
-	^ 'Cannot retrieve name of unnamed account'! !
+	^ 'Cannot retrieve name of unnamed receptive account'! !
 
 
 !classDefinition: #AccountTransaction category: 'Portfolio'!
@@ -1219,12 +1231,6 @@ Object subclass: #AccountTransaction
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
-
-!AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
-value 
-
-	self subclassResponsibility ! !
-
 
 !AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
 affectBalance: aBalance
@@ -1238,6 +1244,12 @@ report: aReporter
 	self subclassResponsibility 
 	
 	! !
+
+
+!AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
+value 
+
+	self subclassResponsibility ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1263,28 +1275,28 @@ AccountTransaction subclass: #Deposit
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
-initializeFor: aValue
-
-	value := aValue ! !
-
-
-!Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38'!
-value
-
-	^ value! !
-
-
 !Deposit methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:02'!
 affectBalance: aBalance
 
 	^aBalance + value ! !
 
 
+!Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
+initializeFor: aValue
+
+	value := aValue ! !
+
+
 !Deposit methodsFor: 'reports' stamp: 'AM 11/12/2020 21:45:48'!
 report: aReporter
 
 	aReporter reportDeposit: self.! !
+
+
+!Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38'!
+value
+
+	^ value! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1300,7 +1312,7 @@ for: aValue
 
 !classDefinition: #TransferComponent category: 'Portfolio'!
 AccountTransaction subclass: #TransferComponent
-	instanceVariableNames: 'receptiveAccount transfer'
+	instanceVariableNames: 'transfer'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
@@ -1314,11 +1326,10 @@ value
 	^ transfer value! !
 
 
-!TransferComponent methodsFor: 'initializing' stamp: 'NNH 11/13/2020 22:50:12'!
+!TransferComponent methodsFor: 'initializing' stamp: 'AM 11/16/2020 00:30:55'!
 initializeFor: aTransfer on: aReceptiveAccount 
 	
-	receptiveAccount := aReceptiveAccount.
-	receptiveAccount register: self.
+	aReceptiveAccount register: self.
 	transfer := aTransfer.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -1379,28 +1390,28 @@ AccountTransaction subclass: #Withdraw
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
-initializeFor: aValue
-
-	value := aValue ! !
-
-
-!Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33'!
-value
-
-	^ value! !
-
-
 !Withdraw methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:15'!
 affectBalance: aBalance
 
 	^aBalance - value! !
 
 
+!Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
+initializeFor: aValue
+
+	value := aValue ! !
+
+
 !Withdraw methodsFor: 'reports' stamp: 'AM 11/12/2020 21:46:16'!
 report: aReporter
 
 	aReporter reportWithdraw: self.! !
+
+
+!Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33'!
+value
+
+	^ value! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1420,18 +1431,6 @@ Object subclass: #Reporter
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
-
-!Reporter methodsFor: 'initializing' stamp: 'AM 11/12/2020 20:58:38'!
-initializeFor: anAccount
-	
-	account := anAccount! !
-
-
-!Reporter methodsFor: 'reporting' stamp: 'AM 11/12/2020 21:19:41'!
-report
-
-	self subclassResponsibility ! !
-
 
 !Reporter methodsFor: 'formatting -- private' stamp: 'NNH 11/13/2020 22:57:48'!
 formatBalance: anAccountOrTransaction
@@ -1457,6 +1456,18 @@ formatSendingTransferComponent: aSendingTransferComponent
 formatWithdraw: aWithdraw
 
 	^ 'Extracción por ', aWithdraw value asString.! !
+
+
+!Reporter methodsFor: 'initializing' stamp: 'AM 11/12/2020 20:58:38'!
+initializeFor: anAccount
+	
+	account := anAccount! !
+
+
+!Reporter methodsFor: 'reporting' stamp: 'AM 11/12/2020 21:19:41'!
+report
+
+	self subclassResponsibility ! !
 
 
 !Reporter methodsFor: 'reporting -- private' stamp: 'NNH 11/13/2020 23:19:22'!
@@ -1627,11 +1638,20 @@ Reporter subclass: #TreeStructureReporter
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'NNH 11/15/2020 23:34:06'!
-formatName: aPortfolio
+!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/16/2020 00:04:57'!
+formatPortfolio: aPortfolio 
 	
-	[ aPortfolio accountName ] on: Error do: [^ 'Cuenta sin nombre'].
-	^ aPortfolio accountName.! !
+	^ [ aPortfolio accountName ]
+		on: Error
+		do: [ 'Portfolio sin nombre' ]! !
+
+!TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/16/2020 00:02:43'!
+formatReceptiveAccount: aReceptiveAccount
+	
+	^ [ aReceptiveAccount accountName ] 
+		on: Error 
+		do: [ 'Cuenta corriente sin nombre'].
+! !
 
 !TreeStructureReporter methodsFor: 'formatting -- private' stamp: 'AM 11/13/2020 20:18:31'!
 leadingTabs
@@ -1655,10 +1675,10 @@ report
 	^ treeStructure ! !
 
 
-!TreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/15/2020 23:35:40'!
-reportAccountWithTabs: anAccount evaluating: aBlock
+!TreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:35:45'!
+reportAccount: anAccount formatWith: formatForAccount evaluating: aBlock
 		
-	treeStructure add: (self leadingTabs, (self formatName: anAccount)).
+	treeStructure add: (self leadingTabs, formatForAccount).
 	
 	numberOfLeadingTabs := numberOfLeadingTabs + 1.
 	
@@ -1674,52 +1694,49 @@ TreeStructureReporter subclass: #DetailedTreeStructureReporter
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/13/2020 23:03:14'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:29:31'!
 reportDeposit: aDeposit 
 		
-	treeStructure add: (self leadingTabs, (self formatDeposit: aDeposit)).! !
+	treeStructure add: 
+		(self leadingTabs, (self formatDeposit: aDeposit)).! !
 
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/13/2020 23:25:40'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:35:45'!
 reportPortfolio: aPortfolio 
 	
-	self reportAccountWithTabs: aPortfolio evaluating: [	self reportAccountsRecursively: aPortfolio].
+	self reportAccount: aPortfolio 
+		formatWith: (self formatPortfolio: aPortfolio)
+		evaluating: [	self reportAccountsRecursively: aPortfolio].
 	
 	treeStructure add: (self leadingTabs , '\t', (self formatBalance: aPortfolio))! !
 
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:22:40'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:08:47'!
 reportReceivingTransferComponent: aReceivingTransferComponent 
 	
-	| leadingTabs |
-	
-	leadingTabs := self leadingTabs.
 	treeStructure add: 
-		(leadingTabs, (self formatReceivingTransferComponent: aReceivingTransferComponent))! !
+		(self leadingTabs, (self formatReceivingTransferComponent: aReceivingTransferComponent))! !
 
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/13/2020 23:25:40'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:35:45'!
 reportReceptiveAccount: aReceptiveAccount 
 	
-	 self reportAccountWithTabs: aReceptiveAccount evaluating: [ 	self reportTransactionsRecursively: aReceptiveAccount ].
+	 self reportAccount: aReceptiveAccount 
+		formatWith: ( self formatReceptiveAccount: aReceptiveAccount)
+		evaluating: [ 	self reportTransactionsRecursively: aReceptiveAccount ].
 		
-	treeStructure add: (self leadingTabs , '\t', (self formatBalance: aReceptiveAccount))! !
+	treeStructure add:
+		(self leadingTabs , '\t', (self formatBalance: aReceptiveAccount))! !
 
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/13/2020 23:23:54'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:09:05'!
 reportSendingTransferComponent: aSendingTransferComponent 
 
-	| leadingTabs |
-	
-	leadingTabs := self leadingTabs.
-	treeStructure add: (leadingTabs, (self formatSendingTransferComponent: aSendingTransferComponent) )
+	treeStructure add: 
+		(self leadingTabs, (self formatSendingTransferComponent: aSendingTransferComponent) )
 		! !
 
-!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/13/2020 21:19:16'!
+!DetailedTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:09:22'!
 reportWithdraw: aWithdraw 
-
-	| leadingTabs |
 	
-	leadingTabs := self leadingTabs.
 	treeStructure add: 
-		(leadingTabs, (self formatWithdraw: aWithdraw) ) ! !
+		(self leadingTabs, (self formatWithdraw: aWithdraw) ) ! !
 
 
 !classDefinition: #SimpleTreeStructureReporter category: 'Portfolio'!
@@ -1729,15 +1746,18 @@ TreeStructureReporter subclass: #SimpleTreeStructureReporter
 	poolDictionaries: ''
 	category: 'Portfolio'!
 
-!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/13/2020 23:25:40'!
+!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:35:45'!
 reportPortfolio: aPortfolio 
 	
-	self reportAccountWithTabs: aPortfolio evaluating:  [ self reportAccountsRecursively: aPortfolio ].! !
+	self reportAccount: aPortfolio
+		 formatWith: (self formatPortfolio: aPortfolio) 
+		 evaluating:  [ self reportAccountsRecursively: aPortfolio ].! !
 
-!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'NNH 11/15/2020 23:35:49'!
+!SimpleTreeStructureReporter methodsFor: 'reporting -- private' stamp: 'AM 11/16/2020 00:29:21'!
 reportReceptiveAccount: aReceptiveAccount 	
 	
-	treeStructure add: (self leadingTabs, (self formatName: aReceptiveAccount ))! !
+	treeStructure add: 
+		(self leadingTabs, (self formatReceptiveAccount: aReceptiveAccount ))! !
 
 
 !classDefinition: #Transfer category: 'Portfolio'!
@@ -1746,14 +1766,6 @@ Object subclass: #Transfer
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio'!
-
-!Transfer methodsFor: 'initializing' stamp: 'NNH 11/13/2020 22:52:24'!
-initializeFrom: aSendingReceptiveAccount to: aReceivingReceptiveAccount for: aValue 
-
-	receiving := SendingTransferComponent for: self on: aSendingReceptiveAccount.
-	sending := ReceivingTransferComponent for: self on: aReceivingReceptiveAccount. 
-	value := aValue.! !
-
 
 !Transfer methodsFor: 'accessing' stamp: 'AM 11/12/2020 21:39:14'!
 receiving
@@ -1769,20 +1781,19 @@ sending
 value
 	^ value! !
 
+
+!Transfer methodsFor: 'initializing' stamp: 'NNH 11/13/2020 22:52:24'!
+initializeFrom: aSendingReceptiveAccount to: aReceivingReceptiveAccount for: aValue 
+
+	receiving := SendingTransferComponent for: self on: aSendingReceptiveAccount.
+	sending := ReceivingTransferComponent for: self on: aReceivingReceptiveAccount. 
+	value := aValue.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Transfer class' category: 'Portfolio'!
 Transfer class
 	instanceVariableNames: ''!
-
-!Transfer class methodsFor: 'instance creation' stamp: 'AM 11/10/2020 22:47:09'!
-from: aSendingReceptiveAccount to: aReceivingReceptiveAccount for: aValue 
-	
-	aSendingReceptiveAccount = aReceivingReceptiveAccount ifTrue: [ ^ self error: self canNotTransferFromAnAccountToItselfErrorDescription ].
-	aValue <= 0 ifTrue: [ ^ self error: self canNotTransferNonPositiveAmountErrorDescription ].
-	
-	^self new initializeFrom: aSendingReceptiveAccount to: aReceivingReceptiveAccount for: aValue ! !
-
 
 !Transfer class methodsFor: 'error descriptions' stamp: 'AM 11/10/2020 22:35:06'!
 canNotTransferFromAnAccountToItselfErrorDescription
@@ -1791,3 +1802,12 @@ canNotTransferFromAnAccountToItselfErrorDescription
 !Transfer class methodsFor: 'error descriptions' stamp: 'AM 11/10/2020 22:46:05'!
 canNotTransferNonPositiveAmountErrorDescription
 	^ 'Can not transfer when amount is not a positive value'! !
+
+
+!Transfer class methodsFor: 'instance creation' stamp: 'AM 11/10/2020 22:47:09'!
+from: aSendingReceptiveAccount to: aReceivingReceptiveAccount for: aValue 
+	
+	aSendingReceptiveAccount = aReceivingReceptiveAccount ifTrue: [ ^ self error: self canNotTransferFromAnAccountToItselfErrorDescription ].
+	aValue <= 0 ifTrue: [ ^ self error: self canNotTransferNonPositiveAmountErrorDescription ].
+	
+	^self new initializeFrom: aSendingReceptiveAccount to: aReceivingReceptiveAccount for: aValue ! !
