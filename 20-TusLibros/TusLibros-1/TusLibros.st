@@ -71,6 +71,20 @@ test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce
 	
 	self assert: ( aCart listCart hasEqualElements: {harryPotter. harryPotter} )! !
 
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/18/2020 18:35:53'!
+test08ExternallyAddingBookToCartListShouldNotModifyCart
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+
 
 !CartTest methodsFor: 'tests - errors' stamp: 'AM 11/17/2020 23:00:37'!
 test04ABookShouldNotBeAddedWhenNotForSale
@@ -119,10 +133,10 @@ Object subclass: #Cart
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Cart methodsFor: 'accessing' stamp: 'AM 11/16/2020 19:06:33'!
+!Cart methodsFor: 'accessing' stamp: 'AM 11/18/2020 18:32:39'!
 listCart
 	
-	^ books! !
+	^ books copy! !
 
 
 !Cart methodsFor: 'adding books' stamp: 'AM 11/17/2020 22:54:35'!

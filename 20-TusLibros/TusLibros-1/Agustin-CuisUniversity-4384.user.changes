@@ -1284,3 +1284,162 @@ PASSED!
 PASSED!
 
 ----QUIT----(17 November 2020 23:01:55) CuisUniversity-4384.image priorSource: 17188888!
+
+----STARTUP---- (18 November 2020 18:29:35) as /home/agustin/Escritorio/Uba/Materias/Compu/ISW1/TusLibros/CuisUniversity-4384.image!
+
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/18/2020 18:31:11'!
+test08
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+
+!testRun: #CartTest #test08 stamp: 'AM 11/18/2020 18:31:20'!
+FAILURE!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/18/2020 18:31:58' prior: 50869886!
+test08
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter withOccurrences: 1.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+
+!testRun: #CartTest #test08 stamp: 'AM 11/18/2020 18:32:00'!
+FAILURE!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/18/2020 18:32:23' prior: 50869901!
+test08
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+!Cart methodsFor: 'accessing' stamp: 'AM 11/18/2020 18:32:39' prior: 50868090!
+listCart
+	
+	^ books copy! !
+
+!testRun: #CartTest #test08 stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+
+!testRun: #CartTest #test08 stamp: 'AM 11/18/2020 18:32:52'!
+PASSED!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/18/2020 18:35:36'!
+test08AddingBookToCartListShouldNotModifyCart
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+
+!methodRemoval: CartTest #test08 stamp: 'AM 11/18/2020 18:35:36'!
+test08
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/18/2020 18:35:53'!
+test08ExternallyAddingBookToCartListShouldNotModifyCart
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+
+!methodRemoval: CartTest #test08AddingBookToCartListShouldNotModifyCart stamp: 'AM 11/18/2020 18:35:53'!
+test08AddingBookToCartListShouldNotModifyCart
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := OrderedCollection with: harryPotter.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'AM 11/18/2020 18:36:09'!
+PASSED!
+
+----QUIT----(18 November 2020 18:37:47) CuisUniversity-4384.image priorSource: 17223318!
