@@ -40,14 +40,14 @@ test02ABookAddedToCartIsSuccessfullyAdded
 	self deny: aCart isEmpty.
 	self assert: ( aCart listCart hasEqualElements: {harryPotter} )! !
 
-!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:46:54'!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/20/2020 19:19:04'!
 test03ManyBooksAddedToCartAreSuccessfullyAdded
 
 	| aCart catalogue |
 	
 	catalogue := Dictionary with: harryPotter -> 100
-									with: lordOfTheRings -> 100
-									with: ageOfEmpires -> 100.
+						with: lordOfTheRings -> 100
+						with: ageOfEmpires -> 100.
 	
 	aCart := Cart withCatalogue: catalogue.
 	
@@ -139,7 +139,7 @@ TestCase subclass: #CashierTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:40:43'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:18:09'!
 test01CashierShouldNotDispatchEmptyCart
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble |
@@ -154,16 +154,17 @@ test01CashierShouldNotDispatchEmptyCart
 	raise: Error
 	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
 	
-	self deny: aMerchantProcessorDouble wasCalled.
+	self deny: aMerchantProcessorDouble receivedAMessage.
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:41:24'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:27:51'!
 test02CashierShouldNotDispatchExpiredCreditCard
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble |
 	
 	aMerchantProcessorDouble := MerchantProcessorDouble new.
 	aCashier := Cashier with: aMerchantProcessorDouble.
+	
 	aCart := Cart withCatalogue: OrderedCollection new.
 	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
 	
@@ -171,10 +172,10 @@ test02CashierShouldNotDispatchExpiredCreditCard
 	raise: Error
 	withMessageText: Cashier declinedCreditCardErrorDescription.
 
-	self deny: aMerchantProcessorDouble wasCalled.
+	self deny: aMerchantProcessorDouble receivedAMessage.
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:48:14'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:17:25'!
 test03
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook catalogue |
@@ -182,7 +183,7 @@ test03
 	aBook := 'Harry Potter'.	
 	catalogue := Dictionary with: aBook -> 100.
 	aMerchantProcessorDouble := MerchantProcessorDouble new.
-	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue .
 
 	aCart := Cart withCatalogue: catalogue.
 	aCart addToCart: aBook withOccurrences: 1.
@@ -243,118 +244,101 @@ test05
 
 !classDefinition: #CreditCardTest category: 'TusLibros'!
 TestCase subclass: #CreditCardTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'validCardNumber monthInACalendar hernan validCreditCard'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:10:08'!
-test01ValidCardPropertiesAreCorrect
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:21:52'!
+setUp
+	
+	validCardNumber := 4444444444444444.
+	monthInACalendar := January, 2021.
+	hernan := 'Hernán'.
+	
+	validCreditCard := CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: hernan.
+	
+	! !
 
-	| aCardId aCreditCard aMonthInCalendar aPerson |
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:22:21'!
+test01ValidCardPropertiesAreCorrect
 	
-	aCardId := 4444444444444444.
-	aMonthInCalendar := January, 2021.
-	aPerson := 'Hernán'.
-	
-	aCreditCard := CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson.
-	
-	self assert: aCreditCard number equals: aCardId.
-	self assert: aCreditCard expirationDate equals: aMonthInCalendar.
-	self assert: aCreditCard owner equals: aPerson.
+	self assert: validCreditCard number equals: validCardNumber .
+	self assert: validCreditCard expirationDate equals: monthInACalendar .
+	self assert: validCreditCard owner equals: hernan.
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:10:51'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:23:04'!
 test02CardNumberShouldNotHaveLessThan16Digits
 
-	| aCardId aMonthInCalendar aPerson |
+	| aCardId |
 	
 	aCardId := 10 ^ 15 - 1.
-	aMonthInCalendar := January, 2021.
-	aPerson := 'Hernán'.
 	
-	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	self should: [ CreditCard withNumber: aCardId expirationDate: monthInACalendar owner: hernan ]
 	raise: Error
 	withMessageText: CreditCard invalidCardNumberErrorDescription .
 	
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:11:30'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:24:01'!
 test03CardExpirationDateShouldBeAMonthOfAnYear
 
-	| aCardId aMonthInCalendar aPerson |
+	| aDayInAMonthOfAnYear |
 	
-	aCardId := 4444444444444444.
-	aMonthInCalendar := January/01/2021.
-	aPerson := 'Hernán'.
+	aDayInAMonthOfAnYear := January/01/2021.
 	
-	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	self should: [ CreditCard withNumber: validCardNumber expirationDate: aDayInAMonthOfAnYear owner: hernan ]
 	raise: Error
 	withMessageText: CreditCard invalidExpirationDateErrorDescription .
 	
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:11:50'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:24:40'!
 test04CardNumberShouldBeAnInteger
 
-	| aCardId aMonthInCalendar aPerson |
+	| aNonIntegerCardNumber |
 	
-	aCardId := 0.5 .
-	aMonthInCalendar := January, 2021.
-	aPerson := 'Hernán'.
+	aNonIntegerCardNumber := 0.5 .
 	
-	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	self should: [ CreditCard withNumber: aNonIntegerCardNumber expirationDate: monthInACalendar owner: hernan ]
 	raise: Error
 	withMessageText: CreditCard invalidCardNumberErrorDescription .
 	
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:12:10'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:25:10'!
 test05CardNumberShouldNotHaveMoreThan16Digits
 
-	| aCardId aMonthInCalendar aPerson |
+	| anInvalidCardNumber |
 	
-	aCardId := 10 ^ 16.
-	aMonthInCalendar := January, 2021.
-	aPerson := 'Hernán'.
+	anInvalidCardNumber := 10 ^ 16.
 	
-	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	self should: [ CreditCard withNumber: anInvalidCardNumber expirationDate: monthInACalendar owner: hernan ]
 	raise: Error
 	withMessageText: CreditCard invalidCardNumberErrorDescription .
 	
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:18:12'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:25:35'!
 test06OwnerNameShouldNotBeEmpty
-
-	| aCardId aMonthInCalendar aPerson |
 	
-	aCardId := 4444444444444444.
-	aMonthInCalendar := January, 2021.
-	aPerson := ''.
-	
-	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	self should: [ CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: '' ]
 	raise: Error
 	withMessageText: CreditCard invalidOwnerNameErrorDescription .
 	
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:18:20'!
-test07OwnerNameShouldNotBeBlank
-
-	| aCardId aMonthInCalendar aPerson |
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:26:13'!
+test07OwnerNameShouldNotBeBlank.
 	
-	aCardId := 4444444444444444.
-	aMonthInCalendar := January, 2021.
-	aPerson := '          '.
-	
-	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	self should: [ CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: '      ' ]
 	raise: Error
 	withMessageText: CreditCard invalidOwnerNameErrorDescription .
 	
@@ -408,11 +392,11 @@ signalBookIsNotForSale
 	^ self error: self class bookIsNotForSaleErrorDescription! !
 
 
-!Cart methodsFor: 'initialization' stamp: 'NNH 11/20/2020 19:11:04'!
+!Cart methodsFor: 'initialization' stamp: 'AM 11/20/2020 19:15:43'!
 initializeWithCatalogue: aCatalogue
 	
 	catalogue := aCatalogue.
-	books := Bag new.! !
+	books := OrderedCollection new.! !
 
 
 !Cart methodsFor: 'testing' stamp: 'AM 11/16/2020 19:06:48'!
@@ -450,7 +434,7 @@ Object subclass: #Cashier
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:08:57'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:16:48'!
 checkOut: aCart with: aCreditCard
 	
 	| total |
@@ -461,7 +445,7 @@ checkOut: aCart with: aCreditCard
 	
 	merchantProcessor process.
 	
-	total := aCart listCart sum: [ :aProduct | catalogue at: aProduct ] ifEmpty: [ 0 ].
+	total := aCart listCart sum: [ :aProduct | catalogue at: aProduct ].
 	
 	^ Ticket total: total products: aCart listCart .! !
 
@@ -574,26 +558,27 @@ Object subclass: #MerchantProcessorDouble
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:28:27'!
+!MerchantProcessorDouble methodsFor: 'error handling' stamp: 'NNH 11/20/2020 18:32:19'!
+doesNotUnderstand: aMessage
+	
+	messages add: aMessage asString ! !
+
+
+!MerchantProcessorDouble methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:28:27'!
 initialize
 	
 	messages := Set new.! !
+
+
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'AM 11/20/2020 19:18:09'!
+receivedAMessage
+
+	^ messages notEmpty .! !
 
 !MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:29:18'!
 receivedMessage: aMessage
 
 	^ messages includes: aMessage ! !
-
-!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:29:59'!
-wasCalled
-
-	^ messages notEmpty .! !
-
-
-!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:32:19'!
-doesNotUnderstand: aMessage
-	
-	messages add: aMessage asString ! !
 
 
 !classDefinition: #Ticket category: 'TusLibros'!
