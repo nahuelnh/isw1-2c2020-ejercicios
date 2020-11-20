@@ -28317,3 +28317,2397 @@ PASSED!
 PASSED!
 
 ----QUIT----(19 November 2020 20:34:16) CuisUniversity-4384.image priorSource: 17159933!
+
+----STARTUP---- (19 November 2020 20:54:25) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 20:57:58' prior: 50868823!
+test04
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 0.5 .
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:03:16' prior: 50868454!
+test02
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 9999999999999.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:03:44' prior: 50872177!
+test02
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 16 - 1.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+
+10 ^ 16 - 1.!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:04:01'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:04:01'!
+FAILURE!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:04:27'!
+test05
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 17.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:05:41' prior: 50868841!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	(aNumber isInteger and: [ aNumber between: 10 ^ 16 and: 10 ^ 17 ]) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	(aMonthOfYear isKindOf: GregorianMonthOfYear) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+		
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+
+!testRun: #CreditCardTest #test01 stamp: 'NNH 11/19/2020 21:05:44'!
+ERROR!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:05:44'!
+PASSED!
+
+!testRun: #CreditCardTest #test03 stamp: 'NNH 11/19/2020 21:05:44'!
+FAILURE!
+
+!testRun: #CreditCardTest #test04 stamp: 'NNH 11/19/2020 21:05:44'!
+PASSED!
+
+!testRun: #CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:05:44'!
+FAILURE!
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:06:02' prior: 50872222!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	(aNumber isInteger and: [ aNumber between: 10 ^ 15 and: 10 ^ 16 ]) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	(aMonthOfYear isKindOf: GregorianMonthOfYear) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+		
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+
+!testRun: #CreditCardTest #test01 stamp: 'NNH 11/19/2020 21:06:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:06:05'!
+FAILURE!
+
+!testRun: #CreditCardTest #test03 stamp: 'NNH 11/19/2020 21:06:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test04 stamp: 'NNH 11/19/2020 21:06:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:06:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:06:05'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01 stamp: 'NNH 11/19/2020 21:06:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:06:18'!
+FAILURE!
+
+!testRun: #CreditCardTest #test03 stamp: 'NNH 11/19/2020 21:06:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test04 stamp: 'NNH 11/19/2020 21:06:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:06:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:06:18'!
+FAILURE!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:06:30' prior: 50872191!
+test02
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 15 - 1.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:06:34' prior: 50872209!
+test05
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 16.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+
+!testRun: #CreditCardTest #test01 stamp: 'NNH 11/19/2020 21:06:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:06:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test03 stamp: 'NNH 11/19/2020 21:06:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test04 stamp: 'NNH 11/19/2020 21:06:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:06:37'!
+FAILURE!
+
+!testRun: #CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:06:37'!
+FAILURE!
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:06:54' prior: 50872251!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	(aNumber isInteger and: [ aNumber between: 10 ^ 15 and: 10 ^ 16 - 1]) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	(aMonthOfYear isKindOf: GregorianMonthOfYear) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+		
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+
+!testRun: #CreditCardTest #test01 stamp: 'NNH 11/19/2020 21:06:59'!
+PASSED!
+
+!testRun: #CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:06:59'!
+PASSED!
+
+!testRun: #CreditCardTest #test03 stamp: 'NNH 11/19/2020 21:06:59'!
+PASSED!
+
+!testRun: #CreditCardTest #test04 stamp: 'NNH 11/19/2020 21:06:59'!
+PASSED!
+
+!testRun: #CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:06:59'!
+PASSED!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:09:52'!
+test01validCardPropertiesAreCorrect
+
+	| aCardId aCreditCard aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	aCreditCard := CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson.
+	
+	self assert: aCreditCard number equals: aCardId.
+	self assert: aCreditCard expirationDate equals: aMonthInCalendar.
+	self assert: aCreditCard owner equals: aPerson.
+
+	! !
+
+!methodRemoval: CreditCardTest #test01 stamp: 'NNH 11/19/2020 21:09:52'!
+test01
+
+	| aCardId aCreditCard aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	aCreditCard := CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson.
+	
+	self assert: aCreditCard number equals: aCardId.
+	self assert: aCreditCard expirationDate equals: aMonthInCalendar.
+	self assert: aCreditCard owner equals: aPerson.
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:10:08'!
+test01ValidCardPropertiesAreCorrect
+
+	| aCardId aCreditCard aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	aCreditCard := CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson.
+	
+	self assert: aCreditCard number equals: aCardId.
+	self assert: aCreditCard expirationDate equals: aMonthInCalendar.
+	self assert: aCreditCard owner equals: aPerson.
+
+	! !
+
+!methodRemoval: CreditCardTest #test01validCardPropertiesAreCorrect stamp: 'NNH 11/19/2020 21:10:08'!
+test01validCardPropertiesAreCorrect
+
+	| aCardId aCreditCard aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	aCreditCard := CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson.
+	
+	self assert: aCreditCard number equals: aCardId.
+	self assert: aCreditCard expirationDate equals: aMonthInCalendar.
+	self assert: aCreditCard owner equals: aPerson.
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:10:51'!
+test02CardNumberShouldNotHaveLessThan16Digits
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 15 - 1.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+
+!methodRemoval: CreditCardTest #test02 stamp: 'NNH 11/19/2020 21:10:51'!
+test02
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 15 - 1.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:11:22'!
+test03CardExpirationDateShouldAMonthOfAnYear
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January/01/2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidExpirationDateErrorDescription .
+	
+
+	! !
+
+!methodRemoval: CreditCardTest #test03 stamp: 'NNH 11/19/2020 21:11:22'!
+test03
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January/01/2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidExpirationDateErrorDescription .
+	
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:11:30'!
+test03CardExpirationDateShouldBeAMonthOfAnYear
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January/01/2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidExpirationDateErrorDescription .
+	
+
+	! !
+
+!methodRemoval: CreditCardTest #test03CardExpirationDateShouldAMonthOfAnYear stamp: 'NNH 11/19/2020 21:11:30'!
+test03CardExpirationDateShouldAMonthOfAnYear
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January/01/2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidExpirationDateErrorDescription .
+	
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:11:50'!
+test04CardNumberShouldBeAnInteger
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 0.5 .
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+
+!methodRemoval: CreditCardTest #test04 stamp: 'NNH 11/19/2020 21:11:50'!
+test04
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 0.5 .
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:12:10'!
+test05CardNumberShouldNotHaveMoreThan16Digits
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 16.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+
+!methodRemoval: CreditCardTest #test05 stamp: 'NNH 11/19/2020 21:12:10'!
+test05
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 16.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:12:31'!
+test06OwnerNameIsNotEmpty
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 10 ^ 16.
+	aMonthInCalendar := January, 2021.
+	aPerson := 'Hernán'.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidCardNumberErrorDescription .
+	
+
+	! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:13:06' prior: 50872568!
+test06OwnerNameIsNotEmpty
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := ''.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard emptyOwnerNameErrorDescription .
+	
+
+	! !
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:13:11'!
+ERROR!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:13:11'!
+ERROR!
+!CreditCard class methodsFor: 'error descriptions' stamp: 'NNH 11/19/2020 21:13:21'!
+emptyOwnerNameErrorDescription
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'error descriptions' stamp: 'NNH 11/19/2020 21:13:44' prior: 50872601!
+emptyOwnerNameErrorDescription
+	
+	^ 'Credit card should not have an empty owner name'! !
+!CreditCard class methodsFor: 'error descriptions' stamp: 'NNH 11/19/2020 21:14:16' prior: 50872607!
+emptyOwnerNameErrorDescription
+	
+	^ 'Credit card should not have an invalid owner name'! !
+!CreditCard class methodsFor: 'error descriptions' stamp: 'NNH 11/19/2020 21:14:32'!
+invalidOwnerNameErrorDescription
+	
+	^ 'Credit card should not have an invalid owner name'! !
+
+!methodRemoval: CreditCard class #emptyOwnerNameErrorDescription stamp: 'NNH 11/19/2020 21:14:32'!
+emptyOwnerNameErrorDescription
+	
+	^ 'Credit card should not have an invalid owner name'!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:15:08' prior: 50872582!
+test06OwnerNameIsNotEmpty
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := ''.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidOwnerNameErrorDescription .
+	
+
+	! !
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:15:10'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:15:10'!
+FAILURE!
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:16:07' prior: 50872339!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	( aNumber isInteger and: [ aNumber between: 10 ^ 15 and: 10 ^ 16 - 1]) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	( aMonthOfYear isKindOf: GregorianMonthOfYear) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+	aPerson isEmpty ifTrue: [ self error: self class invalidOwnerNameErrorDescription ] .
+		
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:16:18' prior: 50872651!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	( aNumber isInteger and: [ aNumber between: 10 ^ 15 and: 10 ^ 16 - 1 ] ) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	( aMonthOfYear isKindOf: GregorianMonthOfYear ) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+	aPerson isEmpty ifTrue: [ self error: self class invalidOwnerNameErrorDescription ] .
+		
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+
+!testRun: #CreditCardTest #test01ValidCardPropertiesAreCorrect stamp: 'NNH 11/19/2020 21:16:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CardNumberShouldNotHaveLessThan16Digits stamp: 'NNH 11/19/2020 21:16:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CardExpirationDateShouldBeAMonthOfAnYear stamp: 'NNH 11/19/2020 21:16:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CardNumberShouldBeAnInteger stamp: 'NNH 11/19/2020 21:16:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CardNumberShouldNotHaveMoreThan16Digits stamp: 'NNH 11/19/2020 21:16:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:16:24'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:16:24'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:16:41'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:16:41'!
+FAILURE!
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:16:58' prior: 50872670!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	( aNumber isInteger and: [ aNumber between: 10 ^ 15 and: 10 ^ 16 - 1 ] ) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	( aMonthOfYear isKindOf: GregorianMonthOfYear ) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+	aPerson isEmpty ifTrue: [ self error: self invalidOwnerNameErrorDescription ] .
+		
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+
+!testRun: #CreditCardTest #test01ValidCardPropertiesAreCorrect stamp: 'NNH 11/19/2020 21:17:07'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CardNumberShouldNotHaveLessThan16Digits stamp: 'NNH 11/19/2020 21:17:07'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CardExpirationDateShouldBeAMonthOfAnYear stamp: 'NNH 11/19/2020 21:17:07'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CardNumberShouldBeAnInteger stamp: 'NNH 11/19/2020 21:17:07'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CardNumberShouldNotHaveMoreThan16Digits stamp: 'NNH 11/19/2020 21:17:07'!
+PASSED!
+
+!testRun: #CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:17:07'!
+PASSED!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:18:00'!
+test07OwnerNameShouldNotBeBlank
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := ''.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidOwnerNameErrorDescription .
+	
+
+	! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:18:12'!
+test06OwnerNameShouldNotBeEmpty
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := ''.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidOwnerNameErrorDescription .
+	
+
+	! !
+
+!methodRemoval: CreditCardTest #test06OwnerNameIsNotEmpty stamp: 'NNH 11/19/2020 21:18:12'!
+test06OwnerNameIsNotEmpty
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := ''.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidOwnerNameErrorDescription .
+	
+
+	!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:18:20' prior: 50872758!
+test07OwnerNameShouldNotBeBlank
+
+	| aCardId aMonthInCalendar aPerson |
+	
+	aCardId := 4444444444444444.
+	aMonthInCalendar := January, 2021.
+	aPerson := '          '.
+	
+	self should: [ CreditCard withNumber: aCardId expirationDate: aMonthInCalendar owner: aPerson ]
+	raise: Error
+	withMessageText: CreditCard invalidOwnerNameErrorDescription .
+	
+
+	! !
+
+!testRun: #CreditCardTest #test07OwnerNameShouldNotBeBlank stamp: 'NNH 11/19/2020 21:18:23'!
+FAILURE!
+
+!testRun: #CreditCardTest #test07OwnerNameShouldNotBeBlank stamp: 'NNH 11/19/2020 21:18:23'!
+FAILURE!
+
+' '!
+!CreditCard class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:21:38' prior: 50872719!
+withNumber: aNumber expirationDate: aMonthOfYear owner: aPerson 
+	
+	( aNumber isInteger and: [ aNumber between: 10 ^ 15 and: 10 ^ 16 - 1 ] ) ifFalse: [ self error: self invalidCardNumberErrorDescription ] .
+	( aMonthOfYear isKindOf: GregorianMonthOfYear ) ifFalse: [ self error: self invalidExpirationDateErrorDescription ] .
+	aPerson withoutTrailingBlanks isEmpty ifTrue: [ self error: self invalidOwnerNameErrorDescription ] .
+	
+	^ self new initializeWithNumber: aNumber expirationDate: aMonthOfYear owner: aPerson . ! !
+
+!testRun: #CreditCardTest #test01ValidCardPropertiesAreCorrect stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CardNumberShouldNotHaveLessThan16Digits stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CardExpirationDateShouldBeAMonthOfAnYear stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CardNumberShouldBeAnInteger stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CardNumberShouldNotHaveMoreThan16Digits stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+
+!testRun: #CreditCardTest #test06OwnerNameShouldNotBeEmpty stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+
+!testRun: #CreditCardTest #test07OwnerNameShouldNotBeBlank stamp: 'NNH 11/19/2020 21:21:42'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:23:03'!
+test01CashierShouldNotCheckOutEmptyCart
+	
+	| aCart aCashier aCreditCard |
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	self should: [aCashier checkOut: aCart with: aCreditCard] 
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription.! !
+
+!methodRemoval: CashierTest #test01 stamp: 'NNH 11/19/2020 21:23:03'!
+test01
+	
+	| aCart aCashier aCreditCard |
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	self should: [aCashier checkOut: aCart with: aCreditCard] 
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription.!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:23:25'!
+test02CashierShouldNotCheckOutExpiredCreditCard
+	
+	| aCart aCashier aCreditCard |
+	
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+! !
+
+!methodRemoval: CashierTest #test02 stamp: 'NNH 11/19/2020 21:23:25'!
+test02
+	
+	| aCart aCashier aCreditCard |
+	
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CashierTest #test01CashierShouldNotCheckOutEmptyCart stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotCheckOutExpiredCreditCard stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test01ValidCardPropertiesAreCorrect stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CardNumberShouldNotHaveLessThan16Digits stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CardExpirationDateShouldBeAMonthOfAnYear stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CardNumberShouldBeAnInteger stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CardNumberShouldNotHaveMoreThan16Digits stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test06OwnerNameShouldNotBeEmpty stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+
+!testRun: #CreditCardTest #test07OwnerNameShouldNotBeBlank stamp: 'NNH 11/19/2020 21:23:38'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:25:39'!
+test03
+	
+	| aCart aCashier aCreditCard |
+	
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+! !
+
+!classDefinition: #MerchantProcessorDouble category: 'TusLibros' stamp: 'NNH 11/19/2020 21:28:53'!
+Object subclass: #MerchantProcessorDouble
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:28:43' prior: 50872982!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+	
+	self 
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:29:22' prior: 50873005!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:30:26' prior: 50873023!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:30:47'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:30:47'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:30:55'!
+with: aMerchantProcessorDouble 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: aMerchantProcessorDouble ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'NNH 11/19/2020 21:31:25' prior: 50873066!
+with: aMerchantProcessor 
+	
+	^ self new initializeWith: aMerchantProcessor! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:31:28'!
+ERROR!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'NNH 11/19/2020 21:31:44'!
+Object subclass: #Cashier
+	instanceVariableNames: 'merchantProcessor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'NNH 11/19/2020 21:31:44'!
+initializeWith: aMerchantProcessor 
+	self shouldBeImplemented.
+	merchantProcessor := aMerchantProcessor.! !
+!Cashier methodsFor: 'initialization' stamp: 'NNH 11/19/2020 21:31:49' prior: 50873089!
+initializeWith: aMerchantProcessor 
+	
+	merchantProcessor := aMerchantProcessor.! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:31:52'!
+ERROR!
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/19/2020 21:32:10'!
+wasCalled
+	self shouldBeImplemented.! !
+
+!classDefinition: #MerchantProcessorDouble category: 'TusLibros' stamp: 'NNH 11/19/2020 21:32:22'!
+Object subclass: #MerchantProcessorDouble
+	instanceVariableNames: 'wasCalled'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/19/2020 21:32:20' prior: 50873104!
+wasCalled
+
+	^ wasCalled.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:32:27' prior: 50873042!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/19/2020 21:33:26' overrides: 16896425!
+initialize
+	
+	wasCalled := true.! !
+!MerchantProcessorDouble methodsFor: 'nil' stamp: 'NNH 11/19/2020 21:35:38' overrides: 16881366!
+doesNotUnderstand: aMessage
+	
+	wasCalled := true.! !
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/19/2020 21:35:47' prior: 50873141 overrides: 16896425!
+initialize
+	
+	wasCalled := false.! !
+
+!testRun: #CreditCardTest #test01ValidCardPropertiesAreCorrect stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CardNumberShouldNotHaveLessThan16Digits stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CardExpirationDateShouldBeAMonthOfAnYear stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CardNumberShouldBeAnInteger stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CardNumberShouldNotHaveMoreThan16Digits stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test06OwnerNameShouldNotBeEmpty stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test07OwnerNameShouldNotBeBlank stamp: 'NNH 11/19/2020 21:35:55'!
+PASSED!
+
+!testRun: #CashierTest #test01CashierShouldNotCheckOutEmptyCart stamp: 'NNH 11/19/2020 21:36:04'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotCheckOutExpiredCreditCard stamp: 'NNH 11/19/2020 21:36:04'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:36:04'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:38:10' prior: 50873121!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:38:13'!
+FAILURE!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:38:13'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:38:23' prior: 50873190!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription s.
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:38:25' prior: 50873215!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/19/2020 21:38:29'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:39:51'!
+test03CashierShouldNotDispatchEmptyCart
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!methodRemoval: CashierTest #test03 stamp: 'NNH 11/19/2020 21:39:51'!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+!
+
+!methodRemoval: CashierTest #test01CashierShouldNotCheckOutEmptyCart stamp: 'NNH 11/19/2020 21:40:37'!
+test01CashierShouldNotCheckOutEmptyCart
+	
+	| aCart aCashier aCreditCard |
+	aCashier := Cashier new.
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	self should: [aCashier checkOut: aCart with: aCreditCard] 
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription.!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:40:43'!
+test01CashierShouldNotDispatchEmptyCart
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!methodRemoval: CashierTest #test03CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/19/2020 21:40:43'!
+test03CashierShouldNotDispatchEmptyCart
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: OrderedCollection new.	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
+	
+	self deny: aMerchantProcessorDouble wasCalled.
+!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:40:55' prior: 50872894!
+test02CashierShouldNotCheckOutExpiredCreditCard
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+! !
+
+!testRun: #CashierTest #test02CashierShouldNotCheckOutExpiredCreditCard stamp: 'NNH 11/19/2020 21:41:01'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:41:09' prior: 50873356!
+test02CashierShouldNotCheckOutExpiredCreditCard
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!testRun: #CashierTest #test02CashierShouldNotCheckOutExpiredCreditCard stamp: 'NNH 11/19/2020 21:41:12'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/19/2020 21:41:24'!
+test02CashierShouldNotDispatchExpiredCreditCard
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+
+!methodRemoval: CashierTest #test02CashierShouldNotCheckOutExpiredCreditCard stamp: 'NNH 11/19/2020 21:41:24'!
+test02CashierShouldNotCheckOutExpiredCreditCard
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aCart := Cart withCatalogue: OrderedCollection new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+
+	self deny: aMerchantProcessorDouble wasCalled.
+!
+
+----SNAPSHOT----(19 November 2020 21:41:43) CuisUniversity-4384.image priorSource: 17296193!
+
+----QUIT----(19 November 2020 21:41:46) CuisUniversity-4384.image priorSource: 17337409!
+
+----STARTUP---- (20 November 2020 18:12:43) as /home/nahuel/Documents/cuisuniversity/CuisUniversity-4384.image!
+
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test01ValidCardPropertiesAreCorrect stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CardNumberShouldNotHaveLessThan16Digits stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CardExpirationDateShouldBeAMonthOfAnYear stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CardNumberShouldBeAnInteger stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CardNumberShouldNotHaveMoreThan16Digits stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test06OwnerNameShouldNotBeEmpty stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+
+!testRun: #CreditCardTest #test07OwnerNameShouldNotBeBlank stamp: 'NNH 11/20/2020 18:13:48'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:17:44'!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:18:07' prior: 50873513!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withMessageText: Cashier declinedCreditCardErrorDescription.
+
+	self deny: aMerchantProcessorDouble wasCalled.
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:20:46' prior: 50873534!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: aMerchantProcessorDouble wasCalled.
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:22:37' prior: 50873557!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
+	
+	aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: aMerchantProcessorDouble wasCalled.
+! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:22:41'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:22:41'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:22:50' prior: 50873577!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2020 owner: 'Hernán'.  
+	
+	aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: aMerchantProcessorDouble wasCalled.
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:22:52' prior: 50873601!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: aMerchantProcessorDouble wasCalled.
+! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:22:55'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:22:55'!
+ERROR!
+
+aCart!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:24:10' prior: 50872142!
+checkOut: aCart with: aCreditCard
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:25:39' prior: 50873646!
+checkOut: aCart with: aCreditCard
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:25:46'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:25:49'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:27:01' prior: 50873621!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: (aMerchantProcessorDouble receivedMessage: #process) .
+! !
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:27:10'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:27:10'!
+ERROR!
+
+!classDefinition: #MerchantProcessorDouble category: 'TusLibros' stamp: 'NNH 11/20/2020 18:28:06'!
+Object subclass: #MerchantProcessorDouble
+	instanceVariableNames: 'messages'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:28:06' prior: 50873146 overrides: 16881366!
+doesNotUnderstand: aMessage
+	
+	messages := true.! !
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:28:06' prior: 50873117!
+wasCalled
+
+	^ messages.! !
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:28:06' prior: 50873152 overrides: 16896425!
+initialize
+	
+	messages := false.! !
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:28:14' prior: 50873709 overrides: 16881366!
+doesNotUnderstand: aMessage
+	
+	messages := Set new.! !
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:28:27' prior: 50873720 overrides: 16896425!
+initialize
+	
+	messages := Set new.! !
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:28:49' prior: 50873726 overrides: 16881366!
+doesNotUnderstand: aMessage
+	
+	messages add: aMessage.! !
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:29:17'!
+receivedMessage: aMessage
+
+	^ messages includes: aMessage .! !
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:29:18' prior: 50873743!
+receivedMessage: aMessage
+
+	^ messages includes: aMessage ! !
+
+!methodRemoval: MerchantProcessorDouble #wasCalled stamp: 'NNH 11/20/2020 18:29:25'!
+wasCalled
+
+	^ messages.!
+!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:29:59'!
+wasCalled
+
+	^ messages notEmpty .! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:30:04'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:30:04'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:30:04'!
+FAILURE!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:30:04'!
+FAILURE!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:30:22'!
+FAILURE!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:30:22'!
+FAILURE!
+
+aMessage!
+
+messages!
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:31:50' prior: 50873738 overrides: 16881366!
+doesNotUnderstand: aMessage
+	
+	messages add: aMessage asSymbol ! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:31:54'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:31:54'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:31:54'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:31:54'!
+ERROR!
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:32:19' prior: 50873779 overrides: 16881366!
+doesNotUnderstand: aMessage
+	
+	messages add: aMessage asString ! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:32:25'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:32:25'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:32:25'!
+PASSED!
+
+messages!
+
+aMessage!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:36:08'!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (OrderedCollection with: aBook).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:36:49' prior: 50873812!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (Dictionary with: aBook -> 100).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:37:12' prior: 50873832!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (Dictionary with: '' -> 100).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+! !
+
+Dictionary with: '' -> 100!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:37:31' prior: 50873852!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+	aBook := 'Harry Potter'.
+	aCart := Cart withCatalogue: (Dictionary with: aBook -> 100).
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:41:38' prior: 50873873!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	aBook := 'Harry Potter'.
+	catalogue := (Dictionary with: aBook -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:41:44'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:41:44'!
+ERROR!
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:41:53'!
+withProcessor: aMerchantProcessorDouble catalogue: aDictionary 
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:43:15' prior: 50873919!
+withProcessor: aMerchantProcessor catalogue: aCatalogue 
+	
+	self new initializeWithProcessor: aMerchantProcessor andCatalogue: aCatalogue ! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:43:17'!
+ERROR!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'NNH 11/20/2020 18:43:31'!
+Object subclass: #Cashier
+	instanceVariableNames: 'merchantProcessor catalogue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:43:31'!
+initializeWithProcessor: aMerchantProcessor andCatalogue: aCatalogue 
+	self shouldBeImplemented.
+	merchantProcessor := aMerchantProcessor.
+	catalogue := aCatalogue.! !
+!Cashier methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:43:39' prior: 50873943!
+initializeWithProcessor: aMerchantProcessor andCatalogue: aCatalogue 
+	
+	merchantProcessor := aMerchantProcessor.
+	catalogue := aCatalogue.! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:43:40'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:43:50'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:43:50'!
+ERROR!
+!Cart methodsFor: 'assertions' stamp: 'NNH 11/20/2020 18:45:31' prior: 50868066!
+assertThatCanBeAdded: aBook withOccurences: aNumberOfOccurrences
+
+	(catalogue includesKey: aBook ) 
+		ifFalse: [ self signalBookIsNotForSale ].
+		
+	(aNumberOfOccurrences isInteger and: [ aNumberOfOccurrences > 0 ]) 
+		ifFalse: [ self signalBookCanNotBeAddedANonNaturalNumberOfTimes ].! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:45:40'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:45:40'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:45:40'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:45:40'!
+ERROR!
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:45:48'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:45:48'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:45:48'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:45:48'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'NNH 11/20/2020 18:45:54'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 18:45:54'!
+ERROR!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'NNH 11/20/2020 18:45:54'!
+ERROR!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'NNH 11/20/2020 18:45:54'!
+FAILURE!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'NNH 11/20/2020 18:45:54'!
+ERROR!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'NNH 11/20/2020 18:45:54'!
+FAILURE!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'NNH 11/20/2020 18:45:54'!
+FAILURE!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'NNH 11/20/2020 18:45:54'!
+PASSED!
+!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:46:25' prior: 50867947!
+test02ABookAddedToCartIsSuccessfullyAdded
+
+	| aCart catalogue |
+	
+	catalogue := Dictionary with: harryPotter -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	aCart addToCart: harryPotter withOccurrences: 1.
+	
+	self deny: aCart isEmpty.
+	self assert: ( aCart listCart hasEqualElements: {harryPotter} )! !
+!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:46:45' prior: 50867959!
+test03ManyBooksAddedToCartAreSuccessfullyAdded
+
+	| aCart catalogue |
+	
+	catalogue := OrderedCollection with: harryPotter -> 100
+									with: lordOfTheRings -> 100
+									with: ageOfEmpires -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	aCart addToCart: harryPotter withOccurrences: 1. 
+	aCart addToCart: lordOfTheRings withOccurrences: 1.
+	aCart addToCart: ageOfEmpires withOccurrences: 1.
+	
+	self deny: aCart isEmpty.
+	self assert: ( aCart listCart hasEqualElements: {harryPotter. lordOfTheRings. ageOfEmpires} )! !
+!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:46:54' prior: 50874041!
+test03ManyBooksAddedToCartAreSuccessfullyAdded
+
+	| aCart catalogue |
+	
+	catalogue := Dictionary with: harryPotter -> 100
+									with: lordOfTheRings -> 100
+									with: ageOfEmpires -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	aCart addToCart: harryPotter withOccurrences: 1. 
+	aCart addToCart: lordOfTheRings withOccurrences: 1.
+	aCart addToCart: ageOfEmpires withOccurrences: 1.
+	
+	self deny: aCart isEmpty.
+	self assert: ( aCart listCart hasEqualElements: {harryPotter. lordOfTheRings. ageOfEmpires} )! !
+!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:47:05' prior: 50867978!
+test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce
+
+	| aCart catalogue |
+	
+	catalogue := Dictionary with: harryPotter -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	aCart addToCart: harryPotter withOccurrences: 2. 
+	
+	self assert: ( aCart listCart hasEqualElements: {harryPotter. harryPotter} )! !
+!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:47:14' prior: 50867991!
+test08ExternallyAddingBookToCartListShouldNotModifyCart
+
+	| anEmptyCart catalogue emptyCartList |
+	
+	catalogue := Dictionary with: harryPotter -> 100.
+	
+	anEmptyCart := Cart withCatalogue: catalogue.
+	emptyCartList := anEmptyCart listCart.
+	emptyCartList add: harryPotter.
+	
+	self assert: anEmptyCart isEmpty.
+	self assert: anEmptyCart listCart isEmpty.! !
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'NNH 11/20/2020 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'NNH 11/20/2020 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'NNH 11/20/2020 18:47:18'!
+FAILURE!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'NNH 11/20/2020 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'NNH 11/20/2020 18:47:18'!
+FAILURE!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'NNH 11/20/2020 18:47:18'!
+FAILURE!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'NNH 11/20/2020 18:47:18'!
+PASSED!
+!CartTest methodsFor: 'tests - errors' stamp: 'NNH 11/20/2020 18:47:32' prior: 50868532!
+test04ABookShouldNotBeAddedWhenNotForSale
+
+	| aCart catalogue |
+	
+	catalogue := Dictionary with: harryPotter -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	self should: [ aCart addToCart: lordOfTheRings withOccurrences: 1 ]
+		raise: Error
+		withMessageText: Cart bookIsNotForSaleErrorDescription.
+		
+	self assert: aCart isEmpty. ! !
+!CartTest methodsFor: 'tests - errors' stamp: 'NNH 11/20/2020 18:47:35' prior: 50868549!
+test06ABookShouldNotBeAddedWithNonIntegerQuantity
+
+	| aCart catalogue |
+	
+	catalogue := Dictionary with: harryPotter -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	self should: [ aCart addToCart: harryPotter withOccurrences: 0.5 ]
+		raise: Error
+		withMessageText: Cart bookCanNotBeAddedANonNaturalNumberOfTimesErrorDescription.
+		
+	self assert: aCart isEmpty. ! !
+!CartTest methodsFor: 'tests - errors' stamp: 'NNH 11/20/2020 18:47:38' prior: 50868564!
+test07ABookShouldNotBeAddedWithNonPositiveQuantity
+
+	| aCart catalogue |
+	
+	catalogue := Dictionary with: harryPotter -> 100.
+	
+	aCart := Cart withCatalogue: catalogue.
+	
+	self should: [ aCart addToCart: harryPotter withOccurrences: 0 ]
+		raise: Error
+		withMessageText: Cart bookCanNotBeAddedANonNaturalNumberOfTimesErrorDescription.
+		
+	self assert: aCart isEmpty. ! !
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'NNH 11/20/2020 18:47:42'!
+PASSED!
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:47:45'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:47:45'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:47:45'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:47:45'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:48:14' prior: 50873675!
+test03
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook catalogue |
+	
+	aBook := 'Harry Potter'.	
+	catalogue := Dictionary with: aBook -> 100.
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCashier := Cashier with: aMerchantProcessorDouble.
+
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: (aMerchantProcessorDouble receivedMessage: #process) .
+! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:48:28'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:48:28'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:48:28'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:48:28'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:48:28'!
+ERROR!
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:48:56' prior: 50873926!
+withProcessor: aMerchantProcessor catalogue: aCatalogue 
+	
+	^ self new initializeWithProcessor: aMerchantProcessor andCatalogue: aCatalogue ! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 18:48:59'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 18:48:59'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 18:48:59'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:48:59'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:48:59'!
+ERROR!
+
+!classDefinition: #Ticket category: 'TusLibros' stamp: 'NNH 11/20/2020 18:51:08'!
+Object subclass: #Ticket
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:51:02' prior: 50873658!
+checkOut: aCart with: aCreditCard
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	^ Ticket total: 100 .! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:52:18' prior: 50874282!
+checkOut: aCart with: aCreditCard
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	^ Ticket total: 100 products: 'Harry Potter' .! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:52:59' prior: 50873893!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	aBook := 'Harry Potter'.
+	catalogue := (Dictionary with: aBook -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+	self assert: ticket products equals: aBook .
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:53:12' prior: 50874309!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	aBook := 'Harry Potter'.
+	catalogue := (Dictionary with: aBook -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+	self assert: ticket products hasEqualElements: aBook .
+! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:53:24' prior: 50874295!
+checkOut: aCart with: aCreditCard
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	^ Ticket total: 100 products: {'Harry Potter'} .! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:53:59' prior: 50874333!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	aBook := 'Harry Potter'.
+	catalogue := (Dictionary with: aBook -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+	self assert: ( ticket products hasEqualElements: aBook ) .
+! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:54:08'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:54:08'!
+ERROR!
+!Ticket class methodsFor: 'instance creation' stamp: 'NNH 11/20/2020 18:54:17'!
+total: aSmallInteger products: anArray 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeTotal: aSmallInteger products: anArray ! !
+!Ticket class methodsFor: 'instance creation' stamp: 'NNH 11/20/2020 18:54:43' prior: 50874399!
+total: aTotal products: aCollectionOfProducts 
+	
+	^self new initializeTotal: aTotal products: aCollectionOfProducts ! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:54:44'!
+ERROR!
+
+!classDefinition: #Ticket category: 'TusLibros' stamp: 'NNH 11/20/2020 18:54:59'!
+Object subclass: #Ticket
+	instanceVariableNames: 'total'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Ticket category: 'TusLibros' stamp: 'NNH 11/20/2020 18:54:59'!
+Object subclass: #Ticket
+	instanceVariableNames: 'total collectionOfProducts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Ticket methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:54:59'!
+initializeTotal: aTotal products: aCollectionOfProducts 
+	self shouldBeImplemented.
+	total := aTotal.
+	collectionOfProducts := aCollectionOfProducts.! !
+!Ticket methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:55:03' prior: 50874432!
+initializeTotal: aTotal products: aCollectionOfProducts 
+	
+	total := aTotal.
+	collectionOfProducts := aCollectionOfProducts.! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:55:05'!
+ERROR!
+!Ticket methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:55:12'!
+total
+	self shouldBeImplemented.
+	^total! !
+!Ticket methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:55:17' prior: 50874449!
+total
+	
+	^ total! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:55:20'!
+ERROR!
+!Ticket methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:55:25'!
+products
+	self shouldBeImplemented.! !
+!Ticket methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:55:37' prior: 50874458!
+products
+
+	^ collectionOfProducts ! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:55:38'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:55:54' prior: 50874371!
+test04
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	aBook := 'Harry Potter'.
+	catalogue := (Dictionary with: aBook -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+	self assert: ( ticket products hasEqualElements: { aBook } ) .
+! !
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 18:56:00'!
+PASSED!
+
+!classDefinition: #Ticket category: 'TusLibros' stamp: 'NNH 11/20/2020 18:56:21'!
+Object subclass: #Ticket
+	instanceVariableNames: 'total products'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Ticket methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:56:21' prior: 50874462!
+products
+
+	^ products ! !
+!Ticket methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:56:21' prior: 50874440!
+initializeTotal: aTotal products: aCollectionOfProducts 
+	
+	total := aTotal.
+	products := aCollectionOfProducts.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:58:27'!
+test05
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue ageOfEmpires harryPotter lordOfTheRings |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	harryPotter := 'Harry Potter'.
+	lordOfTheRings := 'Lors Of The Rings'.
+	ageOfEmpires := 'Age Of Empires'.
+	catalogue := (Dictionary with: aBook -> 100 with: lordOfTheRings -> 50 with: ageOfEmpires -> 25).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: aBook withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+	self assert: ( ticket products hasEqualElements: { aBook } ) .
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:58:50' prior: 50874513!
+test05
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble ticket catalogue ageOfEmpires harryPotter lordOfTheRings |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	harryPotter := 'Harry Potter'.
+	lordOfTheRings := 'Lors Of The Rings'.
+	ageOfEmpires := 'Age Of Empires'.
+	catalogue := (Dictionary with: harryPotter -> 100 with: lordOfTheRings -> 50 with: ageOfEmpires -> 25).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: harryPotter withOccurrences: 1.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 100 .
+	self assert: ( ticket products hasEqualElements: { harryPotter } ) .
+! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:00:11' prior: 50874543!
+test05
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble ticket catalogue ageOfEmpires harryPotter lordOfTheRings |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	harryPotter := 'Harry Potter'.
+	lordOfTheRings := 'Lors Of The Rings'.
+	ageOfEmpires := 'Age Of Empires'.
+	catalogue := (Dictionary with: harryPotter -> 100 with: lordOfTheRings -> 50 with: ageOfEmpires -> 25).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: harryPotter withOccurrences: 1.
+	aCart addToCart: lordOfTheRings withOccurrences: 1.
+	aCart addToCart: ageOfEmpires withOccurrences: 1.
+
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 175 .
+	self assert: ( ticket products hasEqualElements: { harryPotter. lordOfTheRings. ageOfEmpires } ) .
+! !
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:00:15'!
+FAILURE!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:00:15'!
+FAILURE!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:01:28' prior: 50874357!
+checkOut: aCart with: aCreditCard
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	^ Ticket total: [aCart listCart sum: [ :aProduct | catalogue at: aProduct ] ] products: {'Harry Potter'} .! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:02:29' prior: 50874612!
+checkOut: aCart with: aCreditCard
+	
+	| total |
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	total := aCart listCart sum: [ :aProduct | catalogue at: aProduct ] .
+	
+	^ Ticket total: total products: aCart listCart .! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:02:38' prior: 50874628!
+checkOut: aCart with: aCreditCard
+	
+	| total |
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	total := aCart listCart sum: [ :aProduct | catalogue at: aProduct ] .
+	
+	^ Ticket total: total products: aCart listCart .! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 19:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 19:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:02:49'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 19:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:02:49'!
+ERROR!
+
+catalogue at: aProduct!
+
+catalogue at: aProduct !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:06:02' prior: 50874573!
+test05
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble ticket catalogue ageOfEmpires harryPotter lordOfTheRings |
+	
+	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	harryPotter := 'Harry Potter'.
+	lordOfTheRings := 'Lord Of The Rings'.
+	ageOfEmpires := 'Age Of Empires'.
+	catalogue := (Dictionary with: harryPotter -> 100 with: lordOfTheRings -> 50 with: ageOfEmpires -> 25).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: harryPotter withOccurrences: 1.
+	aCart addToCart: lordOfTheRings withOccurrences: 1.
+	aCart addToCart: ageOfEmpires withOccurrences: 1.
+
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	
+	ticket := aCashier checkOut: aCart with: aCreditCard.
+
+	self assert: ticket total equals: 175 .
+	self assert: ( ticket products hasEqualElements: { harryPotter. lordOfTheRings. ageOfEmpires } ) .
+! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 19:06:06'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 19:06:06'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:06:06'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 19:06:06'!
+PASSED!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:06:06'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:06:06'!
+ERROR!
+
+catalogue at: aProduct!
+
+catalogue!
+
+catalogue!
+
+self at: 'Harry Potter'.!
+
+self at: 'Lord Of The Rings'. !
+
+aCart listCart!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:08:57' prior: 50874645!
+checkOut: aCart with: aCreditCard
+	
+	| total |
+	
+	(aCreditCard expirationDate < FixedGregorianDate today) ifTrue: [ self error: self class declinedCreditCardErrorDescription ] .
+	
+	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
+	
+	merchantProcessor process.
+	
+	total := aCart listCart sum: [ :aProduct | catalogue at: aProduct ] ifEmpty: [ 0 ].
+	
+	^ Ticket total: total products: aCart listCart .! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 19:09:12'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 19:09:12'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:09:12'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 19:09:12'!
+PASSED!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:09:12'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:09:12'!
+ERROR!
+!Cart methodsFor: 'accessing' stamp: 'NNH 11/20/2020 19:10:12' prior: 50868054!
+listCart
+	
+	^ books keys copy! !
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 19:10:19'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 19:10:19'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:10:19'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 19:10:19'!
+ERROR!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:10:19'!
+ERROR!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:10:27'!
+ERROR!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:10:27'!
+ERROR!
+!Cart methodsFor: 'initialization' stamp: 'NNH 11/20/2020 19:11:04' prior: 50868090!
+initializeWithCatalogue: aCatalogue
+	
+	catalogue := aCatalogue.
+	books := Bag new.! !
+!Cart methodsFor: 'accessing' stamp: 'NNH 11/20/2020 19:11:21' prior: 50874767!
+listCart
+	
+	^ books copy! !
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'NNH 11/20/2020 19:11:30'!
+PASSED!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 19:11:30'!
+ERROR!
+
+!testRun: #CartTest #test03ManyBooksAddedToCartAreSuccessfullyAdded stamp: 'NNH 11/20/2020 19:11:30'!
+ERROR!
+
+!testRun: #CartTest #test04ABookShouldNotBeAddedWhenNotForSale stamp: 'NNH 11/20/2020 19:11:30'!
+PASSED!
+
+!testRun: #CartTest #test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce stamp: 'NNH 11/20/2020 19:11:30'!
+ERROR!
+
+!testRun: #CartTest #test06ABookShouldNotBeAddedWithNonIntegerQuantity stamp: 'NNH 11/20/2020 19:11:30'!
+PASSED!
+
+!testRun: #CartTest #test07ABookShouldNotBeAddedWithNonPositiveQuantity stamp: 'NNH 11/20/2020 19:11:30'!
+PASSED!
+
+!testRun: #CartTest #test08ExternallyAddingBookToCartListShouldNotModifyCart stamp: 'NNH 11/20/2020 19:11:30'!
+PASSED!
+
+!testRun: #CashierTest #test01CashierShouldNotDispatchEmptyCart stamp: 'NNH 11/20/2020 19:11:35'!
+PASSED!
+
+!testRun: #CashierTest #test02CashierShouldNotDispatchExpiredCreditCard stamp: 'NNH 11/20/2020 19:11:35'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'NNH 11/20/2020 19:11:35'!
+ERROR!
+
+!testRun: #CashierTest #test04 stamp: 'NNH 11/20/2020 19:11:35'!
+ERROR!
+
+!testRun: #CashierTest #test05 stamp: 'NNH 11/20/2020 19:11:35'!
+ERROR!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 19:11:48'!
+ERROR!
+
+!testRun: #CartTest #test02ABookAddedToCartIsSuccessfullyAdded stamp: 'NNH 11/20/2020 19:11:48'!
+ERROR!
+
+----SNAPSHOT----(20 November 2020 19:12:56) CuisUniversity-4384.image priorSource: 17337503!
+
+----QUIT----(20 November 2020 19:13:01) CuisUniversity-4384.image priorSource: 17382292!
