@@ -175,31 +175,37 @@ test02CashierShouldNotDispatchExpiredCreditCard
 	self deny: aMerchantProcessorDouble receivedAMessage.
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:17:25'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:56:09'!
 test03
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook catalogue |
 	
 	aBook := 'Harry Potter'.	
 	catalogue := Dictionary with: aBook -> 100.
-	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
+		( aTotal = 100 and: [ aCard = aCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid'] ].
+	
 	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue .
 
 	aCart := Cart withCatalogue: catalogue.
-	aCart addToCart: aBook withOccurrences: 1.
-	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+	aCart addToCart: aBook withOccurrences: 1.	
 	
 	aCashier checkOut: aCart with: aCreditCard.
 
-	self assert: (aMerchantProcessorDouble receivedMessage: #process) .
+	self assert: (aMerchantProcessorDouble receivedMessage: #debit:from:) .
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 18:55:54'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:56:57'!
 test04
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble aBook ticket catalogue |
 	
-	aMerchantProcessorDouble := MerchantProcessorDouble new.
+	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
+		( aTotal = 100 and: [ aCard = aCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid'] ].
 	
 	aBook := 'Harry Potter'.
 	catalogue := (Dictionary with: aBook -> 100).
@@ -207,7 +213,6 @@ test04
 	
 	aCart := Cart withCatalogue: catalogue.
 	aCart addToCart: aBook withOccurrences: 1.
-	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
 	
 	ticket := aCashier checkOut: aCart with: aCreditCard.
 
@@ -215,13 +220,16 @@ test04
 	self assert: ( ticket products hasEqualElements: { aBook } ) .
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/20/2020 19:06:02'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:57:35'!
 test05
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble ticket catalogue ageOfEmpires harryPotter lordOfTheRings |
 	
-	aMerchantProcessorDouble := MerchantProcessorDouble new.
-	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
+		( aTotal = 175 and: [ aCard = aCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid'] ].
+		
 	harryPotter := 'Harry Potter'.
 	lordOfTheRings := 'Lord Of The Rings'.
 	ageOfEmpires := 'Age Of Empires'.
@@ -233,12 +241,129 @@ test05
 	aCart addToCart: lordOfTheRings withOccurrences: 1.
 	aCart addToCart: ageOfEmpires withOccurrences: 1.
 
-	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
 	
 	ticket := aCashier checkOut: aCart with: aCreditCard.
 
 	self assert: ticket total equals: 175 .
 	self assert: ( ticket products hasEqualElements: { harryPotter. lordOfTheRings. ageOfEmpires } ) .
+! !
+
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 11:10:07'!
+test06
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble catalogue harryPotter |
+	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
+		( aTotal = 100 and: [ aCard = aCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid']. 
+		self error: 'Credit card is stolen'.
+		].
+		
+	harryPotter := 'Harry Potter'.
+	catalogue := (Dictionary with: harryPotter -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: harryPotter withOccurrences: 1.
+
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Credit card is stolen' ].
+
+! !
+
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 11:11:28'!
+test07
+	
+	| aCart aCashier aCreditCard aMerchantProcessorDouble catalogue harryPotter |
+	
+	aCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
+
+	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
+		( aTotal = 100 and: [ aCard = aCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid']. 
+		self error: 'Credit card has no funds'.
+		].
+		
+	harryPotter := 'Harry Potter'.
+	catalogue := (Dictionary with: harryPotter -> 100).
+	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: catalogue.
+	
+	aCart := Cart withCatalogue: catalogue.
+	aCart addToCart: harryPotter withOccurrences: 1.
+
+	self should: [ aCashier checkOut: aCart with: aCreditCard ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Credit card has no funds' ].
+
+! !
+
+
+!classDefinition: #CatalogueTest category: 'TusLibros'!
+TestCase subclass: #CatalogueTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:25:23'!
+test01
+	
+	| aCatalogue |
+	
+	aCatalogue := Catalogue new.
+	
+	self deny: ( aCatalogue includes: 'Harry Potter' ).! !
+
+!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:27:46'!
+test02
+	
+	| aCatalogue aBook |
+	
+	aCatalogue := Catalogue new.
+	aBook := 'Harry Potter'.
+	aCatalogue add: aBook withPrice: 100.
+	
+	self assert: ( aCatalogue includes: aBook ).
+	self assert: ( aCatalogue priceFor: aBook ) equals: 100.! !
+
+!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:32:12'!
+test03
+	
+	| aCatalogue aBook anotherBook yetAnotherBook |
+	
+	aCatalogue := Catalogue new.
+	aBook := 'Harry Potter'.
+	anotherBook := 'Lord Of The Rings'.
+	yetAnotherBook := 'Age Of Empires'.
+	
+	aCatalogue add: aBook withPrice: 100.
+	aCatalogue add: anotherBook withPrice: 50.
+	aCatalogue add: yetAnotherBook withPrice: 25.
+
+	
+	self assert: ( aCatalogue includes: aBook ).
+	self assert: ( aCatalogue includes: anotherBook ).
+	self assert: ( aCatalogue includes: yetAnotherBook ).
+
+	self assert: ( aCatalogue priceFor: aBook ) equals: 100.
+	self assert: ( aCatalogue priceFor: anotherBook ) equals: 50.
+	self assert: ( aCatalogue priceFor: yetAnotherBook ) equals: 25.! !
+
+!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:36:51'!
+test04
+	
+	| aCatalogue aBook |
+	
+	aCatalogue := Catalogue new.
+	
+	aBook := 'Harry Potter'.
+	
+	self should: [ aCatalogue add: aBook withPrice: 0 ]
+	raise: Error
+	withMessageText: Catalogue canNotAddProductWithNonPositivePrice.
+	
+	self deny: ( aCatalogue includes: aBook ) .
 ! !
 
 
@@ -434,7 +559,7 @@ Object subclass: #Cashier
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Cashier methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:16:48'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:55:40'!
 checkOut: aCart with: aCreditCard
 	
 	| total |
@@ -443,10 +568,10 @@ checkOut: aCart with: aCreditCard
 	
 	aCart isEmpty ifTrue: [ self error: self class canNotCheckOutAnEmptyCartErrorDescription ] .
 	
-	merchantProcessor process.
-	
 	total := aCart listCart sum: [ :aProduct | catalogue at: aProduct ].
 	
+	merchantProcessor debit: total from: aCreditCard .
+
 	^ Ticket total: total products: aCart listCart .! !
 
 
@@ -487,6 +612,50 @@ with: aMerchantProcessor
 withProcessor: aMerchantProcessor catalogue: aCatalogue 
 	
 	^ self new initializeWithProcessor: aMerchantProcessor andCatalogue: aCatalogue ! !
+
+
+!classDefinition: #Catalogue category: 'TusLibros'!
+Object subclass: #Catalogue
+	instanceVariableNames: 'products'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!Catalogue methodsFor: 'testing' stamp: 'NNH 11/23/2020 10:32:35'!
+includes: aProduct 
+	
+	^ products includesKey: aProduct .! !
+
+
+!Catalogue methodsFor: 'operations' stamp: 'NNH 11/23/2020 10:39:03'!
+add: aProduct withPrice: aPrice 
+
+	aPrice <= 0 ifTrue: [ self error: self class canNotAddProductWithNonPositivePrice ].
+	products add: aProduct -> aPrice .! !
+
+
+!Catalogue methodsFor: 'accessing' stamp: 'NNH 11/23/2020 10:33:19'!
+priceFor: aProduct 
+	
+	^ products at: aProduct .! !
+
+
+!Catalogue methodsFor: 'initialization' stamp: 'NNH 11/23/2020 10:33:53'!
+initialize
+	
+	products := Dictionary new.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Catalogue class' category: 'TusLibros'!
+Catalogue class
+	instanceVariableNames: ''!
+
+!Catalogue class methodsFor: 'error descriptions' stamp: 'NNH 11/23/2020 10:38:10'!
+canNotAddProductWithNonPositivePrice
+	
+	^ 'Can not add product with a non positive price'. ! !
+
 
 
 !classDefinition: #CreditCard category: 'TusLibros'!
@@ -553,7 +722,7 @@ invalidOwnerNameErrorDescription
 
 !classDefinition: #MerchantProcessorDouble category: 'TusLibros'!
 Object subclass: #MerchantProcessorDouble
-	instanceVariableNames: 'messages'
+	instanceVariableNames: 'messages block'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -569,6 +738,12 @@ initialize
 	
 	messages := Set new.! !
 
+!MerchantProcessorDouble methodsFor: 'initialization' stamp: 'NNH 11/23/2020 10:51:57'!
+initializeWith: aBlockToDebitFrom
+	
+	messages := Set new.
+	block := aBlockToDebitFrom .! !
+
 
 !MerchantProcessorDouble methodsFor: 'testing' stamp: 'AM 11/20/2020 19:18:09'!
 receivedAMessage
@@ -579,6 +754,24 @@ receivedAMessage
 receivedMessage: aMessage
 
 	^ messages includes: aMessage ! !
+
+
+!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:55:04'!
+debit: anAmount from: aCreditCard
+
+	messages add: #debit:from: .
+	block value: anAmount value: aCreditCard .! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'MerchantProcessorDouble class' category: 'TusLibros'!
+MerchantProcessorDouble class
+	instanceVariableNames: ''!
+
+!MerchantProcessorDouble class methodsFor: 'instance creation' stamp: 'NNH 11/23/2020 10:50:52'!
+with: aBlockForDebitFrom
+
+	^self new initializeWith: aBlockForDebitFrom ! !
 
 
 !classDefinition: #Ticket category: 'TusLibros'!
