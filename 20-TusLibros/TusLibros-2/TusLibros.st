@@ -1,55 +1,56 @@
 !classDefinition: #CartTest category: 'TusLibros'!
 TestCase subclass: #CartTest
-	instanceVariableNames: 'harryPotter lordOfTheRings ageOfEmpires'
+	instanceVariableNames: 'harryPotter lordOfTheRings ageOfEmpires harryPotterCatalogue threeBookCatalogue'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CartTest methodsFor: 'setUp/tearDown' stamp: 'AM 11/17/2020 22:26:59'!
+!CartTest methodsFor: 'setUp/tearDown' stamp: 'AM 11/23/2020 11:22:09'!
 setUp
 
 	harryPotter := #HarryPotter.
 	lordOfTheRings := #LordOfTheRings.
-	ageOfEmpires := #AgeOfEmpires
+	ageOfEmpires := #AgeOfEmpires.
+	
+	harryPotterCatalogue := Catalogue new; add: harryPotter withPrice: 100.
+	threeBookCatalogue := Catalogue new; 
+								add: harryPotter withPrice: 100;
+								add: lordOfTheRings withPrice: 50;
+								add: ageOfEmpires withPrice: 25.
+								
 	! !
 
 
-!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/17/2020 22:35:26'!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/23/2020 11:19:54'!
 test01NewCartIsEmpty
 
 	| anEmptyCart catalogue |
 	
-	catalogue := OrderedCollection new.
+	catalogue := Catalogue new.
 	
 	anEmptyCart := Cart withCatalogue: catalogue.
 	
 	self assert: anEmptyCart isEmpty.
 	self assert: anEmptyCart listCart isEmpty.! !
 
-!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:46:25'!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/23/2020 11:20:03'!
 test02ABookAddedToCartIsSuccessfullyAdded
 
-	| aCart catalogue |
+	| aCart |
 	
-	catalogue := Dictionary with: harryPotter -> 100.
-	
-	aCart := Cart withCatalogue: catalogue.
+	aCart := Cart withCatalogue: harryPotterCatalogue.
 	
 	aCart addToCart: harryPotter withOccurrences: 1.
 	
 	self deny: aCart isEmpty.
 	self assert: ( aCart listCart hasEqualElements: {harryPotter} )! !
 
-!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/20/2020 19:19:04'!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/23/2020 11:22:24'!
 test03ManyBooksAddedToCartAreSuccessfullyAdded
 
-	| aCart catalogue |
+	| aCart |
 	
-	catalogue := Dictionary with: harryPotter -> 100
-						with: lordOfTheRings -> 100
-						with: ageOfEmpires -> 100.
-	
-	aCart := Cart withCatalogue: catalogue.
+	aCart := Cart withCatalogue: threeBookCatalogue .
 	
 	aCart addToCart: harryPotter withOccurrences: 1. 
 	aCart addToCart: lordOfTheRings withOccurrences: 1.
@@ -58,27 +59,23 @@ test03ManyBooksAddedToCartAreSuccessfullyAdded
 	self deny: aCart isEmpty.
 	self assert: ( aCart listCart hasEqualElements: {harryPotter. lordOfTheRings. ageOfEmpires} )! !
 
-!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:47:05'!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/23/2020 11:20:15'!
 test05ABookAddedMoreThanOnceIsSuccessfullyAddedMoreThanOnce
 
-	| aCart catalogue |
+	| aCart |
 	
-	catalogue := Dictionary with: harryPotter -> 100.
-	
-	aCart := Cart withCatalogue: catalogue.
+	aCart := Cart withCatalogue: harryPotterCatalogue.
 	
 	aCart addToCart: harryPotter withOccurrences: 2. 
 	
 	self assert: ( aCart listCart hasEqualElements: {harryPotter. harryPotter} )! !
 
-!CartTest methodsFor: 'tests - adding' stamp: 'NNH 11/20/2020 18:47:14'!
+!CartTest methodsFor: 'tests - adding' stamp: 'AM 11/23/2020 11:20:28'!
 test08ExternallyAddingBookToCartListShouldNotModifyCart
 
-	| anEmptyCart catalogue emptyCartList |
+	| anEmptyCart emptyCartList |
 	
-	catalogue := Dictionary with: harryPotter -> 100.
-	
-	anEmptyCart := Cart withCatalogue: catalogue.
+	anEmptyCart := Cart withCatalogue: harryPotterCatalogue.
 	emptyCartList := anEmptyCart listCart.
 	emptyCartList add: harryPotter.
 	
@@ -86,14 +83,12 @@ test08ExternallyAddingBookToCartListShouldNotModifyCart
 	self assert: anEmptyCart listCart isEmpty.! !
 
 
-!CartTest methodsFor: 'tests - errors' stamp: 'NNH 11/20/2020 18:47:32'!
+!CartTest methodsFor: 'tests - errors' stamp: 'AM 11/23/2020 11:20:52'!
 test04ABookShouldNotBeAddedWhenNotForSale
 
-	| aCart catalogue |
+	| aCart |
 	
-	catalogue := Dictionary with: harryPotter -> 100.
-	
-	aCart := Cart withCatalogue: catalogue.
+	aCart := Cart withCatalogue: harryPotterCatalogue.
 	
 	self should: [ aCart addToCart: lordOfTheRings withOccurrences: 1 ]
 		raise: Error
@@ -101,14 +96,12 @@ test04ABookShouldNotBeAddedWhenNotForSale
 		
 	self assert: aCart isEmpty. ! !
 
-!CartTest methodsFor: 'tests - errors' stamp: 'NNH 11/20/2020 18:47:35'!
+!CartTest methodsFor: 'tests - errors' stamp: 'AM 11/23/2020 11:21:00'!
 test06ABookShouldNotBeAddedWithNonIntegerQuantity
 
-	| aCart catalogue |
+	| aCart |
 	
-	catalogue := Dictionary with: harryPotter -> 100.
-	
-	aCart := Cart withCatalogue: catalogue.
+	aCart := Cart withCatalogue: harryPotterCatalogue.
 	
 	self should: [ aCart addToCart: harryPotter withOccurrences: 0.5 ]
 		raise: Error
@@ -116,14 +109,12 @@ test06ABookShouldNotBeAddedWithNonIntegerQuantity
 		
 	self assert: aCart isEmpty. ! !
 
-!CartTest methodsFor: 'tests - errors' stamp: 'NNH 11/20/2020 18:47:38'!
+!CartTest methodsFor: 'tests - errors' stamp: 'AM 11/23/2020 11:21:09'!
 test07ABookShouldNotBeAddedWithNonPositiveQuantity
 
-	| aCart catalogue |
+	| aCart |
 	
-	catalogue := Dictionary with: harryPotter -> 100.
-	
-	aCart := Cart withCatalogue: catalogue.
+	aCart := Cart withCatalogue: harryPotterCatalogue.
 	
 	self should: [ aCart addToCart: harryPotter withOccurrences: 0 ]
 		raise: Error
@@ -248,7 +239,7 @@ test05
 	self assert: ( ticket products hasEqualElements: { harryPotter. lordOfTheRings. ageOfEmpires } ) .
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 11:10:07'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'AM 11/23/2020 11:29:07'!
 test06
 	
 	| aCart aCashier aCreditCard aMerchantProcessorDouble catalogue harryPotter |
@@ -269,7 +260,7 @@ test06
 
 	self should: [ aCashier checkOut: aCart with: aCreditCard ]
 	raise: Error
-	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Credit card is stolen' ].
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Credit card is stolen'].
 
 ! !
 
@@ -301,70 +292,72 @@ test07
 
 !classDefinition: #CatalogueTest category: 'TusLibros'!
 TestCase subclass: #CatalogueTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'harryPotter lordOfTheRings ageOfEmpires'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:25:23'!
+!CatalogueTest methodsFor: 'tests' stamp: 'AM 11/23/2020 11:23:51'!
 test01
 	
 	| aCatalogue |
 	
 	aCatalogue := Catalogue new.
 	
-	self deny: ( aCatalogue includes: 'Harry Potter' ).! !
+	self deny: ( aCatalogue includes: harryPotter ).! !
 
-!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:27:46'!
+!CatalogueTest methodsFor: 'tests' stamp: 'AM 11/23/2020 11:24:08'!
 test02
 	
-	| aCatalogue aBook |
+	| aCatalogue |
 	
 	aCatalogue := Catalogue new.
-	aBook := 'Harry Potter'.
-	aCatalogue add: aBook withPrice: 100.
 	
-	self assert: ( aCatalogue includes: aBook ).
-	self assert: ( aCatalogue priceFor: aBook ) equals: 100.! !
+	aCatalogue add: harryPotter withPrice: 100.
+	
+	self assert: ( aCatalogue includes: harryPotter ).
+	self assert: ( aCatalogue priceFor: harryPotter ) equals: 100.! !
 
-!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:32:12'!
+!CatalogueTest methodsFor: 'tests' stamp: 'AM 11/23/2020 11:24:47'!
 test03
 	
-	| aCatalogue aBook anotherBook yetAnotherBook |
+	| aCatalogue |
 	
 	aCatalogue := Catalogue new.
-	aBook := 'Harry Potter'.
-	anotherBook := 'Lord Of The Rings'.
-	yetAnotherBook := 'Age Of Empires'.
 	
-	aCatalogue add: aBook withPrice: 100.
-	aCatalogue add: anotherBook withPrice: 50.
-	aCatalogue add: yetAnotherBook withPrice: 25.
-
+	aCatalogue add: harryPotter withPrice: 100.
+	aCatalogue add: lordOfTheRings withPrice: 50.
+	aCatalogue add: ageOfEmpires withPrice: 25.
 	
-	self assert: ( aCatalogue includes: aBook ).
-	self assert: ( aCatalogue includes: anotherBook ).
-	self assert: ( aCatalogue includes: yetAnotherBook ).
+	self assert: ( aCatalogue includes: harryPotter ).
+	self assert: ( aCatalogue includes: lordOfTheRings ).
+	self assert: ( aCatalogue includes: ageOfEmpires ).
 
-	self assert: ( aCatalogue priceFor: aBook ) equals: 100.
-	self assert: ( aCatalogue priceFor: anotherBook ) equals: 50.
-	self assert: ( aCatalogue priceFor: yetAnotherBook ) equals: 25.! !
+	self assert: ( aCatalogue priceFor: harryPotter ) equals: 100.
+	self assert: ( aCatalogue priceFor: lordOfTheRings ) equals: 50.
+	self assert: ( aCatalogue priceFor: ageOfEmpires ) equals: 25.! !
 
-!CatalogueTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:36:51'!
+!CatalogueTest methodsFor: 'tests' stamp: 'AM 11/23/2020 11:25:04'!
 test04
 	
-	| aCatalogue aBook |
+	| aCatalogue |
 	
 	aCatalogue := Catalogue new.
 	
-	aBook := 'Harry Potter'.
-	
-	self should: [ aCatalogue add: aBook withPrice: 0 ]
+	self should: [ aCatalogue add: harryPotter withPrice: 0 ]
 	raise: Error
 	withMessageText: Catalogue canNotAddProductWithNonPositivePrice.
 	
-	self deny: ( aCatalogue includes: aBook ) .
+	self deny: ( aCatalogue includes: harryPotter ) .
 ! !
+
+
+!CatalogueTest methodsFor: 'setUp/tearDown' stamp: 'AM 11/23/2020 11:23:30'!
+setUp
+
+	harryPotter := 'Harry Potter'.
+	lordOfTheRings := 'Lord Of The Rings'.
+	ageOfEmpires := 'Age Of Empires'.! !
 
 
 !classDefinition: #CreditCardTest category: 'TusLibros'!
@@ -374,18 +367,7 @@ TestCase subclass: #CreditCardTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:21:52'!
-setUp
-	
-	validCardNumber := 4444444444444444.
-	monthInACalendar := January, 2021.
-	hernan := 'Hernán'.
-	
-	validCreditCard := CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: hernan.
-	
-	! !
-
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:22:21'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:22:21'!
 test01ValidCardPropertiesAreCorrect
 	
 	self assert: validCreditCard number equals: validCardNumber .
@@ -394,7 +376,7 @@ test01ValidCardPropertiesAreCorrect
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:23:04'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:23:04'!
 test02CardNumberShouldNotHaveLessThan16Digits
 
 	| aCardId |
@@ -408,7 +390,7 @@ test02CardNumberShouldNotHaveLessThan16Digits
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:24:01'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:24:01'!
 test03CardExpirationDateShouldBeAMonthOfAnYear
 
 	| aDayInAMonthOfAnYear |
@@ -422,7 +404,7 @@ test03CardExpirationDateShouldBeAMonthOfAnYear
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:24:40'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:24:40'!
 test04CardNumberShouldBeAnInteger
 
 	| aNonIntegerCardNumber |
@@ -436,7 +418,7 @@ test04CardNumberShouldBeAnInteger
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:25:10'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:25:10'!
 test05CardNumberShouldNotHaveMoreThan16Digits
 
 	| anInvalidCardNumber |
@@ -450,7 +432,7 @@ test05CardNumberShouldNotHaveMoreThan16Digits
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:25:35'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:25:35'!
 test06OwnerNameShouldNotBeEmpty
 	
 	self should: [ CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: '' ]
@@ -460,7 +442,7 @@ test06OwnerNameShouldNotBeEmpty
 
 	! !
 
-!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'AM 11/20/2020 19:26:13'!
+!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:26:13'!
 test07OwnerNameShouldNotBeBlank.
 	
 	self should: [ CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: '      ' ]
@@ -468,6 +450,18 @@ test07OwnerNameShouldNotBeBlank.
 	withMessageText: CreditCard invalidOwnerNameErrorDescription .
 	
 
+	! !
+
+
+!CreditCardTest methodsFor: 'setUp/tearDown' stamp: 'AM 11/20/2020 19:21:52'!
+setUp
+	
+	validCardNumber := 4444444444444444.
+	monthInACalendar := January, 2021.
+	hernan := 'Hernán'.
+	
+	validCreditCard := CreditCard withNumber: validCardNumber expirationDate: monthInACalendar owner: hernan.
+	
 	! !
 
 
@@ -655,7 +649,6 @@ Catalogue class
 canNotAddProductWithNonPositivePrice
 	
 	^ 'Can not add product with a non positive price'. ! !
-
 
 
 !classDefinition: #CreditCard category: 'TusLibros'!
