@@ -126,12 +126,23 @@ test07AProductShouldNotBeAddedWithNonPositiveQuantity
 
 !classDefinition: #CashierTest category: 'TusLibros'!
 TestCase subclass: #CashierTest
-	instanceVariableNames: 'harryPotterBook lordOfTheRingsBook ageOfEmpiresBook harryPotterCatalogue threeBookCatalogue emptyMerchantProcessorDouble validCreditCard expiredCreditCard emptyCart harryPotterCart threeBookCart'
+	instanceVariableNames: 'harryPotterBook lordOfTheRingsBook ageOfEmpiresBook harryPotterCatalogue threeBookCatalogue simpleMerchantProcessorDouble validCreditCard expiredCreditCard emptyCart harryPotterCart threeBookCart'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 20:13:03'!
+!CashierTest methodsFor: 'merchant processor doubles' stamp: 'NNH 11/25/2020 23:27:05'!
+merchantProcessorDoubleToTestCollaboratorsFor: anExpectedTotal
+		
+	^ MerchantProcessorDouble withSimulationBlockForDebitFrom: [ :aTotal :aCard | 
+		self assert: aTotal equals: anExpectedTotal.
+		self assert: aCard = validCreditCard. 
+		].
+	
+! !
+
+
+!CashierTest methodsFor: 'setUp / tearDown' stamp: 'NNH 11/25/2020 23:20:53'!
 setUp
 	
 	harryPotterBook := #HarryPotter.
@@ -156,113 +167,112 @@ setUp
 	validCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: January, 2021 owner: 'Hernán'.  
 	expiredCreditCard := CreditCard withNumber: 4444444444444444 expirationDate: October, 2020 owner: 'Hernán'.  
 
-	emptyMerchantProcessorDouble := MerchantProcessorDouble with: [:aTotal :aCard | ].
+	simpleMerchantProcessorDouble := MerchantProcessorDouble new.
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:55:33'!
-test01CashierShouldNotDispatchEmptyCart
-	
-	| aCashier |
-	
-	aCashier := Cashier withProcessor: emptyMerchantProcessorDouble catalogue: Catalogue new.
-	
-	self should: [ aCashier checkOut: emptyCart with: validCreditCard ]
-	raise: Error
-	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
-	
-	self deny: emptyMerchantProcessorDouble receivedAMessage.
-! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:55:40'!
-test02CashierShouldNotDispatchExpiredCreditCard
-	
-	| aCashier |
-	
-	aCashier := Cashier withProcessor: emptyMerchantProcessorDouble catalogue: Catalogue new.
-	
-	self should: [ aCashier checkOut: emptyCart with: expiredCreditCard ]
-	raise: Error
-	withMessageText: Cashier creditCardHasExpiredErrorDescription.
-
-	self deny: emptyMerchantProcessorDouble receivedAMessage.
-! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:16:54'!
+!CashierTest methodsFor: 'tests - merchant processor handling' stamp: 'NNH 11/25/2020 23:20:54'!
 test03CashierShouldUseMerchantProcessorOnValidConditions
 	
 	| aCashier |
 		
-	aCashier := Cashier withProcessor: emptyMerchantProcessorDouble catalogue: harryPotterCatalogue .
+	aCashier := Cashier withProcessor: simpleMerchantProcessorDouble catalogue: harryPotterCatalogue .
 	
 	aCashier checkOut: harryPotterCart with: validCreditCard.
 
-	self assert: (emptyMerchantProcessorDouble messagesRecieved hasEqualElements: { #debit:from:. } ) .
+	self assert: (simpleMerchantProcessorDouble messagesRecieved hasEqualElements: { #debit:from:. } ) .
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:21:16'!
+!CashierTest methodsFor: 'tests - merchant processor handling' stamp: 'NNH 11/25/2020 23:29:37'!
 test04CashierSuccessfullyProcessesOneElementCart
 	
-	| aCashier aMerchantProcessorDouble ticket |
+	| aCashier aMerchantProcessorDouble receipt |
 	
-	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
-		( aTotal = 100 and: [ aCard = validCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid'] ].
+	aMerchantProcessorDouble := self merchantProcessorDoubleToTestCollaboratorsFor: 100.
 	
 	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: harryPotterCatalogue .
 		
-	ticket := aCashier checkOut: harryPotterCart with: validCreditCard .
+	receipt := aCashier checkOut: harryPotterCart with: validCreditCard .
 
-	self assert: ticket total equals: 100 .
-	self assert: ( ticket products hasEqualElements: { harryPotterBook } ) .
+	self assert: receipt total equals: 100 .
+	self assert: ( receipt products hasEqualElements: { harryPotterBook } ) .
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:21:37'!
+!CashierTest methodsFor: 'tests - merchant processor handling' stamp: 'NNH 11/25/2020 23:29:48'!
 test05CashierSuccessfullyProcessesManyElementsCart
 	
-	| aCashier aMerchantProcessorDouble ticket |
+	| aCashier aMerchantProcessorDouble receipt |
 	
+	aMerchantProcessorDouble := self merchantProcessorDoubleToTestCollaboratorsFor: 175.
 
-	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
-		( aTotal = 175 and: [ aCard = validCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid'] ].
-		
 	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: threeBookCatalogue .
 	
-	ticket := aCashier checkOut: threeBookCart with: validCreditCard .
+	receipt := aCashier checkOut: threeBookCart with: validCreditCard .
 
-	self assert: ticket total equals: 175 .
-	self assert: ( ticket products hasEqualElements: { harryPotterBook . lordOfTheRingsBook . ageOfEmpiresBook } ) .
+	self assert: receipt total equals: 175 .
+	self assert: ( receipt products hasEqualElements: { harryPotterBook . lordOfTheRingsBook . ageOfEmpiresBook } ) .
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:22:14'!
+!CashierTest methodsFor: 'tests - merchant processor handling' stamp: 'NNH 11/25/2020 23:29:55'!
 test06CashierHandlesMerchantProcessorException
 	
-	| aCashier aMerchantProcessorDouble ticket |
+	| aCashier aMerchantProcessorDouble receipt |
 	
 
-	aMerchantProcessorDouble := MerchantProcessorDouble with: [ :aTotal :aCard | 
-		( aTotal = 100 and: [ aCard = validCreditCard ] ) ifFalse: [self error: 'Collaborators are not valid']. 
-		self error: 'Credit card is stolen'.].
+	aMerchantProcessorDouble := MerchantProcessorDouble withSimulationBlockForDebitFrom: [ :aTotal :aCard | 
+		self error: 'Credit card is stolen'.
+		].
 		
 	aCashier := Cashier withProcessor: aMerchantProcessorDouble catalogue: harryPotterCatalogue .	
 
-	self should: [ ticket := aCashier checkOut: harryPotterCart with: validCreditCard ]
+	self should: [ receipt := aCashier checkOut: harryPotterCart with: validCreditCard ]
 	raise: Error
 	withExceptionDo: [ :anError |
 		self assert: anError messageText equals: 'Credit card is stolen' .
 		self assert: anError receiver equals: aCashier .
-		self assert: ticket isNil .
+		self assert: receipt isNil .
 		 ].
 	
 	
 
 ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/25/2020 21:23:47'!
+
+!CashierTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 23:20:54'!
+test01CashierShouldNotDispatchEmptyCart
+	
+	| aCashier |
+	
+	aCashier := Cashier withProcessor: simpleMerchantProcessorDouble catalogue: Catalogue new.
+	
+	self should: [ aCashier checkOut: emptyCart with: validCreditCard ]
+	raise: Error
+	withMessageText: Cashier canNotCheckOutAnEmptyCartErrorDescription .
+	
+	self deny: simpleMerchantProcessorDouble receivedAMessage.
+! !
+
+!CashierTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 23:20:54'!
+test02CashierShouldNotDispatchExpiredCreditCard
+	
+	| aCashier |
+	
+	aCashier := Cashier withProcessor: simpleMerchantProcessorDouble catalogue: Catalogue new.
+	
+	self should: [ aCashier checkOut: emptyCart with: expiredCreditCard ]
+	raise: Error
+	withMessageText: Cashier creditCardHasExpiredErrorDescription.
+
+	self deny: simpleMerchantProcessorDouble receivedAMessage.
+! !
+
+!CashierTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 23:20:53'!
 test08CashierShouldNotProcessProductWhenItIsNotInCatalogue
 	
 	| aCashier |
 
 
-	aCashier := Cashier withProcessor: emptyMerchantProcessorDouble catalogue: harryPotterCatalogue .
+	aCashier := Cashier withProcessor: simpleMerchantProcessorDouble catalogue: harryPotterCatalogue .
 	
 	self should: [ aCashier checkOut: threeBookCart with: validCreditCard ]
 	raise: Error
@@ -276,7 +286,15 @@ TestCase subclass: #CatalogueTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CatalogueTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 21:38:57'!
+!CatalogueTest methodsFor: 'setUp/tearDown' stamp: 'AM 11/23/2020 11:23:30'!
+setUp
+
+	harryPotter := 'Harry Potter'.
+	lordOfTheRings := 'Lord Of The Rings'.
+	ageOfEmpires := 'Age Of Empires'.! !
+
+
+!CatalogueTest methodsFor: 'tests - adding' stamp: 'NNH 11/25/2020 21:38:57'!
 test01EmptyCatalogueContainsNoProduct
 	
 	| aCatalogue |
@@ -285,7 +303,7 @@ test01EmptyCatalogueContainsNoProduct
 	
 	self deny: ( aCatalogue includes: harryPotter ).! !
 
-!CatalogueTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 21:38:11'!
+!CatalogueTest methodsFor: 'tests - adding' stamp: 'NNH 11/25/2020 21:38:11'!
 test02OneProductCatalogueContainsItsOnlyElement
 	
 	| aCatalogue |
@@ -297,7 +315,7 @@ test02OneProductCatalogueContainsItsOnlyElement
 	self assert: ( aCatalogue includes: harryPotter ).
 	self assert: ( aCatalogue priceOf: harryPotter ) equals: 100.! !
 
-!CatalogueTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 21:39:13'!
+!CatalogueTest methodsFor: 'tests - adding' stamp: 'NNH 11/25/2020 21:39:13'!
 test03ACatalogueWithManyProductsIncludesAllOfThem
 	
 	| aCatalogue |
@@ -316,7 +334,7 @@ test03ACatalogueWithManyProductsIncludesAllOfThem
 	self assert: ( aCatalogue priceOf: lordOfTheRings ) equals: 50.
 	self assert: ( aCatalogue priceOf: ageOfEmpires ) equals: 25.! !
 
-!CatalogueTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 21:06:42'!
+!CatalogueTest methodsFor: 'tests - adding' stamp: 'NNH 11/25/2020 23:39:00'!
 test04ShouldNotAddAProductWithNonPositivePrice
 	
 	| aCatalogue |
@@ -325,18 +343,10 @@ test04ShouldNotAddAProductWithNonPositivePrice
 	
 	self should: [ aCatalogue add: harryPotter withPrice: 0 ]
 	raise: Error
-	withMessageText: Catalogue canNotAddProductWithNonPositivePrice.
+	withMessageText: Catalogue canNotAddProductWithNonPositivePriceErrorDescription.
 	
 	self deny: ( aCatalogue includes: harryPotter ) .
 ! !
-
-
-!CatalogueTest methodsFor: 'setUp/tearDown' stamp: 'AM 11/23/2020 11:23:30'!
-setUp
-
-	harryPotter := 'Harry Potter'.
-	lordOfTheRings := 'Lord Of The Rings'.
-	ageOfEmpires := 'Age Of Empires'.! !
 
 
 !classDefinition: #CreditCardTest category: 'TusLibros'!
@@ -346,7 +356,19 @@ TestCase subclass: #CreditCardTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CreditCardTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 21:27:06'!
+!CreditCardTest methodsFor: 'setUp/tearDown' stamp: 'NNH 11/25/2020 19:33:10'!
+setUp
+	
+	validCardNumber := 4444444444444444.
+	futureMonthInACalendar := January, 2021.
+	hernan := 'Hernán'.
+	
+	validCreditCard := CreditCard withNumber: validCardNumber expirationDate: futureMonthInACalendar owner: hernan.
+	
+	! !
+
+
+!CreditCardTest methodsFor: 'tests - accessing' stamp: 'NNH 11/25/2020 21:27:06'!
 test01ValidCardRetrievesPropertiesCorrectly
 	
 	self assert: validCreditCard number equals: validCardNumber .
@@ -355,7 +377,8 @@ test01ValidCardRetrievesPropertiesCorrectly
 
 	! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 19:33:38'!
+
+!CreditCardTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 19:33:38'!
 test02CardNumberShouldNotHaveLessThan16Digits
 
 	| anInvalidCardNumber |
@@ -369,7 +392,7 @@ test02CardNumberShouldNotHaveLessThan16Digits
 
 	! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'AM 11/20/2020 19:24:01'!
+!CreditCardTest methodsFor: 'tests - validations' stamp: 'AM 11/20/2020 19:24:01'!
 test03CardExpirationDateShouldBeAMonthOfAnYear
 
 	| aDayInAMonthOfAnYear |
@@ -383,7 +406,7 @@ test03CardExpirationDateShouldBeAMonthOfAnYear
 
 	! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 19:33:10'!
+!CreditCardTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 19:33:10'!
 test04CardNumberShouldBeAnInteger
 
 	| aNonIntegerCardNumber |
@@ -397,7 +420,7 @@ test04CardNumberShouldBeAnInteger
 
 	! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 19:33:10'!
+!CreditCardTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 19:33:10'!
 test05CardNumberShouldNotHaveMoreThan16Digits
 
 	| anInvalidCardNumber |
@@ -411,7 +434,7 @@ test05CardNumberShouldNotHaveMoreThan16Digits
 
 	! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 19:33:10'!
+!CreditCardTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 19:33:10'!
 test06OwnerNameShouldNotBeEmpty
 	
 	self should: [ CreditCard withNumber: validCardNumber expirationDate: futureMonthInACalendar owner: '' ]
@@ -421,7 +444,7 @@ test06OwnerNameShouldNotBeEmpty
 
 	! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'NNH 11/25/2020 19:33:10'!
+!CreditCardTest methodsFor: 'tests - validations' stamp: 'NNH 11/25/2020 19:33:10'!
 test07OwnerNameShouldNotBeBlank.
 	
 	self should: [ CreditCard withNumber: validCardNumber expirationDate: futureMonthInACalendar owner: '      ' ]
@@ -429,18 +452,6 @@ test07OwnerNameShouldNotBeBlank.
 	withMessageText: CreditCard invalidOwnerNameErrorDescription .
 	
 
-	! !
-
-
-!CreditCardTest methodsFor: 'setUp/tearDown' stamp: 'NNH 11/25/2020 19:33:10'!
-setUp
-	
-	validCardNumber := 4444444444444444.
-	futureMonthInACalendar := January, 2021.
-	hernan := 'Hernán'.
-	
-	validCreditCard := CreditCard withNumber: validCardNumber expirationDate: futureMonthInACalendar owner: hernan.
-	
 	! !
 
 
@@ -559,7 +570,7 @@ assertCartProductsAreInCatalogue: aCart
 	( aCart listCart allSatisfy: [ :aProduct | catalogue includes: aProduct ] ) ifFalse: [ self error: self class productInCartIsNotForSaleErrorDescription ] .! !
 
 
-!Cashier methodsFor: 'cart processing' stamp: 'NNH 11/25/2020 21:57:35'!
+!Cashier methodsFor: 'cart processing' stamp: 'NNH 11/25/2020 23:30:06'!
 checkOut: aCart with: aCreditCard
 	
 	| total |
@@ -572,7 +583,7 @@ checkOut: aCart with: aCreditCard
 		on: Error 
 		do: [:anError | self error: anError messageText		] .
 
-	^ Invoice total: total products: aCart listCart .! !
+	^ Receipt total: total products: aCart listCart .! !
 
 
 !Cashier methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:43:39'!
@@ -627,10 +638,10 @@ initialize
 	products := Dictionary new.! !
 
 
-!Catalogue methodsFor: 'operations' stamp: 'NNH 11/23/2020 10:39:03'!
+!Catalogue methodsFor: 'operations' stamp: 'NNH 11/25/2020 23:38:37'!
 add: aProduct withPrice: aPrice 
 
-	aPrice <= 0 ifTrue: [ self error: self class canNotAddProductWithNonPositivePrice ].
+	aPrice <= 0 ifTrue: [ self signalCanNotAddProductWithNonPositivePrice ].
 	products add: aProduct -> aPrice .! !
 
 
@@ -639,14 +650,20 @@ includes: aProduct
 	
 	^ products includesKey: aProduct .! !
 
+
+!Catalogue methodsFor: 'signaling' stamp: 'NNH 11/25/2020 23:39:00'!
+signalCanNotAddProductWithNonPositivePrice
+
+	^ self error: self class canNotAddProductWithNonPositivePriceErrorDescription! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Catalogue class' category: 'TusLibros'!
 Catalogue class
 	instanceVariableNames: ''!
 
-!Catalogue class methodsFor: 'error descriptions' stamp: 'NNH 11/23/2020 10:38:10'!
-canNotAddProductWithNonPositivePrice
+!Catalogue class methodsFor: 'error descriptions' stamp: 'NNH 11/25/2020 23:39:00'!
+canNotAddProductWithNonPositivePriceErrorDescription
 	
 	^ 'Can not add product with a non positive price'. ! !
 
@@ -732,45 +749,9 @@ invalidOwnerNameErrorDescription
 	^ 'Credit card should not have an invalid owner name'! !
 
 
-!classDefinition: #Invoice category: 'TusLibros'!
-Object subclass: #Invoice
-	instanceVariableNames: 'total products'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'TusLibros'!
-
-!Invoice methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:56:21'!
-initializeTotal: aTotal products: aCollectionOfProducts 
-	
-	total := aTotal.
-	products := aCollectionOfProducts.! !
-
-
-!Invoice methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:56:21'!
-products
-
-	^ products ! !
-
-!Invoice methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:55:17'!
-total
-	
-	^ total! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'Invoice class' category: 'TusLibros'!
-Invoice class
-	instanceVariableNames: ''!
-
-!Invoice class methodsFor: 'instance creation' stamp: 'NNH 11/20/2020 18:54:43'!
-total: aTotal products: aCollectionOfProducts 
-	
-	^self new initializeTotal: aTotal products: aCollectionOfProducts ! !
-
-
 !classDefinition: #MerchantProcessorDouble category: 'TusLibros'!
 Object subclass: #MerchantProcessorDouble
-	instanceVariableNames: 'messages block'
+	instanceVariableNames: 'messages blockToExecuteOnDebitFrom'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -781,11 +762,17 @@ doesNotUnderstand: aMessage
 	messages add: aMessage asString ! !
 
 
-!MerchantProcessorDouble methodsFor: 'initialization' stamp: 'NNH 11/25/2020 20:31:48'!
-initializeWith: aBlockToDebitFrom
+!MerchantProcessorDouble methodsFor: 'initialization' stamp: 'NNH 11/25/2020 23:11:24'!
+initialize
 	
 	messages := OrderedCollection new.
-	block := aBlockToDebitFrom .! !
+	blockToExecuteOnDebitFrom := [:aTotal :aCard | ] .! !
+
+!MerchantProcessorDouble methodsFor: 'initialization' stamp: 'NNH 11/25/2020 23:17:03'!
+initializeWithSimulationBlockForDebitFrom: aBlockToExecuteOnDebitFrom
+	
+	messages := OrderedCollection new.
+	blockToExecuteOnDebitFrom := aBlockToExecuteOnDebitFrom .! !
 
 
 !MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/25/2020 20:30:39'!
@@ -798,17 +785,12 @@ receivedAMessage
 
 	^ messages notEmpty .! !
 
-!MerchantProcessorDouble methodsFor: 'testing' stamp: 'NNH 11/20/2020 18:29:18'!
-receivedMessage: aMessage
 
-	^ messages includes: aMessage ! !
-
-
-!MerchantProcessorDouble methodsFor: 'as yet unclassified' stamp: 'NNH 11/23/2020 10:55:04'!
+!MerchantProcessorDouble methodsFor: 'transaction processing' stamp: 'NNH 11/25/2020 23:11:24'!
 debit: anAmount from: aCreditCard
 
 	messages add: #debit:from: .
-	block value: anAmount value: aCreditCard .! !
+	blockToExecuteOnDebitFrom value: anAmount value: aCreditCard .! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -816,7 +798,43 @@ debit: anAmount from: aCreditCard
 MerchantProcessorDouble class
 	instanceVariableNames: ''!
 
-!MerchantProcessorDouble class methodsFor: 'instance creation' stamp: 'NNH 11/23/2020 10:50:52'!
-with: aBlockForDebitFrom
+!MerchantProcessorDouble class methodsFor: 'instance creation' stamp: 'NNH 11/25/2020 23:17:57'!
+withSimulationBlockForDebitFrom: aBlockToExecuteOnDebitFrom
 
-	^self new initializeWith: aBlockForDebitFrom ! !
+	^self new initializeWithSimulationBlockForDebitFrom: aBlockToExecuteOnDebitFrom ! !
+
+
+!classDefinition: #Receipt category: 'TusLibros'!
+Object subclass: #Receipt
+	instanceVariableNames: 'total products'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!Receipt methodsFor: 'initialization' stamp: 'NNH 11/20/2020 18:56:21'!
+initializeTotal: aTotal products: aCollectionOfProducts 
+	
+	total := aTotal.
+	products := aCollectionOfProducts.! !
+
+
+!Receipt methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:56:21'!
+products
+
+	^ products ! !
+
+!Receipt methodsFor: 'accessing' stamp: 'NNH 11/20/2020 18:55:17'!
+total
+	
+	^ total! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Receipt class' category: 'TusLibros'!
+Receipt class
+	instanceVariableNames: ''!
+
+!Receipt class methodsFor: 'instance creation' stamp: 'NNH 11/20/2020 18:54:43'!
+total: aTotal products: aCollectionOfProducts 
+	
+	^self new initializeTotal: aTotal products: aCollectionOfProducts ! !
