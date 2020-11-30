@@ -253,57 +253,20 @@ TestCase subclass: #TusLibrosInterfaceTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 20:23:39'!
+!TusLibrosInterfaceTest methodsFor: 'setUp - tearDown' stamp: 'NNH 11/27/2020 20:23:39'!
 setUp
 
 	testObjectsFactory := StoreTestObjectsFactory new .! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:24'!
-test01UnknownUserShouldNotCreateCart
-	
-	| credentials interface |
-	
-	credentials := Dictionary new.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory .
-	
-	self should: [ interface createCartForUser: 'Maradona' password: 'contraseña' ]
-	raise: Error - MessageNotUnderstood
-	withMessageText: TusLibrosInterface invalidUserErrorDescription.
-	
-	
-	
-	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:34'!
-test02WrongPasswordShouldNotCreateCart
-	
-	| credentials interface |
-	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	self should: [ interface createCartForUser: 'Maradona' password: 'SegurolaYNuevaYork' ]
-	raise: Error - MessageNotUnderstood
-	withMessageText: TusLibrosInterface invalidPasswordErrorDescription.
-	
-	
-	
-	! !
-
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:38'!
+!TusLibrosInterfaceTest methodsFor: 'tests - cart management' stamp: 'NNH 11/29/2020 22:57:35'!
 test03NewCartShouldBeEmpty
 	
-	| credentials interface aCartId |
+	| interface aCartId |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana' .
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword.
 
 	self assert: ( interface listCart: aCartId ) isEmpty .
 	
@@ -311,17 +274,14 @@ test03NewCartShouldBeEmpty
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:41'!
-test04
+!TusLibrosInterfaceTest methodsFor: 'tests - cart management' stamp: 'NNH 11/29/2020 23:27:07'!
+test04AddingToCartSuccessfullyAddsToOneCart
 	
-	| credentials interface aCartId |
+	| interface aCartId |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana' .
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword.
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore withOcurrences: 2.
 
@@ -334,19 +294,15 @@ test04
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:44'!
-test05
+!TusLibrosInterfaceTest methodsFor: 'tests - cart management' stamp: 'NNH 11/29/2020 23:27:23'!
+test05AddingToCartSuccessfullyAddsToManyCarts
 	
-	| credentials interface fortCartId maradonaCartId |
+	| interface fortCartId maradonaCartId |
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	credentials add: 'RickyFort' -> 'Maiameee'.
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	maradonaCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana' .
-	fortCartId := interface createCartForUser: 'RickyFort' password: 'Maiameee' .
+	maradonaCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
+	fortCartId := interface createCartForUser: testObjectsFactory anotherValidUser password: testObjectsFactory anotherValidPassword .
 	interface addToCart: maradonaCartId product: testObjectsFactory itemSellByTheStore .
 
 	self deny: ( ( interface listCart: maradonaCartId ) isEmpty ).
@@ -356,14 +312,12 @@ test05
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:49'!
-test06
+!TusLibrosInterfaceTest methodsFor: 'tests - cart management' stamp: 'NNH 11/29/2020 23:28:41'!
+test06ListingCartShouldNotListOnInvalidCartId
 	
-	| credentials interface |
-	
-	credentials := Dictionary new.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
+	| interface |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
 	self should: [ interface listCart: 0 ]
 	raise: Error - MessageNotUnderstood 
@@ -373,14 +327,12 @@ test06
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:53'!
-test07
+!TusLibrosInterfaceTest methodsFor: 'tests - cart management' stamp: 'NNH 11/29/2020 23:29:26'!
+test07AddingToInvalidCartIdShouldRaise
 	
-	| credentials interface |
-	
-	credentials := Dictionary new.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
+	| interface |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
 	self should: [ interface addToCart: 0 product: testObjectsFactory itemSellByTheStore ]
 	raise: Error - MessageNotUnderstood 
@@ -390,17 +342,15 @@ test07
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:38:57'!
-test08
+
+!TusLibrosInterfaceTest methodsFor: 'tests - checkout' stamp: 'NNH 11/29/2020 23:35:46'!
+test08CheckOutSuccessfullyChecksOutOneCart
 	
-	| credentials interface aCartId total |
+	| interface aCartId total |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana'.
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 
 	total := interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today.
@@ -409,17 +359,14 @@ test08
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:50:48'!
-test09
+!TusLibrosInterfaceTest methodsFor: 'tests - checkout' stamp: 'NNH 11/29/2020 23:36:52'!
+test09ShouldNotCheckOutAnAlreadyCheckedOutCart
 	
-	| credentials interface aCartId |
+	| interface aCartId |
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana'.
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 
 	interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today.
@@ -430,26 +377,18 @@ test09
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:25:38'!
-test10
+!TusLibrosInterfaceTest methodsFor: 'tests - checkout' stamp: 'NNH 11/29/2020 23:37:58'!
+test10FailedCheckOutShouldNotInvalidateFutureCheckOut
 	
-	| credentials interface aCartId total aMerchantProcessor |
+	| interface aCartId total |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	
-	aMerchantProcessor := MerchantProcessorSimulator new.
-	aMerchantProcessor debitBehavior: [:anAmount :aCreditCard | self error: 'Unhandled Exception' ].
-
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: aMerchantProcessor.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana'.
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
 
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 	
-	[ interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today. ] on: Error do: [:anError | ].
-
-	aMerchantProcessor debitBehavior: [:anAmount :aCreditCard | ].
+	[ interface checkOut: aCartId with: testObjectsFactory expiredCreditCard on: testObjectsFactory today. ] on: Error do: [:anError | ].
 
 	total := interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today.
 	
@@ -457,90 +396,180 @@ test10
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:38:06'!
-test11
+
+!TusLibrosInterfaceTest methodsFor: 'tests - credentials' stamp: 'NNH 11/29/2020 22:59:41'!
+test01UnknownUserShouldNotCreateCart
 	
-	| credentials interface aCartId purchases |
+	| interface |
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
+	self should: [ interface createCartForUser: testObjectsFactory invalidUser password: testObjectsFactory invalidPassword ]
+	raise: Error - MessageNotUnderstood
+	withMessageText: AuthenticationSystemSimulator invalidUserErrorDescription.
 	
-	purchases := interface listPurchasesOf: 'Maradona' password: 'SegurolaYHabana'.
+	
+	
+	! !
+
+!TusLibrosInterfaceTest methodsFor: 'tests - credentials' stamp: 'NNH 11/29/2020 23:12:09'!
+test02WrongPasswordShouldNotCreateCart
+	
+	| interface |
+	
+	interface := testObjectsFactory tusLibrosInterface .
+	
+	self should: [ interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory invalidPassword ]
+	raise: Error - MessageNotUnderstood
+	withMessageText: AuthenticationSystemSimulator invalidPasswordErrorDescription.
+	
+	
+	
+	! !
+
+!TusLibrosInterfaceTest methodsFor: 'tests - credentials' stamp: 'NNH 11/29/2020 23:41:26'!
+test15InvalidUserShouldNotListPurchases
+	
+	| interface |
+		
+	interface := testObjectsFactory tusLibrosInterface .
+	
+	self should: [ interface listPurchasesOf: testObjectsFactory invalidUser password: testObjectsFactory validPassword ]
+	raise: Error
+	withMessageText: AuthenticationSystemSimulator invalidUserErrorDescription .
+		
+	! !
+
+!TusLibrosInterfaceTest methodsFor: 'tests - credentials' stamp: 'NNH 11/29/2020 23:41:39'!
+test16InvalidPasswordShouldNotListPurchases
+	
+	| interface |
+		
+	interface := testObjectsFactory tusLibrosInterface .
+	
+	self should: [ interface listPurchasesOf: testObjectsFactory validUser password: testObjectsFactory invalidPassword ]
+	raise: Error
+	withMessageText: AuthenticationSystemSimulator invalidPasswordErrorDescription .
+		
+	! !
+
+
+!TusLibrosInterfaceTest methodsFor: 'tests - list purchases' stamp: 'NNH 11/29/2020 23:39:44'!
+test11ListZeroPurchasesSuccesfully
+	
+	| interface purchases |
+		
+	interface := testObjectsFactory tusLibrosInterface .
+	
+	purchases := interface listPurchasesOf: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	
 	self assert: purchases total equals: 0.
 	self assert: purchases products isEmpty.
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:52:20'!
-test12
+!TusLibrosInterfaceTest methodsFor: 'tests - list purchases' stamp: 'NNH 11/29/2020 23:40:09'!
+test12ListOnePurchaseSuccessfully
 	
-	| credentials interface aCartId purchases |
+	| interface aCartId purchases |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana'.
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 
 	interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today.
-	purchases := interface listPurchasesOf: 'Maradona' password: 'SegurolaYHabana'.
+	purchases := interface listPurchasesOf: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	
 	self assert: purchases total equals: testObjectsFactory itemSellByTheStorePrice .
-	"self assert: ( purchases products hasEqualElements: {testObjectsFactory itemSellByTheStore } ) ."
+	self assert: ( purchases products hasEqualElements: {testObjectsFactory itemSellByTheStore } ) .
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:57:08'!
-test13
+!TusLibrosInterfaceTest methodsFor: 'tests - list purchases' stamp: 'NNH 11/29/2020 23:48:42'!
+test13ListMoreThanOnePurchaseSuccessfully
 	
-	| credentials interface aCartId purchases |
+	| interface aCartId purchases |
+		
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
+	2 timesRepeat: [ 
+		aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
+		interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
+		interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today 
+		].
 	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	2 timesRepeat: [ aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana'.
-	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
-	interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today ].
-	
-	purchases := interface listPurchasesOf: 'Maradona' password: 'SegurolaYHabana'.
+	purchases := interface listPurchasesOf: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	
 	self assert: testObjectsFactory itemSellByTheStorePrice * 2 equals: purchases total.
-	"self assert: ( purchases products hasEqualElements: {testObjectsFactory itemSellByTheStore } ) ."
+	self assert: ( purchases products hasEqualElements: { testObjectsFactory itemSellByTheStore. testObjectsFactory itemSellByTheStore } ) .
 	
 	! !
 
-!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'NNH 11/28/2020 00:00:36'!
-test14
+!TusLibrosInterfaceTest methodsFor: 'tests - list purchases' stamp: 'NNH 11/29/2020 23:40:54'!
+test14ListPurchasesFromMoreThanOneUser
 	
-	| credentials interface aCartId purchases |
+	| interface aCartId purchases |
 	
-	credentials := Dictionary new.
-	credentials add: 'Maradona' -> 'SegurolaYHabana'.
-	credentials add: 'RickyFort' -> 'Maiameee'.
+	interface := testObjectsFactory tusLibrosInterface .
 	
-	interface := TusLibrosInterface withCredentials: credentials catalog: testObjectsFactory defaultCatalog through: testObjectsFactory.
-	
-	aCartId := interface createCartForUser: 'Maradona' password: 'SegurolaYHabana'.
+	aCartId := interface createCartForUser: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 	interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today.
 	
-	aCartId := interface createCartForUser: 'RickyFort' password: 'Maiameee'.
+	aCartId := interface createCartForUser: testObjectsFactory anotherValidUser password: testObjectsFactory anotherValidPassword .
 	interface addToCart: aCartId product: testObjectsFactory itemSellByTheStore .
 	interface checkOut: aCartId with: testObjectsFactory notExpiredCreditCard on: testObjectsFactory today.
 	
-	purchases := interface listPurchasesOf: 'Maradona' password: 'SegurolaYHabana'.
+	purchases := interface listPurchasesOf: testObjectsFactory validUser password: testObjectsFactory validPassword .
 	
 	self assert: testObjectsFactory itemSellByTheStorePrice equals: purchases total.
 	"self assert: ( purchases products hasEqualElements: {testObjectsFactory itemSellByTheStore } ) ."
 	
 	! !
+
+
+!classDefinition: #AuthenticationSystemSimulator category: 'TusLibros'!
+Object subclass: #AuthenticationSystemSimulator
+	instanceVariableNames: 'credentials'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!AuthenticationSystemSimulator methodsFor: 'authentication' stamp: 'NNH 11/29/2020 22:38:11'!
+authenticate: aUser using: aPassword
+	
+	( credentials includesKey: aUser ) ifFalse: [ self error: self class invalidUserErrorDescription ] .
+	
+	( credentials at: aUser ) = aPassword ifFalse: [ self error: self class invalidPasswordErrorDescription ] .! !
+
+
+!AuthenticationSystemSimulator methodsFor: 'initialization' stamp: 'NNH 11/29/2020 22:34:56'!
+initializeWithCredentials: aCollectionOfCredentials
+	
+	credentials := aCollectionOfCredentials .! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'AuthenticationSystemSimulator class' category: 'TusLibros'!
+AuthenticationSystemSimulator class
+	instanceVariableNames: ''!
+
+!AuthenticationSystemSimulator class methodsFor: 'error descriptions' stamp: 'NNH 11/29/2020 22:39:49'!
+invalidPasswordErrorDescription
+	
+	^ 'Invalid Password'! !
+
+!AuthenticationSystemSimulator class methodsFor: 'error descriptions' stamp: 'NNH 11/29/2020 22:39:58'!
+invalidUserErrorDescription
+	
+	^ 'Invalid User'! !
+
+
+!AuthenticationSystemSimulator class methodsFor: 'instance creation' stamp: 'NNH 11/29/2020 22:39:01'!
+withCredentials: aCollectionOfCredentials
+
+	^ self new initializeWithCredentials: aCollectionOfCredentials .! !
 
 
 !classDefinition: #Cart category: 'TusLibros'!
@@ -646,10 +675,10 @@ calculateTotal
 	total := cart total.
 	! !
 
-!Cashier methodsFor: 'checkout - private' stamp: 'NNH 11/28/2020 00:18:32'!
+!Cashier methodsFor: 'checkout - private' stamp: 'NNH 11/29/2020 23:43:57'!
 createSale
 
-	^ Sale of: total products: OrderedCollection new ! !
+	^ Sale of: total products: cart listCart .! !
 
 !Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:06'!
 debitTotal
@@ -753,45 +782,17 @@ expiringOn: aMonth
 	^self new initializeExpiringOn: aMonth! !
 
 
-!classDefinition: #MerchantProcessorSimulator category: 'TusLibros'!
-Object subclass: #MerchantProcessorSimulator
-	instanceVariableNames: 'debitBehavior'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'TusLibros'!
-
-!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:21:06'!
-debit: anAmount from: aCreditCard
-	
-	debitBehavior value: anAmount value: aCreditCard .! !
-
-!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:22:48'!
-debitBehavior: aDebitBehaviorBlock
-	
-	debitBehavior := aDebitBehaviorBlock! !
-
-!MerchantProcessorSimulator methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 23:21:51'!
-initialize
-	
-	debitBehavior := [:anAmount :aCreditCard | ]! !
-
-
 !classDefinition: #Purchase category: 'TusLibros'!
 Object subclass: #Purchase
-	instanceVariableNames: 'total'
+	instanceVariableNames: 'total products'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Purchase methodsFor: 'accessing' stamp: 'NNH 11/27/2020 23:55:02'!
-initialize
-	
-	total := 0.! !
-
-!Purchase methodsFor: 'accessing' stamp: 'NNH 11/27/2020 23:41:12'!
+!Purchase methodsFor: 'accessing' stamp: 'NNH 11/29/2020 23:45:32'!
 products
 
-	^ OrderedCollection new.! !
+	^ products .! !
 
 !Purchase methodsFor: 'accessing' stamp: 'NNH 11/27/2020 23:54:47'!
 total
@@ -799,35 +800,43 @@ total
 	^ total! !
 
 
-!Purchase methodsFor: 'sadsdasdasd' stamp: 'NNH 11/27/2020 23:54:30'!
+!Purchase methodsFor: 'initialization' stamp: 'NNH 11/29/2020 23:45:15'!
+initialize
+		 
+	total := 0.
+	products := OrderedCollection new.! !
+
+
+!Purchase methodsFor: 'adding' stamp: 'NNH 11/29/2020 23:46:11'!
 addSale: aSale 
 	
-	total := aSale total + total.! !
+	total := aSale total + total.
+	products addAllLast: aSale products .! !
 
 
 !classDefinition: #Sale category: 'TusLibros'!
 Object subclass: #Sale
-	instanceVariableNames: 'total clientId'
+	instanceVariableNames: 'total products'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Sale methodsFor: 'total' stamp: 'HernanWilkinson 6/17/2013 18:48'!
+!Sale methodsFor: 'accessing' stamp: 'NNH 11/29/2020 23:46:57'!
+products
+	
+	^ products! !
+
+!Sale methodsFor: 'accessing' stamp: 'HernanWilkinson 6/17/2013 18:48'!
 total
 	
 	^ total! !
 
 
-!Sale methodsFor: 'initialization' stamp: 'NNH 11/28/2020 00:18:11'!
+!Sale methodsFor: 'initialization' stamp: 'NNH 11/29/2020 23:47:34'!
 initializeTotal: aTotal products: aCollectionOfProducts   
 
-	total := aTotal ! !
-
-
-!Sale methodsFor: 'accessing' stamp: 'NNH 11/28/2020 00:04:18'!
-clientId
-	
-	^ clientId.! !
+	total := aTotal .
+	products := aCollectionOfProducts .! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -849,6 +858,84 @@ Object subclass: #StoreTestObjectsFactory
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:51:55'!
+anotherValidPassword
+	
+	^ 'Maiameee'! !
+
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:51:38'!
+anotherValidUser
+	
+	^ 'RickyFort'! !
+
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:55:12'!
+authenticationSystem
+	
+	| credentials |
+	
+	credentials := Dictionary new.
+	credentials add: self validUser -> self validPassword.
+	credentials add: self anotherValidUser -> self anotherValidPassword.
+	
+	^ AuthenticationSystemSimulator withCredentials: credentials.! !
+
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:52:59'!
+invalidPassword
+	
+	^ 'GranHermano'! !
+
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:52:39'!
+invalidUser
+	
+	^ 'CristianU' ! !
+
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:51:08'!
+validPassword
+	
+	^ 'SegurolaYHabana'! !
+
+!StoreTestObjectsFactory methodsFor: 'authentication system' stamp: 'NNH 11/29/2020 22:50:45'!
+validUser
+	
+	^ 'Maradona' ! !
+
+
+!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'HernanWilkinson 6/17/2013 18:08'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+
+
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:37'!
+expiredCreditCard
+	
+	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:36'!
+notExpiredCreditCard
+	
+	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+
+
+!StoreTestObjectsFactory methodsFor: 'date' stamp: 'HernanWilkinson 6/17/2013 18:37'!
+today
+	
+	^ today! !
+
+
+!StoreTestObjectsFactory methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:37'!
+initialize
+
+	today := DateAndTime now! !
+
+
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'HernanWilkinson 6/17/2013 18:08'!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSellByTheStore put: self itemSellByTheStorePrice;
+		yourself ! !
+
 !StoreTestObjectsFactory methodsFor: 'items' stamp: 'HernanWilkinson 6/17/2013 18:08'!
 itemNotSellByTheStore
 	
@@ -865,150 +952,117 @@ itemSellByTheStorePrice
 	^10! !
 
 
-!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'HernanWilkinson 6/17/2013 18:08'!
-createCart
+!StoreTestObjectsFactory methodsFor: 'tus libros interface' stamp: 'NNH 11/29/2020 22:56:49'!
+tusLibrosInterface
 	
-	^Cart acceptingItemsOf: self defaultCatalog! !
-
-!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'HernanWilkinson 6/17/2013 18:08'!
-defaultCatalog
-	
-	^ Dictionary new
-		at: self itemSellByTheStore put: self itemSellByTheStorePrice;
-		yourself ! !
+	^ TusLibrosInterface with: self authenticationSystem catalog: self defaultCatalog through: self.
+! !
 
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:37'!
-expiredCreditCard
-	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
-
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:36'!
-notExpiredCreditCard
-	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
-
-
-!StoreTestObjectsFactory methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:37'!
-initialize
-
-	today := DateAndTime now! !
-
-
-!StoreTestObjectsFactory methodsFor: 'date' stamp: 'HernanWilkinson 6/17/2013 18:37'!
-today
-	
-	^ today! !
-
-
-!StoreTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'NNH 11/27/2020 22:36:33'!
+!StoreTestObjectsFactory methodsFor: 'merchant processor' stamp: 'NNH 11/27/2020 22:36:33'!
 debit: anAmount from: aCreditCard
 ! !
 
 
 !classDefinition: #TusLibrosInterface category: 'TusLibros'!
 Object subclass: #TusLibrosInterface
-	instanceVariableNames: 'credentials catalog carts nextCartId merchantProcessor salesBookByClient clientByCart'
+	instanceVariableNames: 'authenticationSystem catalog carts nextCartId merchantProcessor salesBooks clientByCart'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!TusLibrosInterface methodsFor: 'initialization' stamp: 'NNH 11/28/2020 00:21:37'!
-initializeWithCredentials: aCollectionOfCredentials catalog: aCatalog through: aMerchantProcessor 
-
-	credentials := aCollectionOfCredentials .
-	catalog := aCatalog .
-	carts := Dictionary new.
-	nextCartId := 0.
-	merchantProcessor := aMerchantProcessor .
-	salesBookByClient := Dictionary new.
-	clientByCart := Dictionary new.
-! !
-
-
-!TusLibrosInterface methodsFor: 'falopa' stamp: 'NNH 11/28/2020 00:28:31'!
-createCartForUser: anUser password: aPassword 
+!TusLibrosInterface methodsFor: 'cart management' stamp: 'NNH 11/29/2020 23:33:16'!
+addToCart: aCartId product: aProduct
 	
-	| newCartId |
-	
-	( credentials includesKey: anUser ) ifFalse: [ self error: self class invalidUserErrorDescription ] .
-	
-	(credentials at: anUser) = aPassword ifFalse: [ self error: self class invalidPasswordErrorDescription ] .
-	
-	newCartId := self newCartId.
-	
-	carts add: newCartId -> ( Cart acceptingItemsOf: catalog ) .
-	clientByCart add: newCartId -> anUser .
-	salesBookByClient at: anUser ifAbsentPut: OrderedCollection new.
-	
-	^ newCartId. ! !
+	self addToCart: aCartId product: aProduct withOcurrences: 1. ! !
 
-!TusLibrosInterface methodsFor: 'falopa' stamp: 'NNH 11/27/2020 20:43:56'!
-newCartId
-	
-	nextCartId := nextCartId + 1.
-	^ nextCartId.! !
-
-
-!TusLibrosInterface methodsFor: 'accessing' stamp: 'NNH 11/27/2020 20:56:17'!
-listCart: aCartId 
-			
-	^ ( self cartAt: aCartId ) listCart.! !
-
-
-!TusLibrosInterface methodsFor: 'fsdssasd' stamp: 'NNH 11/27/2020 21:09:57'!
-addToCart: aCartId product: aProduct 
-	
-	( self cartAt: aCartId ) add: aProduct! !
-
-!TusLibrosInterface methodsFor: 'fsdssasd' stamp: 'NNH 11/27/2020 20:55:35'!
-cartAt: aCartId
-
-	^ carts at: aCartId ifAbsent: [ self error: self class invalidCartIdErrorDescription ]! !
-
-
-!TusLibrosInterface methodsFor: 'morphic' stamp: 'NNH 11/28/2020 00:24:09'!
+!TusLibrosInterface methodsFor: 'cart management' stamp: 'NNH 11/29/2020 23:34:53'!
 addToCart: aCartId product: aProduct withOcurrences: aNumberOfOccurrences 
 	
 	( self cartAt: aCartId ) add: aNumberOfOccurrences of: aProduct! !
 
-
-!TusLibrosInterface methodsFor: 'sdfsdf' stamp: 'NNH 11/28/2020 00:32:05'!
+!TusLibrosInterface methodsFor: 'cart management' stamp: 'NNH 11/29/2020 23:50:16'!
 checkOut: aCartId with: aCreditCard on: aDate 
 	
-	| cashier total |
+	| total |
 	
-	cashier := Cashier toCheckout: (self cartAt: aCartId) 
+	total := ( Cashier toCheckout: (self cartAt: aCartId) 
 		charging: aCreditCard 
 		throught: merchantProcessor 
 		on: aDate 
-		registeringOn: ( salesBookByClient at: ( self clientUsingCart: aCartId ) ).
-		
-	total := cashier checkOut.	
-	
+		registeringOn: ( salesBooks at: ( self clientUsingCart: aCartId ) ) )
+		checkOut .
+			
 	carts removeKey: aCartId .
 	clientByCart removeKey: aCartId .
 	
 	^ total.
 ! !
 
-!TusLibrosInterface methodsFor: 'sdfsdf' stamp: 'NNH 11/28/2020 00:21:16'!
+!TusLibrosInterface methodsFor: 'cart management' stamp: 'NNH 11/29/2020 23:50:16'!
+createCartForUser: anUser password: aPassword 
+	
+	| newCartId |
+	
+	authenticationSystem authenticate: anUser using: aPassword .
+	
+	newCartId := self newCartId.
+	
+	carts add: newCartId -> ( Cart acceptingItemsOf: catalog ) .
+	clientByCart add: newCartId -> anUser .
+	salesBooks at: anUser ifAbsentPut: OrderedCollection new.
+	
+	^ newCartId. ! !
+
+!TusLibrosInterface methodsFor: 'cart management' stamp: 'NNH 11/27/2020 20:56:17'!
+listCart: aCartId 
+			
+	^ ( self cartAt: aCartId ) listCart.! !
+
+
+!TusLibrosInterface methodsFor: 'cart management - private' stamp: 'NNH 11/27/2020 20:55:35'!
+cartAt: aCartId
+
+	^ carts at: aCartId ifAbsent: [ self error: self class invalidCartIdErrorDescription ]! !
+
+!TusLibrosInterface methodsFor: 'cart management - private' stamp: 'NNH 11/28/2020 00:21:16'!
 clientUsingCart: aCartId
 
 	^ clientByCart at: aCartId! !
 
+!TusLibrosInterface methodsFor: 'cart management - private' stamp: 'NNH 11/27/2020 20:43:56'!
+newCartId
+	
+	nextCartId := nextCartId + 1.
+	^ nextCartId.! !
 
-!TusLibrosInterface methodsFor: 'sdasdasd' stamp: 'NNH 11/28/2020 00:33:48'!
+
+!TusLibrosInterface methodsFor: 'client history' stamp: 'NNH 11/29/2020 23:50:16'!
 listPurchasesOf: aClientId password: aPassword 
 	 
 	| purchase |
 	
+	authenticationSystem authenticate: aClientId using: aPassword .
+	
 	purchase := Purchase new.
 	
-	( salesBookByClient at: aClientId ifAbsent: [ ^ purchase ] ) do: [ :aSale | purchase addSale: aSale ].
+	( salesBooks at: aClientId ifAbsent: [ ^ purchase ] ) do: [ :aSale | purchase addSale: aSale ].
 	
 	^ purchase.
 	! !
+
+
+!TusLibrosInterface methodsFor: 'initialization' stamp: 'NNH 11/29/2020 23:50:16'!
+initializeWith: anAuthenticationSystem catalog: aCatalog through: aMerchantProcessor 
+
+	authenticationSystem := anAuthenticationSystem .
+	catalog := aCatalog .
+	carts := Dictionary new.
+	nextCartId := 0.
+	merchantProcessor := aMerchantProcessor .
+	salesBooks := Dictionary new.
+	clientByCart := Dictionary new.
+! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1016,23 +1070,13 @@ listPurchasesOf: aClientId password: aPassword
 TusLibrosInterface class
 	instanceVariableNames: ''!
 
-!TusLibrosInterface class methodsFor: 'instance creation' stamp: 'NNH 11/27/2020 22:31:41'!
-withCredentials: aCollectionOfCredentials catalog: aCatalog through: aMerchantProcessor   
-
-	^ self new initializeWithCredentials: aCollectionOfCredentials catalog: aCatalog through: aMerchantProcessor! !
-
-
 !TusLibrosInterface class methodsFor: 'error descriptions' stamp: 'NNH 11/27/2020 20:50:51'!
 invalidCartIdErrorDescription
 	
 	^ 'Invalid cart id'! !
 
-!TusLibrosInterface class methodsFor: 'error descriptions' stamp: 'NNH 11/26/2020 21:10:40'!
-invalidPasswordErrorDescription
-	
-	^ 'Invalid Password'! !
 
-!TusLibrosInterface class methodsFor: 'error descriptions' stamp: 'NNH 11/26/2020 21:06:24'!
-invalidUserErrorDescription
-	
-	^ 'Invalid user'! !
+!TusLibrosInterface class methodsFor: 'instance creation' stamp: 'NNH 11/29/2020 22:46:53'!
+with: anAuthenticationSystem catalog: aCatalog through: aMerchantProcessor   
+
+	^ self new initializeWith: anAuthenticationSystem catalog: aCatalog through: aMerchantProcessor! !
